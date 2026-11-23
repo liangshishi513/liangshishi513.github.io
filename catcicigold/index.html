@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>catcicigold 公开版 — 黄金 · 精铜 · 原油行情与研判</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#ece8e1; --surface:#f7f4ee; --surface2:#efe9df; --text:#3e3a36; --dim:#857c70; --border:#ddd5c7; --accent:#a9714b;
+  --gold-bg:#e7dcc8; --gold-accent:#b98a7d; --gold-deep:#8a6a54;
+  --copper-bg:#cbd2c4; --copper-accent:#a9714b; --copper-deep:#6f5b43;
+  --oil-bg:#dce3e8; --oil-accent:#7e93a8; --oil-deep:#4f657c;
+  --brick:#b3564d; --sage:#7d8b6f; --radius:14px;
+  --shadow:0 2px 12px rgba(80,70,50,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#232019; --surface:#2e2a23; --surface2:#38322a; --text:#ece5d8; --dim:#a89c8a; --border:#4a4336; --accent:#c99a76;
+    --gold-bg:#4a4030; --gold-accent:#cfa08e; --gold-deep:#e3cdb4;
+    --copper-bg:#3d4438; --copper-accent:#cf9a70; --copper-deep:#e0cdb2;
+    --oil-bg:#333d46; --oil-accent:#a3b8c9; --oil-deep:#cfdce8;
+    --brick:#cf7a6e; --sage:#a3b394; --shadow:0 2px 12px rgba(0,0,0,.3);
+  }
+}
+body.theme-light{
+  --bg:#ece8e1; --surface:#f7f4ee; --surface2:#efe9df; --text:#3e3a36; --dim:#857c70; --border:#ddd5c7; --accent:#a9714b;
+  --gold-bg:#e7dcc8; --gold-accent:#b98a7d; --gold-deep:#8a6a54; --copper-bg:#cbd2c4; --copper-accent:#a9714b; --copper-deep:#6f5b43;
+  --oil-bg:#dce3e8; --oil-accent:#7e93a8; --oil-deep:#4f657c; --brick:#b3564d; --sage:#7d8b6f;
+}
+body.theme-dark{
+  --bg:#232019; --surface:#2e2a23; --surface2:#38322a; --text:#ece5d8; --dim:#a89c8a; --border:#4a4336; --accent:#c99a76;
+  --gold-bg:#4a4030; --gold-accent:#cfa08e; --gold-deep:#e3cdb4; --copper-bg:#3d4438; --copper-accent:#cf9a70; --copper-deep:#e0cdb2;
+  --oil-bg:#333d46; --oil-accent:#a3b8c9; --oil-deep:#cfdce8; --brick:#cf7a6e; --sage:#a3b394;
+}
+body.theme-eye{
+  --bg:#e9e2cf; --surface:#f6efdb; --surface2:#ece1c6; --text:#3d3423; --dim:#7d6f52; --border:#d5c69e; --accent:#9a6b45;
+  --gold-bg:#e3d3ae; --gold-accent:#b0826d; --gold-deep:#7d5c3e; --copper-bg:#c2cdb2; --copper-accent:#9a6b45; --copper-deep:#5f5138;
+  --oil-bg:#d2dde0; --oil-accent:#6f8a9c; --oil-deep:#42596c; --brick:#a34d3f; --sage:#6d7f5e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;line-height:1.65;font-size:15px}
+button,[role="button"],select,summary,input:not([type="checkbox"]){min-height:36px}
+a{color:var(--accent)}
+.font-display{font-family:"Noto Serif SC","Songti SC","SimSun",serif}
+.wrap{max-width:820px;margin:0 auto;padding:16px 16px 44px}
+h1{font-size:26px;margin:6px 0 4px}
+h1 span{font-size:14px;font-weight:400;color:var(--dim)}
+.lede{color:var(--dim);margin:4px 0 0;max-width:760px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;box-shadow:var(--shadow)}
+.stat b{font-size:19px;display:block}
+.stat small{color:var(--dim)}
+.note{font-size:13px;color:var(--dim)}
+h2.sec{font-size:20px;margin:30px 0 4px}
+h2.sec span{font-size:12px;font-weight:400;color:var(--dim);margin-left:8px}
+.card{border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.live-grid{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.ohlc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;text-align:center}
+.ohlc>div{border-radius:10px;padding:8px 4px;background:color-mix(in srgb, var(--surface) 55%, transparent)}
+.ohlc p{margin:0}
+.ohlc .lab{font-size:11px;color:var(--dim)}
+.ohlc .val{font-size:16px;font-weight:600}
+.rangebar{margin-top:14px}
+.rangebar .track{position:relative;height:8px;border-radius:99px;background:color-mix(in srgb, var(--text) 12%, transparent)}
+.rangebar .mark{position:absolute;top:50%;height:16px;width:3px;transform:translateY(-50%);border-radius:99px}
+.rangebar .labs{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:4px}
+.hlgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.hlgrid>div{border-radius:10px;padding:8px 12px;background:color-mix(in srgb, var(--surface) 55%, transparent);font-size:14px}
+.hlgrid .lab{font-size:11px;color:var(--dim)}
+.up{color:var(--brick)} .down{color:var(--sage)}
+.badge{display:inline-block;border-radius:999px;padding:1px 10px;font-size:11px;font-weight:600;color:#fff}
+.badge.major{background:var(--brick)}
+.badge.important{background:var(--gold-bg);color:var(--gold-deep)}
+.badge.normal{background:var(--surface2);color:var(--dim);font-weight:400}
+.trend{display:inline-block;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:600;color:#fff}
+.ptag{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11px}
+.btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:5px 14px;cursor:pointer;font-size:13.5px}
+.btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;align-items:center}
+.search{flex:1 1 200px;padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font-size:14px;min-height:36px}
+.news{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.cal li{display:flex;justify-content:space-between;gap:12px;background:var(--surface2);border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:14px;list-style:none}
+ul.cal{padding:0;margin:10px 0 0}
+.alertbar{margin-top:8px;border-radius:10px;padding:6px 12px;font-size:14px;font-weight:600;color:#fff;background:var(--brick)}
+footer{color:var(--dim);font-size:12.5px;padding:26px 0 6px;border-top:1px solid var(--border);margin-top:34px;line-height:1.7}
+@media(max-width:560px){.ohlc{grid-template-columns:repeat(2,1fr)}.hlgrid{grid-template-columns:1fr}h1{font-size:23px}.wrap{padding:12px 12px 36px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>catcicigold <span>公开版 · 美黄金 / COMEX 精铜 / 纽约 WTI 原油</span></h1>
+  <p class="lede">三个期货品种的行情高低点、能影响行情的消息面（带影响分析和重要程度）、每日研判、本周总结与下周数据日历。莫兰迪分色：黄金燕麦、精铜灰绿、原油灰蓝。无 K 线图。</p>
+  <div class="stats">
+    <div class="stat"><b>2026-11-20 周五</b><small>上一交易日（美盘已收盘）</small></div>
+    <div class="stat"><b>11月16日 – 20日</b><small>本周高低点统计区间</small></div>
+    <div class="stat"><b>12 条</b><small>本周影响资讯（带分析）</small></div>
+    <div class="stat"><b>2026-11-23</b><small>本期公开快照日期（北京时间）</small></div>
+  </div>
+  <p class="note">公开版与个人版内容口径一致，差别只在更新方式：个人版每天 08:00 / 20:00 自动更新，公开版是定期发布的静态快照，在任何浏览器打开就能看；下方「最新参考价」在浏览器能连通行情源时会尝试每 10 秒刷新，连不通时显示快照价并注明时间。</p>
+  <div class="chips" role="group" aria-label="显示模式">
+    <span class="note">显示：</span>
+    <button class="btn" data-theme="">跟随系统</button>
+    <button class="btn" data-theme="light">日间</button>
+    <button class="btn" data-theme="dark">夜间</button>
+    <button class="btn" data-theme="eye">护眼</button>
+  </div>
+</header>
+
+<!-- ============ 最新参考价 ============ -->
+<h2 class="sec" style="margin-top:22px">最新参考价 <span id="liveStamp">快照取于 2026-11-23 上午（北京时间）· 每 10 秒尝试刷新</span></h2>
+<p class="note" style="margin:2px 0 0">免费源（Yahoo Finance 期货 1 分钟线），期货报价延迟约 10–15 分钟，新价约每分钟变一次；这是公开参考价，不是任何经纪商 MT5 里的价格。黄金的 MT5 经纪商为 WeTrade，其 XAUUSD 报价未接入本页。</p>
+<div class="live-grid" id="liveGrid"></div>
+
+<!-- ============ 行情卡 ============ -->
+<h2 class="sec">上一交易日与本周 / 本月高低点 <span>昨日 = 上一交易日 2026-11-20 周五 · 按纽约时间分日</span></h2>
+<div style="display:flex;flex-direction:column;gap:16px;margin-top:12px" id="priceCards"></div>
+
+<!-- ============ 研判 ============ -->
+<h2 class="sec">今日研判 <span>基本面 + 技术面结合 · 2026-11-23 早间版</span></h2>
+<div style="display:flex;flex-direction:column;gap:12px;margin-top:12px" id="briefings"></div>
+
+<!-- ============ 周报 + 日历 ============ -->
+<h2 class="sec">本周总结与下周日历</h2>
+<section class="panel" style="margin-top:12px">
+  <p style="margin:0">本周（11月16–20日）是跨资产去杠杆的一周：美联储 10 月纪要转鹰、美元创 19 个月新高，叠加美股 AI 抛售引发的保证金抛售，黄金周跌 9.54%、精铜周跌 9.91% 并较 9 月纪录收盘跌入技术性熊市，原油在 EIA 库存大增与供应过剩预期下连续第三周下跌（周跌 5.17%），周末霍尔木兹地缘消息只带来日内反弹。三个品种技术面均处超卖区（黄金、精铜 RSI 已到极端低位），下周重点看周三 PCE 与 EIA 库存、周日 OPEC+ 会议，超卖后的急弹风险与趋势延续风险并存。</p>
+  <h3 style="margin:16px 0 0;font-size:15px">下周重要数据 / 事件（北京时间）</h3>
+  <ul class="cal">
+    <li><div><b>周一 11/23</b>　全球 11 月 PMI 初值；美联储 Williams 讲话；日本休市 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge important">重要</span></li>
+    <li><div><b>周二 11/24</b>　美国咨商会消费者信心；API 原油库存（周三 05:30 公布） <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge normal">一般</span></li>
+    <li><div><b>周三 11/25（本周最重磅）</b>　21:30 美国 10 月 PCE（核心同比预期 3.2–3.3%）、Q3 GDP 二次修正；23:30 EIA 原油库存；周四凌晨 03:00 美联储褐皮书 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge major">重大</span></li>
+    <li><div><b>周四 11/26</b>　感恩节，美股、美债休市，流动性薄、波动可能放大 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge important">重要</span></li>
+    <li><div><b>周日 11/29</b>　OPEC+ 部长级会议，讨论 2027 年产量框架与新基线 <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge major">重大</span></li>
+  </ul>
+  <p class="note" style="margin:10px 0 0">具体公布时刻以官方日历为准。</p>
+</section>
+
+<!-- ============ 资讯 ============ -->
+<h2 class="sec">一周影响资讯 <span>只收能影响这三个品种的消息 · 每条带影响分析与重要程度</span></h2>
+<div class="chips" role="group" aria-label="按品种筛选资讯">
+  <button class="btn on" data-filter="all">全部</button>
+  <button class="btn" data-filter="gold">黄金</button>
+  <button class="btn" data-filter="copper">精铜</button>
+  <button class="btn" data-filter="oil">原油</button>
+  <input class="search" id="newsSearch" type="search" placeholder="搜资讯关键词…" aria-label="搜索资讯" />
+</div>
+<p class="note" id="newsCount"></p>
+<div class="news" id="newsList"></div>
+<div class="panel" id="newsEmpty" style="display:none;text-align:center;color:var(--dim)">没有符合条件的资讯，换个筛选或清空关键词试试。</div>
+
+<footer>
+行情来源：Yahoo Finance 期货日线与 1 分钟线（COMEX / NYMEX 主力及连续合约，免费延迟数据）；结算价口径以 CME 为准，不同数据源盘中高低点可能略有出入，文中已注明。MT5 经纪商 WeTrade 的 XAUUSD 报价未接入本页，页内现货数字均为公开参考价。<br />
+研判为信息整理，不构成投资建议，据此操作风险自担。公开版为静态快照（本期 2026-11-23），数据时点见各卡片标注；个人版每天 08:00 / 20:00 自动更新。
+</footer>
+</div>
+
+<script>
+var META = {
+  gold:   { bg:"var(--gold-bg)",   deep:"var(--gold-deep)",   accent:"var(--gold-accent)",   short:"黄金", digits:2 },
+  copper: { bg:"var(--copper-bg)", deep:"var(--copper-deep)", accent:"var(--copper-accent)", short:"精铜", digits:3 },
+  oil:    { bg:"var(--oil-bg)",    deep:"var(--oil-deep)",    accent:"var(--oil-accent)",    short:"原油", digits:2 }
+};
+function fmt(v, d){ if(v==null) return "—"; return v.toLocaleString("en-US",{minimumFractionDigits:d, maximumFractionDigits:d}); }
+function fmtPct(v){ if(v==null) return "—"; return (v>0?"+":"") + v.toFixed(2) + "%"; }
+function pctCls(v){ return v==null||v===0 ? "" : (v>0 ? "up" : "down"); }
+
+/* ---------- 最新参考价（快照值；页面打开后每 10 秒尝试从 Yahoo 拉新价） ---------- */
+var LIVE = [
+  { product:"gold",   symbol:"GC=F", label:"美黄金 · COMEX 期货", unit:"美元/盎司", price:3577.60, prevClose:3515.40, dayHigh:3629.60, dayLow:3552.30, prevHigh:3638.10, prevLow:3502.90 },
+  { product:"copper", symbol:"HG=F", label:"精铜 · COMEX 期货",   unit:"美元/磅",   price:5.429,   prevClose:5.477,   dayHigh:5.582,   dayLow:5.408,   prevHigh:5.608,   prevLow:5.439 },
+  { product:"oil",    symbol:"CL=F", label:"WTI 原油 · NYMEX 期货", unit:"美元/桶", price:82.96,   prevClose:83.98,   dayHigh:83.67,   dayLow:82.63,   prevHigh:84.35,   prevLow:81.55 }
+];
+function renderLive(){
+  var html = "";
+  LIVE.forEach(function(it){
+    var m = META[it.product];
+    var chg = it.prevClose ? (it.price/it.prevClose - 1) * 100 : null;
+    var alert = "";
+    if (it.price > it.prevHigh) alert = "价格已突破上一交易日最高 " + fmt(it.prevHigh, m.digits);
+    else if (it.price < it.prevLow) alert = "价格已跌破上一交易日最低 " + fmt(it.prevLow, m.digits);
+    html += '<div class="card" style="background:' + m.bg + '">'
+      + '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">'
+      + '<b class="font-display" style="color:' + m.deep + ';font-size:16px">' + m.short + ' <span style="font-size:11px;font-weight:400;color:var(--dim)">' + it.label + ' · ' + it.unit + '</span></b>'
+      + '<span><span class="font-display" style="font-size:24px;font-weight:700">' + fmt(it.price, m.digits) + '</span>'
+      + ' <span class="' + pctCls(chg) + '" style="font-weight:600">' + fmtPct(chg) + '</span></span></div>'
+      + '<div style="font-size:11px;color:var(--dim);margin-top:4px">当日高 ' + fmt(it.dayHigh, m.digits) + ' · 低 ' + fmt(it.dayLow, m.digits)
+      + '　|　上一交易日高 ' + fmt(it.prevHigh, m.digits) + ' · 低 ' + fmt(it.prevLow, m.digits) + '</div>'
+      + (alert ? '<div class="alertbar" role="alert">提醒：' + alert + '</div>' : '')
+      + '</div>';
+  });
+  document.getElementById("liveGrid").innerHTML = html;
+}
+function pollLive(){
+  LIVE.forEach(function(it){
+    fetch("https://query2.finance.yahoo.com/v8/finance/chart/" + encodeURIComponent(it.symbol) + "?range=1d&interval=1m")
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        var meta = j && j.chart && j.chart.result && j.chart.result[0] && j.chart.result[0].meta;
+        if (!meta || meta.regularMarketPrice == null) return;
+        it.price = meta.regularMarketPrice;
+        if (meta.regularMarketDayHigh != null) it.dayHigh = meta.regularMarketDayHigh;
+        if (meta.regularMarketDayLow != null) it.dayLow = meta.regularMarketDayLow;
+        renderLive();
+        var now = new Date();
+        document.getElementById("liveStamp").textContent = "已刷新 · 本页更新于 " + now.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}) + "（北京时间）";
+      })
+      .catch(function(){ /* 连不通行情源时保留快照价，不报错打扰读者 */ });
+  });
+}
+renderLive();
+setInterval(pollLive, 10000);
+
+/* ---------- 行情卡（上一交易日 2026-11-20 周五） ---------- */
+var PRICES = [
+  { product:"gold", label:"美黄金", contract:"COMEX 黄金期货 12 月主力", unit:"美元/盎司",
+    open:3633.80, high:3638.10, low:3502.90, close:3515.40, chg:-4.62,
+    weekHigh:3904.30, weekLow:3502.90, weekChg:-9.54, monthHigh:4157.70, monthLow:3502.90,
+    extra:'<p style="margin:0"><b>MT5（WeTrade）：</b>经纪商已记录为 WeTrade，其 XAUUSD 报价暂未接入，各家报价不同，本页数字均为公开参考价，不是 MT5 里的价格。</p>'
+        + '<p style="margin:6px 0 0">XAUUSD 现货参考（公开报道口径）：周五最高 <b>3,636.93</b> / 最低 <b>3,502.99</b> / 收 <b>3,538.19</b>（-2.38%）；本周最高 3,901.37 / 最低 3,502.99，周跌 -8.9%，为 8 个月最大周跌幅。</p>' },
+  { product:"copper", label:"精铜", contract:"COMEX 精铜期货（前月合约结算口径）", unit:"美元/磅",
+    open:null, high:5.608, low:5.439, close:5.477, chg:-2.63,
+    weekHigh:6.051, weekLow:5.439, weekChg:-9.91, monthHigh:6.549, monthLow:5.457,
+    extra:'<p style="margin:0">周五结算 5.4770 美元/磅，较 9 月 9 日纪录收盘 6.8885 已跌 -20.37%，进入技术性熊市；连续第六周下跌。LME 三个月铜周五收 12,160 美元/吨（-2.92%）。铜的盘中高低点不同合约口径略有出入（连续合约周五高/低为 5.477 / 5.457），结算价以 CME 为准。</p>' },
+  { product:"oil", label:"纽约 WTI 原油", contract:"NYMEX WTI 原油期货（12 月合约周五到期）", unit:"美元/桶",
+    open:83.68, high:84.35, low:81.55, close:83.98, chg:0.93,
+    weekHigh:89.49, weekLow:80.76, weekChg:-5.17, monthHigh:102.75, monthLow:81.55,
+    extra:'<p style="margin:0">12 月合约周五到期结算 83.98；1 月新主力结算 83.41。本周盘中最低不同数据源在 80.76–81.55 之间略有出入，结算价以 CME 为准；连续第三周下跌，近三周累计跌约 -19%。</p>' }
+];
+function rangePos(low, high, close){ if(low==null||high==null||close==null||high<=low) return 0; return Math.min(100, Math.max(0, (close-low)/(high-low)*100)); }
+var pcHtml = "";
+PRICES.forEach(function(p){
+  var m = META[p.product], d = m.digits;
+  var cells = p.open != null
+    ? [["开盘",p.open],["最高",p.high],["最低",p.low],["收盘",p.close]]
+    : [["最高",p.high],["最低",p.low],["结算",p.close],["日涨跌",null]];
+  var cellHtml = "";
+  cells.forEach(function(c){
+    cellHtml += '<div><p class="lab">' + c[0] + '</p><p class="val">' + (c[0]==="日涨跌" ? '<span class="' + pctCls(p.chg) + '">' + fmtPct(p.chg) + '</span>' : fmt(c[1], d)) + '</p></div>';
+  });
+  pcHtml += '<section class="card" style="background:' + m.bg + '" aria-label="' + p.label + '行情">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap"><div>'
+    + '<h3 class="font-display" style="margin:0;font-size:20px;color:' + m.deep + '">' + p.label + '</h3>'
+    + '<p style="margin:2px 0 0;font-size:12px;color:var(--dim)">' + p.contract + ' · ' + p.unit + '</p></div>'
+    + '<div style="text-align:right"><p style="margin:0;font-size:11px;color:var(--dim)">上一交易日 2026-11-20 周五</p>'
+    + '<p class="font-display" style="margin:0;font-size:30px;font-weight:700;line-height:1.2">' + fmt(p.close, d) + '</p>'
+    + '<p style="margin:0;font-weight:600" class="' + pctCls(p.chg) + '">' + fmtPct(p.chg) + '</p></div></div>'
+    + '<div class="ohlc">' + cellHtml + '</div>'
+    + '<div class="rangebar" aria-hidden="true"><div class="track"><div class="mark" style="left:calc(' + rangePos(p.weekLow, p.weekHigh, p.close) + '% - 1.5px);background:' + m.accent + '"></div></div>'
+    + '<div class="labs"><span>周低 ' + fmt(p.weekLow, d) + '</span><span>收盘在本周区间的位置</span><span>周高 ' + fmt(p.weekHigh, d) + '</span></div></div>'
+    + '<div class="hlgrid"><div><span class="lab">本周（11/16–11/20）</span><br />高 <b>' + fmt(p.weekHigh, d) + '</b>　低 <b>' + fmt(p.weekLow, d) + '</b><br /><span class="' + pctCls(p.weekChg) + '" style="font-weight:600;font-size:13px">周涨跌 ' + fmtPct(p.weekChg) + '</span></div>'
+    + '<div><span class="lab">本月（11 月，连续合约口径）</span><br />高 <b>' + fmt(p.monthHigh, d) + '</b>　低 <b>' + fmt(p.monthLow, d) + '</b></div></div>'
+    + (p.extra ? '<div style="margin-top:12px;border-radius:10px;padding:10px 12px;font-size:13.5px;background:color-mix(in srgb, var(--surface) 55%, transparent)">' + p.extra + '</div>' : '')
+    + '</section>';
+});
+document.getElementById("priceCards").innerHTML = pcHtml;
+
+/* ---------- 研判（2026-11-23 早间版） ---------- */
+var BRIEFINGS = [
+  { product:"gold", trend:"偏空 · 严重超卖", trendBg:"var(--sage)", support:"3,503 / 3,445", resistance:"3,580–3,640 / 3,686 / 3,760",
+    analysis:"趋势向下：周五收盘为 2025 年 8 月 28 日以来最低，11 月迄今跌约 9.84%，为 2000 年以来表现最差的 11 月。基本面主线是美联储转鹰与美元走强，技术面 RSI(14) 仅 21.6、9 日 RSI 约 19.5，已极度超卖。支撑看周五低点 3,503 与现货低点区 3,445，失守后下方空间打开，下一支撑看 3,263 附近；上方先看 3,580–3,640 修复区。",
+    risks:"超卖之下反弹可能很剧烈，不宜追空；周三 PCE 若超预期会强化加息预期、再压金价，若低于预期则可能触发空头回补急弹。" },
+  { product:"copper", trend:"偏空 · 现货紧 / 期货弱", trendBg:"var(--sage)", support:"5.439 / 5.34 / 5.25", resistance:"5.685 / 6.00 / 6.09",
+    analysis:"趋势向下且超卖严重：RSI(14) 20.43，处历史底部 1% 分位，连续第六周下跌并进入技术性熊市。但盘面与现货明显背离——上期所库存仅约 3 万吨、洋山铜进口溢价创纪录 500 美元/吨，现货很紧；下跌主因是投机仓位平仓与宏观预期（投机净多已降至 2025 年 8 月以来最低），而非实物供需恶化。抛售缓和后，中国现货紧张应提供支撑。",
+    risks:"净多降至低位后空头回补可引发急弹；中国 1–10 月精炼铜进口同比降 16%，需求端偏弱会限制反弹高度；COMEX 库存约 73 万吨仍是上方压力。" },
+  { product:"oil", trend:"偏空 · 地缘扰动", trendBg:"var(--sage)", support:"80.76–81.55 / 80.00 / 77", resistance:"83.41 / 84.35 / 88.56",
+    analysis:"趋势向下：连续第三周下跌，EIA 库存大增与 IEA 的供应过剩预期（2027 年过剩预期 380 万桶/日）是主线。周五靠霍尔木兹地缘消息反弹收涨，但涨幅有限、未改周线形态。RSI(14) 36.84，尚未到极端超卖。支撑看本周低点区 80.76–81.55 与 80 美元整数关，阻力看 1 月主力结算 83.41 与周五高点 84.35。",
+    risks:"周日 11/29 OPEC+ 会议是下周最大变量；周三 EIA 库存若再超预期增加会加压油价；霍尔木兹局势若升级，周一夜盘可能跳空高开。" }
+];
+var bfHtml = "";
+BRIEFINGS.forEach(function(b){
+  var m = META[b.product];
+  bfHtml += '<article class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">'
+    + '<h3 class="font-display" style="margin:0;font-size:18px;color:' + m.deep + '">' + m.short + ' <span style="font-size:12px;font-weight:400;color:var(--dim)">2026-11-23 早间研判</span></h3>'
+    + '<span class="trend" style="background:' + b.trendBg + '">' + b.trend + '</span></div>'
+    + '<p style="margin:8px 0 0;font-size:14px">支撑 <b>' + b.support + '</b>　·　阻力 <b>' + b.resistance + '</b></p>'
+    + '<p style="margin:8px 0 0;font-size:14px">' + b.analysis + '</p>'
+    + '<p style="margin:8px 0 0;font-size:14px;color:var(--dim)"><b style="color:var(--brick)">风险点：</b>' + b.risks + '</p></article>';
+});
+document.getElementById("briefings").innerHTML = bfHtml;
+
+/* ---------- 资讯 ---------- */
+var NEWS = [
+  { title:"美联储 10 月纪要转鹰：进一步加息成共识，12 月加息概率升至九成以上", cat:"美联储 / 美元 / 通胀", products:["gold","copper"], imp:"重大",
+    summary:"纪要显示绝大多数官员认为通胀有上行风险，几乎所有委员支持进一步加息，部分委员考虑 12 月加息 50 个基点；市场定价 12 月加息 25 个基点概率升至 92%–96%。美元指数约 103.8，创 19 个月新高，10 年期美债收益率约 4.95%–5%。",
+    impact:"这是本周金、铜大跌的主因：实际利率与美元同步走强，直接压制以美元计价的金属；金价一周内跌破 3,800、3,700、3,650 三道关口。" },
+  { title:"中东局势周末升级：胡塞袭击利雅得、两艘油轮在霍尔木兹海峡遇袭", cat:"地缘", products:["oil","gold"], imp:"重大",
+    summary:"沙特拦截射向利雅得的胡塞导弹；两艘油轮在霍尔木兹海峡遭袭，伊朗称油轮触雷起火；但霍尔木兹原油运输已恢复至战前水平左右。",
+    impact:"周五油价因此反弹，但供应过剩预期压着地缘溢价，涨幅有限；若事态升级，周一夜盘油价可能跳空高开。黄金的地缘避险买盘本周基本失效。" },
+  { title:"铜现货与期货严重背离：上期所库存骤降、洋山溢价创纪录", cat:"铜矿 / 库存", products:["copper"], imp:"重大",
+    summary:"上期所铜库存自 3 月 433,458 吨降至 11 月中约 27,642–30,846 吨，洋山铜进口溢价创纪录 500 美元/吨；另一边 COMEX 库存约 73 万吨，投机净多已回落约 65%。",
+    impact:"下跌主因是仓位平仓和宏观预期，而非实物供需恶化；中国现货紧张应在抛售缓和后提供支撑，但 COMEX 高库存会限制反弹速度。" },
+  { title:"美股 AI 抛售蔓延，跨资产去杠杆拖累金、铜", cat:"市场情绪", products:["gold","copper"], imp:"重要",
+    summary:"标普 500 创 2025 年 4 月以来最差一周，投资者抛售黄金补保证金，同时平仓押注 AI 基建需求的金属多头。",
+    impact:"金、铜与美股联动增强，铜尤其被当作 AI 概念资产一起抛售；只要美股去杠杆未结束，金属的避险与工业属性都会被流动性需求盖过。" },
+  { title:"EIA 原油库存大增 340 万桶，远超预期", cat:"EIA 库存", products:["oil"], imp:"重要",
+    summary:"美国商业原油库存增加 340 万桶至 4.178 亿桶，市场预期仅为增加约 5.8 万–100 万桶。",
+    impact:"强化供应过剩叙事，是油价连续第三周下跌的主因之一；地缘消息只能带来日内反弹，难改周线趋势。下一次 EIA 报告因感恩节提前至 11 月 25 日公布。" },
+  { title:"IEA：2027 年全球供应过剩预期达 380 万桶/日", cat:"OPEC / 供需", products:["oil"], imp:"重要",
+    summary:"IEA 最新展望把未来供应过剩预期上调至 380 万桶/日，并预计 2026 年四季度转为约 170 万桶/日过剩。",
+    impact:"中期利空原油：在过剩预期被证伪之前，每一次地缘反弹都更像减仓机会而非趋势反转；11 月 29 日 OPEC+ 会议成为下周最大变量。" },
+  { title:"COMEX 精铜较 9 月纪录收盘跌逾 20%，进入技术性熊市", cat:"价格 / 技术面", products:["copper"], imp:"重要",
+    summary:"精铜周五前月合约结算 5.4770 美元/磅，周跌 9.91%、连续第六周下跌，较 9 月 9 日纪录收盘 6.8885 累计跌 20.37%；LME 三个月铜周跌 9.25%。",
+    impact:"趋势与情绪都偏空，但 RSI 已到历史极端低位，追空的盈亏比变差；现货端的紧张（低库存、高溢价）是空头最大的反向风险。" },
+  { title:"黄金创 8 个月最大周跌幅，11 月或为 2000 年以来最差 11 月", cat:"价格 / 技术面", products:["gold"], imp:"重要",
+    summary:"COMEX 黄金本周跌 9.54%，周五收盘为 2025 年 8 月 28 日以来最低；现货口径周跌 8.9%，11 月迄今跌约 9.84%。",
+    impact:"跌幅主要由鹰派纪要、强美元与跨资产抛售驱动；技术面极度超卖意味着波动会放大，方向未稳之前，反弹与续跌都可能很剧烈。" },
+  { title:"OPEC+ 将于 11 月 29 日开会，讨论 2027 年产量框架", cat:"OPEC / 供需", products:["oil"], imp:"重要",
+    summary:"OPEC+ 部长级会议定于 11 月 29 日举行，将讨论 2027 年产量框架与新的产量基线。",
+    impact:"会议结果是原油下周最大变量：若释放增产或份额争夺信号，油价下行压力加大；若强调减产纪律，过剩预期可能被修正、油价获得支撑。" },
+  { title:"中国 1–10 月精炼铜进口同比降 16%，需求偏弱", cat:"中国需求", products:["copper"], imp:"一般",
+    summary:"中国 1–10 月精炼铜进口降至 237 万吨，同比下降 16%。",
+    impact:"需求端数据偏弱，限制铜价反弹高度；但国内库存已降至低位、进口溢价创纪录，说明现货并不宽松，价格对需求边际变化会更敏感。" },
+  { title:"中国 10 月增持黄金储备 26 吨，央行购金延续", cat:"中国需求", products:["gold"], imp:"一般",
+    summary:"中国央行 10 月增持黄金储备 26 吨，延续近年持续购金节奏。",
+    impact:"央行购金是黄金的长期支撑，有助于在深跌后托底，但节奏偏慢，难改由利率与美元主导的短期趋势。" },
+  { title:"感恩节假期临近：11 月 26 日美股、美债休市，EIA 报告提前", cat:"假期 / 日历", products:["gold","copper","oil"], imp:"一般",
+    summary:"11 月 26 日感恩节美股、美债休市；EIA 原油库存报告提前至 11 月 25 日（周三）公布，同日还有 PCE、GDP 修正值与美联储褐皮书。",
+    impact:"周三数据高度集中、周四流动性薄，三个品种在假期周的波动可能被放大，仓位管理上宜预留更大缓冲。" }
+];
+var curFilter = "all";
+function impBadge(imp){
+  if (imp === "重大") return '<span class="badge major">重大</span>';
+  if (imp === "重要") return '<span class="badge important">重要</span>';
+  return '<span class="badge normal">一般</span>';
+}
+function renderNews(){
+  var q = (document.getElementById("newsSearch").value || "").trim().toLowerCase();
+  var list = NEWS.filter(function(n){
+    var okF = curFilter === "all" || n.products.indexOf(curFilter) >= 0;
+    var okQ = !q || (n.title + n.summary + n.impact + n.cat).toLowerCase().indexOf(q) >= 0;
+    return okF && okQ;
+  });
+  var html = "";
+  list.forEach(function(n){
+    var tags = n.products.map(function(pk){ return '<span class="ptag" style="background:' + META[pk].bg + ';color:' + META[pk].deep + '">' + META[pk].short + '</span>'; }).join(" ");
+    html += '<article class="panel"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">'
+      + '<h3 style="margin:0;font-size:16px;line-height:1.5">' + n.title + '</h3>' + impBadge(n.imp) + '</div>'
+      + '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span class="ptag" style="background:var(--surface2);color:var(--dim)">' + n.cat + '</span>' + tags + '</div>'
+      + '<p style="margin:8px 0 0;font-size:14px">' + n.summary + '</p>'
+      + '<p style="margin:8px 0 0;font-size:14px;background:var(--surface2);border-radius:10px;padding:8px 12px"><b>影响分析：</b>' + n.impact + '</p></article>';
+  });
+  document.getElementById("newsList").innerHTML = html;
+  document.getElementById("newsEmpty").style.display = list.length ? "none" : "block";
+  document.getElementById("newsCount").textContent = "共 " + list.length + " 条" + (curFilter !== "all" ? "（已按品种筛选）" : "") + (q ? "（含关键词「" + q + "」）" : "");
+}
+document.querySelectorAll("[data-filter]").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    document.querySelectorAll("[data-filter]").forEach(function(b){ b.classList.remove("on"); });
+    btn.classList.add("on");
+    curFilter = btn.getAttribute("data-filter");
+    renderNews();
+  });
+});
+document.getElementById("newsSearch").addEventListener("input", renderNews);
+renderNews();
+
+/* ---------- 显示模式 ---------- */
+document.querySelectorAll("[data-theme]").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var t = btn.getAttribute("data-theme");
+    document.body.className = t ? ("theme-" + t) : "";
+    document.querySelectorAll("[data-theme]").forEach(function(b){ b.classList.toggle("on", b === btn); });
+  });
+});
+</script>
+</body>
+</html>
