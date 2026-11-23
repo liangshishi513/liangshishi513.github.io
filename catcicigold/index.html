@@ -114,7 +114,7 @@ footer{color:var(--dim);font-size:12.5px;padding:26px 0 6px;border-top:1px solid
 
 <!-- ============ 最新参考价 ============ -->
 <h2 class="sec" style="margin-top:22px">最新参考价 <span id="liveStamp">快照取于 2026-11-23 上午（北京时间）· 每 10 秒尝试刷新</span></h2>
-<p class="note" style="margin:2px 0 0">免费源（Yahoo Finance 期货 1 分钟线），期货报价延迟约 10–15 分钟，新价约每分钟变一次；这是公开参考价，不是任何经纪商 MT5 里的价格。黄金的 MT5 经纪商为 WeTrade，其 XAUUSD 报价未接入本页。</p>
+<p class="note" style="margin:2px 0 0">免费源（腾讯财经外盘期货报价），免费报价可能延迟约 10–15 分钟；这是公开参考价，不是任何经纪商 MT5 里的价格。黄金的 MT5 经纪商为 WeTrade，其 XAUUSD 报价未接入本页。</p>
 <div class="live-grid" id="liveGrid"></div>
 
 <!-- ============ 行情卡 ============ -->
@@ -196,25 +196,35 @@ function renderLive(){
   document.getElementById("liveGrid").innerHTML = html;
 }
 function pollLive(){
-  fetch("https://catgithub-api4.325268538.workers.dev/api/prices")
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      if (!j) return;
-      var changed = false;
-      LIVE.forEach(function(it){
-        var q = j[it.product];
-        if (!q || q.price == null) return;
-        it.price = q.price;
-        if (q.dayHigh != null) it.dayHigh = q.dayHigh;
-        if (q.dayLow != null) it.dayLow = q.dayLow;
-        changed = true;
-      });
-      if (!changed) return;
+  var s = document.createElement("script");
+  s.src = "https://qt.gtimg.cn/q=hf_GC,hf_HG,hf_CL&r=" + Math.random();
+  s.onload = function(){
+    var map = { gold: window.v_hf_GC, copper: window.v_hf_HG, oil: window.v_hf_CL };
+    var scale = { gold: 1, copper: 0.01, oil: 1 };
+    var changed = false;
+    LIVE.forEach(function(it){
+      var raw = map[it.product];
+      if (!raw) return;
+      var f = String(raw).split(",");
+      var price = parseFloat(f[0]);
+      if (!isFinite(price)) return;
+      var k = scale[it.product] || 1;
+      it.price = price * k;
+      var hi = parseFloat(f[4]), lo = parseFloat(f[5]), pc = parseFloat(f[7]);
+      if (isFinite(hi)) it.dayHigh = hi * k;
+      if (isFinite(lo)) it.dayLow = lo * k;
+      if (isFinite(pc)) it.prevClose = pc * k;
+      changed = true;
+    });
+    if (changed){
       renderLive();
       var now = new Date();
       document.getElementById("liveStamp").textContent = "已刷新 · 本页更新于 " + now.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}) + "（北京时间）";
-    })
-    .catch(function(){ /* 连不通行情源时保留快照价，不报错打扰读者 */ });
+    }
+    if (s.parentNode) s.parentNode.removeChild(s);
+  };
+  s.onerror = function(){ if (s.parentNode) s.parentNode.removeChild(s); };
+  document.head.appendChild(s);
 }
 renderLive();
 setInterval(pollLive, 10000);
