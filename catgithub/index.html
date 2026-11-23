@@ -388,14 +388,75 @@ renderCats(); render(); renderFav(); renderCmp();
 </script>
 
 
+
+
+<!-- cg-build 2026-11-23-v2b -->
 <script>
-/* __CG_AUTH_MODULE_V2__ 账号登录 + 跨设备同步（Cloudflare Worker + D1） */
+/* __CG_AUTH_MODULE_V3__ 账号登录 + 跨设备同步（Cloudflare Worker + D1，按公开版真实页面结构编写） */
 (function(){
   var API = 'https://catgithub-api4.325268538.workers.dev';
-  var cgToken = localStorage.getItem('cg_token') || '';
-  var cgEmail = localStorage.getItem('cg_email') || '';
+  var cgToken = ''; try { cgToken = localStorage.getItem('cg_token') || ''; } catch(e) {}
+  var cgEmail = ''; try { cgEmail = localStorage.getItem('cg_email') || ''; } catch(e) {}
+  var LSKEY = 'cg_state_v3';
+  var hasState = (typeof P !== 'undefined') && (typeof favs !== 'undefined') &&
+                 (typeof reads !== 'undefined') && (typeof notes !== 'undefined') && (typeof favcats !== 'undefined');
 
-  function byFn(){ var m={}; PROJECTS.forEach(function(p){ m[p.fn]=p.id; }); return m; }
+  /* ---------- 状态快照（以仓库全名 fn 为键） ---------- */
+  function snapshot(){
+    var out = {};
+    if (!hasState) return out;
+    function put(id, field, val){
+      var p = P[id]; if (!p || !p.fn) return;
+      var r = out[p.fn] || (out[p.fn] = { f: 0, r: 0, n: '', c: '' });
+      r[field] = val;
+    }
+    Object.keys(favs).forEach(function(id){ put(id, 'f', 1); });
+    Object.keys(reads).forEach(function(id){ put(id, 'r', 1); });
+    Object.keys(notes).forEach(function(id){ if (notes[id]) put(id, 'n', String(notes[id])); });
+    Object.keys(favcats).forEach(function(id){ if (favcats[id]) put(id, 'c', String(favcats[id])); });
+    return out;
+  }
+  function applyState(map){
+    if (!hasState) return;
+    Object.keys(favs).forEach(function(k){ delete favs[k]; });
+    Object.keys(reads).forEach(function(k){ delete reads[k]; });
+    Object.keys(notes).forEach(function(k){ delete notes[k]; });
+    Object.keys(favcats).forEach(function(k){ delete favcats[k]; });
+    var byFn = {}; P.forEach(function(p){ byFn[p.fn] = p.id; });
+    Object.keys(map).forEach(function(fn){
+      var id = byFn[fn]; if (id === undefined) return;
+      var r = map[fn];
+      if (r.f) favs[id] = true;
+      if (r.r) reads[id] = true;
+      if (r.n) notes[id] = r.n;
+      if (r.c) favcats[id] = r.c;
+    });
+    if (typeof refresh === 'function') refresh();
+    if (typeof updateBadges === 'function') updateBadges();
+  }
+  function saveLocal(){ try { localStorage.setItem(LSKEY, JSON.stringify(snapshot())); } catch(e) {} }
+  function loadLocal(){ try { return JSON.parse(localStorage.getItem(LSKEY) || '{}'); } catch(e) { return {}; } }
+  function rowsFrom(map){
+    return Object.keys(map).map(function(fn){
+      var r = map[fn];
+      return { project_key: fn, is_favorite: r.f ? 1 : 0, is_read: r.r ? 1 : 0, note: r.n || '', fav_category: r.c || '' };
+    });
+  }
+  function mapFromRows(rows){
+    var m = {};
+    (rows || []).forEach(function(r){
+      m[r.project_key] = { f: r.is_favorite ? 1 : 0, r: r.is_read ? 1 : 0, n: r.note || '', c: r.fav_category || '' };
+    });
+    return m;
+  }
+  function mergeMaps(local, server){
+    var out = {};
+    Object.keys(local).forEach(function(k){ out[k] = local[k]; });
+    Object.keys(server).forEach(function(k){ out[k] = server[k]; });
+    return out;
+  }
+
+  /* ---------- 后台接口 ---------- */
   function api(path, opts){
     opts = opts || {};
     opts.headers = opts.headers || {};
@@ -405,60 +466,34 @@ renderCats(); render(); renderFav(); renderCmp();
       return r.json().catch(function(){ return {}; }).then(function(j){ return { status: r.status, body: j }; });
     });
   }
-  function rowFor(id){
-    var p = PROJECTS[id]; if (!p) return null;
-    return { project_key: p.fn, is_favorite: favs.has(id) ? 1 : 0, is_read: reads.has(id) ? 1 : 0,
-             note: notes[id] || '', fav_category: favCats[id] || '' };
-  }
-  function pushRows(rows){
-    if (!cgToken || !rows.length) return;
-    api('/api/state', { method: 'POST', body: JSON.stringify({ rows: rows }) }).catch(function(){});
-  }
-  function pushOne(id){ var r = rowFor(id); if (r) pushRows([r]); }
   function pushAll(){
     if (!cgToken) return;
-    var seen = {}, rows = [];
-    function add(id){ if (seen[id]) return; seen[id] = 1; var r = rowFor(id); if (r) rows.push(r); }
-    favs.forEach(add); reads.forEach(add);
-    Object.keys(notes).forEach(function(k){ add(+k); });
-    Object.keys(favCats).forEach(function(k){ add(+k); });
-    for (var i = 0; i < rows.length; i += 200) pushRows(rows.slice(i, i + 200));
+    var rows = rowsFrom(snapshot());
+    for (var i = 0; i < rows.length; i += 200) {
+      api('/api/state', { method: 'POST', body: JSON.stringify({ rows: rows.slice(i, i + 200) }) }).catch(function(){});
+    }
   }
+  function syncNow(){ saveLocal(); pushAll(); }
   function pullMerge(pushBack){
     if (!cgToken) return Promise.resolve();
     return api('/api/state').then(function(res){
       if (res.status === 401) { setSession('', ''); return; }
-      var rows = (res.body && res.body.rows) || [], m = byFn();
-      rows.forEach(function(r){
-        var id = m[r.project_key]; if (id === undefined) return;
-        if (r.is_favorite) favs.add(id); else favs.delete(id);
-        if (r.is_read) reads.add(id); else reads.delete(id);
-        if (r.note) notes[id] = r.note; else delete notes[id];
-        if (r.fav_category) favCats[id] = r.fav_category; else delete favCats[id];
-      });
-      persistLocal(); renderAll(); updateAuthBtn();
+      var serverMap = mapFromRows(res.body && res.body.rows);
+      applyState(mergeMaps(snapshot(), serverMap));
+      saveLocal();
       if (pushBack) pushAll();
     }).catch(function(){});
   }
   function setSession(token, email){
     cgToken = token; cgEmail = email;
-    if (token) { localStorage.setItem('cg_token', token); localStorage.setItem('cg_email', email); }
-    else { localStorage.removeItem('cg_token'); localStorage.removeItem('cg_email'); }
+    try {
+      if (token) { localStorage.setItem('cg_token', token); localStorage.setItem('cg_email', email); }
+      else { localStorage.removeItem('cg_token'); localStorage.removeItem('cg_email'); }
+    } catch(e) {}
     updateAuthBtn();
   }
 
-  /* ---- 同步钩子：收藏/已读/笔记/收藏分类变化时推送 ---- */
-  var _tf = toggleFav, _tr = toggleRead;
-  toggleFav = function(id){ _tf(id); pushOne(id); };
-  toggleRead = function(id){ _tr(id); pushOne(id); };
-  document.addEventListener('click', function(e){
-    if (!cgToken || !e.target || !e.target.id) return;
-    if (e.target.id === 'btnNote' || e.target.id === 'btnFav2') {
-      setTimeout(function(){ if (typeof curId === 'number' && curId >= 0) pushOne(curId); }, 350);
-    }
-  }, true);
-
-  /* ---- 登录 UI ---- */
+  /* ---------- 登录 UI（先建 UI，保证入口永远可见） ---------- */
   var css = document.createElement('style');
   css.textContent = '#cgAuthMask{position:fixed;inset:0;background:rgba(40,35,30,.45);display:none;align-items:center;justify-content:center;z-index:999}'
     + '#cgAuthBox{background:#fffdf9;border-radius:16px;padding:22px 22px 16px;width:min(92vw,360px);box-shadow:0 12px 40px rgba(0,0,0,.25);color:#4a4238}'
@@ -466,8 +501,7 @@ renderCats(); render(); renderFav(); renderCmp();
     + '#cgAuthBox input{width:100%;box-sizing:border-box;padding:10px 12px;margin:0 0 10px;border:1px solid #d8cfc0;border-radius:10px;font-size:14px;background:#fff}'
     + '#cgAuthBox .row{display:flex;gap:8px}#cgAuthBox button{flex:1;padding:10px;border:none;border-radius:10px;font-size:14px;cursor:pointer}'
     + '#cgDoLogin{background:#a8b8a0;color:#fff}#cgDoSignup{background:#e9e2d4;color:#5a5040}#cgDoClose{background:none;color:#8a7f6d;flex:0 0 auto;padding:10px 4px}'
-    + '#cgAuthMsg{font-size:12px;min-height:16px;margin-top:8px;color:#b0552f}'
-    + '#cgAuthBtn{margin-left:8px}';
+    + '#cgAuthMsg{font-size:12px;min-height:16px;margin-top:8px;color:#b0552f}';
   document.head.appendChild(css);
   var mask = document.createElement('div');
   mask.id = 'cgAuthMask';
@@ -479,9 +513,10 @@ renderCats(); render(); renderFav(); renderCmp();
     + '<div id="cgAuthMsg"></div><div class="row"><button id="cgDoClose">关闭</button></div></div>';
   document.body.appendChild(mask);
   var btn = document.createElement('button');
-  btn.className = 'tab'; btn.id = 'cgAuthBtn'; btn.type = 'button';
-  var tabs = document.querySelector('.tabs');
-  if (tabs) tabs.appendChild(btn);
+  btn.className = 'btn'; btn.id = 'cgAuthBtn'; btn.type = 'button';
+  var anchor = document.getElementById('tabCmp');
+  if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+  else document.body.appendChild(btn);
   function updateAuthBtn(){ btn.textContent = cgToken ? ('👤 ' + (cgEmail || '已登录')) : '👤 登录 / 注册'; }
   updateAuthBtn();
   function msg(t){ document.getElementById('cgAuthMsg').textContent = t || ''; }
@@ -524,16 +559,31 @@ renderCats(); render(); renderFav(); renderCmp();
     document.getElementById('cgForm').style.display = 'block';
   });
 
-  /* 把「关闭页面就清空」那句说明改掉 */
-  document.querySelectorAll('p.note, .saved-note').forEach(function(el){
-    if (el.textContent.indexOf('关闭页面') >= 0) el.textContent = '登录账号后，收藏、已读和笔记会跨设备同步保存；不登录时仅保存在本浏览器。';
+  /* ---------- 同步钩子：页面状态变化后存本机 + 推云端 ---------- */
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('[data-act="fav"],[data-act="read"],[data-act="detail"],#btnNote,#btnFav2')) {
+      setTimeout(syncNow, 80);
+    }
+  }, false);
+
+  /* ---------- 修正说明文案 ---------- */
+  document.querySelectorAll('p').forEach(function(p){
+    if (p.textContent.indexOf('关掉页面即清空') >= 0) {
+      p.innerHTML = p.innerHTML.replace(/①收藏、已读、笔记和收藏分类只在(<b>)?本页打开期间(<\/b>)?有效，关掉页面即清空——永久保存是个人版（服务器）才有的；/,
+        '①登录账号后，收藏、已读、笔记和收藏分类会<b>跨设备同步保存</b>，换设备登录同一账号就能看到；不登录时只保存在本浏览器，关掉页面不丢失；');
+    }
   });
 
-  /* 已登录则启动时拉取云端状态 */
+  /* ---------- 启动：恢复本机状态，登录则拉云端合并 ---------- */
+  if (hasState) {
+    var local = loadLocal();
+    if (local && Object.keys(local).length) applyState(local);
+  }
   if (cgToken) pullMerge(false);
 })();
 </script>
 
-<!-- cg-build 2026-11-23-v2b -->
 </body>
 </html>
