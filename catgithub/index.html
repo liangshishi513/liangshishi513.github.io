@@ -332,12 +332,12 @@ else{h+="<p>见仓库 README 的 Quick Start（快速开始）部分。</p>";}
 h+="<h3>⑥ README 中文说明</h3><p class='note'>README 全文中文翻译在个人版里是点开详情时现生成的，这份公开快照没有收录全文翻译，避免拿机器拼凑的内容冒充。下面是本项目的中文讲解要点，原文 README 点上方「GitHub 仓库」查看：</p><p>"+esc(p.what||p.zh)+"</p>";
 if(p.trend&&p.trend.length>=2){h+="<h3>⑦ Stars 变化（入库以来的快照）</h3><p>"+spark(p.trend)+" 快照记录："+p.trend.map(fmtExact).join(" → ")+"（入库时间短，只有这几次快照，不代表长期趋势）。</p>";}
 h+="<h3>项目档案</h3><table><tr><th>Stars / Forks</th><td>★ "+fmtExact(p.stars)+" / ⑂ "+fmtExact(p.forks)+"</td></tr><tr><th>最近更新</th><td>"+(p.upd||"—")+"</td></tr><tr><th>许可证 License</th><td>"+(p.lic?esc(p.lic)+"（决定能否商用，商用前请看仓库原文）":"仓库未标注 License，商用前请先向作者确认")+"</td></tr><tr><th>作者</th><td>"+esc(p.o)+"</td></tr><tr><th>主要语言</th><td>"+(p.lang?esc(p.lang):"未标注")+"</td></tr><tr><th>上手难度</th><td>"+p.diff+"</td></tr><tr><th>入库日期</th><td>"+p.added+"</td></tr><tr><th>下载入口</th><td>"+(p.dl?"<a href='"+p.dl+"' target='_blank' rel='noopener'>"+p.dl+"</a>（官方 Releases 发布页，已核对确有发布包）":"无官方发布包（已核对 Releases 页为空），用仓库源码 / 命令安装")+"</td></tr><tr><th>仓库链接</th><td><a href='"+p.url+"' target='_blank' rel='noopener'>"+p.url+"</a></td></tr>"+(p.home?"<tr><th>官网</th><td><a href='"+esc(p.home)+"' target='_blank' rel='noopener'>"+esc(p.home)+"</a></td></tr>":"")+"</table>";
-h+="<h3>我的笔记与收藏分类</h3><p class='note'>笔记和收藏分类只在本次打开期间保留，关掉页面即清空（永久保存请用个人版）。</p><textarea id='noteBox' rows='3' style='width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)' placeholder='写一句：这个项目我打算用在哪、下次要试什么…'>"+esc(notes[p.id]||"")+"</textarea><label class='note' for='favCatBox' style='display:block;margin-top:10px'>收藏分类（收藏库里按这个分组，留空则按项目主分类）</label><input type='text' class='favcat' id='favCatBox' placeholder='例如：做视频用的、想学的、以后部署的…' value='"+esc(favcats[p.id]||"")+"' /><div style='margin-top:8px;display:flex;gap:8px;flex-wrap:wrap'><button class='btn primary' id='btnNote'>保存笔记（本页内）</button><button class='btn' id='btnFav2'>"+(favs[p.id]?"★ 已收藏":"☆ 收藏这个项目")+"</button><label style='display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:9px;padding:6px 8px'><input type='checkbox' id='cmpBox' "+(cmp.indexOf(p.id)>=0?"checked":"")+" /> 加入对比</label></div>";
+h+="<h3>我的笔记与收藏分类</h3><p class='note'>登录后，笔记和收藏分类会同步到你的账号，换设备登录同一账号也能看到；未登录时只在本次打开期间保留。</p><textarea id='noteBox' rows='3' style='width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)' placeholder='写一句：这个项目我打算用在哪、下次要试什么…'>"+esc(notes[p.id]||"")+"</textarea><label class='note' for='favCatBox' style='display:block;margin-top:10px'>收藏分类（收藏库里按这个分组，留空则按项目主分类）</label><input type='text' class='favcat' id='favCatBox' placeholder='例如：做视频用的、想学的、以后部署的…' value='"+esc(favcats[p.id]||"")+"' /><div style='margin-top:8px;display:flex;gap:8px;flex-wrap:wrap'><button class='btn primary' id='btnNote'>保存笔记</button><button class='btn' id='btnFav2'>"+(favs[p.id]?"★ 已收藏":"☆ 收藏这个项目")+"</button><label style='display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:9px;padding:6px 8px'><input type='checkbox' id='cmpBox' "+(cmp.indexOf(p.id)>=0?"checked":"")+" /> 加入对比</label></div>";
 h+="</div>";
 document.getElementById("detailBody").innerHTML=h;
 showView("detail"); window.scrollTo({top:0});
 document.getElementById("btnBack").addEventListener("click",function(){var v=prevView||"all"; if(v==="cat")renderCat(); else if(v==="fav")renderFav(); else if(v==="cmp")renderCmp(); else render(); showView(v);});
-document.getElementById("btnNote").addEventListener("click",function(){notes[p.id]=document.getElementById("noteBox").value; favcats[p.id]=document.getElementById("favCatBox").value.trim(); if(!favcats[p.id])delete favcats[p.id]; document.getElementById("btnNote").textContent="✓ 已保存（本页内）"; renderFav();});
+document.getElementById("btnNote").addEventListener("click",function(){notes[p.id]=document.getElementById("noteBox").value; favcats[p.id]=document.getElementById("favCatBox").value.trim(); if(!favcats[p.id])delete favcats[p.id]; document.getElementById("btnNote").textContent="✓ 已保存"; renderFav();});
 document.getElementById("btnFav2").addEventListener("click",function(){favs[p.id]=!favs[p.id]; if(!favs[p.id])delete favs[p.id]; updateBadges(); renderFav(); this.textContent=favs[p.id]?"★ 已收藏":"☆ 收藏这个项目";});
 document.getElementById("cmpBox").addEventListener("change",function(){ if(this.checked){if(cmp.length>=3){this.checked=false;return;} cmp.push(p.id);} else cmp=cmp.filter(function(x){return x!==p.id;}); updateBadges(); renderCmp();});
 }
@@ -386,5 +386,126 @@ document.getElementById("fLang").innerHTML='<option value="">全部语言</optio
 renderCats(); render(); renderFav(); renderCmp();
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* __CG_AUTH_MODULE__ catgithub 账号登录与收藏同步（Supabase） */
+(function(){
+  var SB_URL = "https://hssenfyuklskjylwaah.supabase.co";
+  var SB_KEY = "sb_publishable_cLkEvWHo8qJWA-zrtA_8_g_maDOS0yA";
+  var user = null, lastSnap = null, sb = null;
+  try { if (window.supabase) sb = window.supabase.createClient(SB_URL, SB_KEY); } catch(e) { sb = null; }
+
+  function $(id){ return document.getElementById(id); }
+  function snapshot(){
+    var s = {};
+    P.forEach(function(p){
+      if (favs[p.id] || reads[p.id] || notes[p.id] || favcats[p.id]) {
+        s[p.fn] = { f: !!favs[p.id], r: !!reads[p.id], n: notes[p.id] || "", c: favcats[p.id] || "" };
+      }
+    });
+    return s;
+  }
+  async function pushDiff(){
+    if (!user || !sb) return;
+    var cur = snapshot();
+    if (lastSnap === null) lastSnap = {};
+    var keys = {}, rows = [];
+    Object.keys(cur).forEach(function(k){ keys[k] = 1; });
+    Object.keys(lastSnap).forEach(function(k){ keys[k] = 1; });
+    Object.keys(keys).forEach(function(k){
+      var a = lastSnap[k], b = cur[k];
+      if (JSON.stringify(a || null) === JSON.stringify(b || null)) return;
+      if (b) rows.push({ user_id: user.id, project_key: k, is_favorite: b.f, is_read: b.r, note: b.n, fav_category: b.c, updated_at: new Date().toISOString() });
+      else rows.push({ user_id: user.id, project_key: k, is_favorite: false, is_read: false, note: "", fav_category: "", updated_at: new Date().toISOString() });
+    });
+    if (!rows.length) { lastSnap = cur; return; }
+    var res = await sb.from("user_state").upsert(rows, { onConflict: "user_id,project_key" });
+    if (!res.error) lastSnap = cur;
+  }
+  function scheduleSync(){ setTimeout(function(){ pushDiff(); }, 400); }
+  document.addEventListener("click", function(e){
+    var t = e.target && e.target.closest ? e.target.closest("[data-act='fav'],[data-act='read'],#btnNote,#btnFav2") : null;
+    if (t && user) scheduleSync();
+  }, true);
+
+  async function pullState(){
+    var res = await sb.from("user_state").select("*");
+    if (res.error) return;
+    var byFn = {}; P.forEach(function(p){ byFn[p.fn] = p; });
+    var serverSnap = {};
+    (res.data || []).forEach(function(r){
+      serverSnap[r.project_key] = { f: !!r.is_favorite, r: !!r.is_read, n: r.note || "", c: r.fav_category || "" };
+      var p = byFn[r.project_key];
+      if (p) {
+        if (r.is_favorite) favs[p.id] = true;
+        if (r.is_read) reads[p.id] = true;
+        if (r.note) notes[p.id] = r.note;
+        if (r.fav_category) favcats[p.id] = r.fav_category;
+      }
+    });
+    lastSnap = serverSnap;
+    try { updateBadges(); refresh(); } catch(e) {}
+    pushDiff();
+  }
+
+  /* ---------- 登录界面 ---------- */
+  var css = "#cgAuthBtn{white-space:nowrap} #cgAuthMask{position:fixed;inset:0;background:rgba(40,36,32,.45);display:none;align-items:center;justify-content:center;z-index:999} #cgAuthMask.on{display:flex} #cgAuthBox{background:var(--panel,#fff);color:var(--ink,#333);border-radius:16px;padding:22px;width:min(92vw,360px);box-shadow:0 12px 40px rgba(0,0,0,.25)} #cgAuthBox h3{margin:0 0 6px} #cgAuthBox p{margin:4px 0 10px;font-size:13px;opacity:.75} #cgAuthBox input{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line,#ccc);border-radius:10px;margin:6px 0;background:transparent;color:inherit} #cgAuthMsg{font-size:13px;min-height:18px;margin:8px 0;color:#a4553f} #cgAuthBox .rowb{display:flex;gap:8px;margin-top:6px} #cgAuthBox .rowb button{flex:1}";
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+
+  var mask = document.createElement("div"); mask.id = "cgAuthMask";
+  mask.innerHTML = '<div id="cgAuthBox"><h3>🐾 账号登录</h3><p>登录后，你的收藏、已读和笔记会存到你的账号里，换手机、换电脑登录同一账号都能看到。没账号就点「注册新账号」。</p><input id="cgEmail" type="email" placeholder="邮箱" autocomplete="email"><input id="cgPwd" type="password" placeholder="密码（至少 6 位）" autocomplete="current-password"><div id="cgAuthMsg"></div><div class="rowb"><button class="btn primary" id="cgDoLogin">登录</button><button class="btn" id="cgDoSignup">注册新账号</button></div><div class="rowb"><button class="btn" id="cgClose">关闭</button></div></div>';
+  document.body.appendChild(mask);
+  mask.addEventListener("click", function(e){ if (e.target === mask) mask.classList.remove("on"); });
+  $("cgClose").addEventListener("click", function(){ mask.classList.remove("on"); });
+
+  function msg(t){ $("cgAuthMsg").textContent = t || ""; }
+  $("cgDoSignup").addEventListener("click", async function(){
+    if (!sb) { msg("登录服务没加载成功，请刷新页面或检查网络再试。"); return; }
+    var em = $("cgEmail").value.trim(), pw = $("cgPwd").value;
+    if (!em || pw.length < 6) { msg("请填邮箱，密码至少 6 位。"); return; }
+    msg("正在注册…");
+    var r = await sb.auth.signUp({ email: em, password: pw, options: { emailRedirectTo: location.origin + location.pathname } });
+    if (r.error) { msg("注册失败：" + r.error.message); return; }
+    if (r.data && r.data.session) { msg("注册成功，已自动登录！"); }
+    else msg("注册申请已提交！请去邮箱点确认链接完成注册，然后回来登录。");
+  });
+  $("cgDoLogin").addEventListener("click", async function(){
+    if (!sb) { msg("登录服务没加载成功，请刷新页面或检查网络再试。"); return; }
+    var em = $("cgEmail").value.trim(), pw = $("cgPwd").value;
+    if (!em || !pw) { msg("请填邮箱和密码。"); return; }
+    msg("正在登录…");
+    var r = await sb.auth.signInWithPassword({ email: em, password: pw });
+    if (r.error) { msg("登录失败：" + r.error.message + "（如果刚注册，请先去邮箱确认）"); return; }
+    mask.classList.remove("on"); msg("");
+  });
+
+  var btn = document.createElement("button");
+  btn.className = "btn"; btn.id = "cgAuthBtn"; btn.textContent = "👤 登录 / 注册";
+  btn.addEventListener("click", function(){
+    if (user) {
+      if (confirm("当前登录：" + user.email + "\n点「确定」退出登录，点「取消」留在页面。")) { sb.auth.signOut(); }
+    } else { mask.classList.add("on"); }
+  });
+  var anchor = $("tabCmp");
+  if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+  else document.body.appendChild(btn);
+
+  function reflect(){
+    if (user) { btn.textContent = "🐾 " + user.email + "（已登录）"; }
+    else { btn.textContent = "👤 登录 / 注册"; lastSnap = null; }
+  }
+  if (sb) {
+    sb.auth.getSession().then(function(r){
+      user = (r.data && r.data.session) ? r.data.session.user : null;
+      reflect(); if (user) pullState();
+    });
+    sb.auth.onAuthStateChange(function(ev, session){
+      user = session ? session.user : null;
+      reflect(); if (user && ev === "SIGNED_IN") pullState();
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
