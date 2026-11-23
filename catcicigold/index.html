@@ -169,7 +169,7 @@ function fmt(v, d){ if(v==null) return "—"; return v.toLocaleString("en-US",{m
 function fmtPct(v){ if(v==null) return "—"; return (v>0?"+":"") + v.toFixed(2) + "%"; }
 function pctCls(v){ return v==null||v===0 ? "" : (v>0 ? "up" : "down"); }
 
-/* ---------- 最新参考价（快照值；页面打开后每 10 秒尝试从 Yahoo 拉新价） ---------- */
+/* ---------- 最新参考价（快照值；页面打开后每 5 秒从腾讯财经拉新价） ---------- */
 var LIVE = [
   { product:"gold",   symbol:"GC=F", label:"美黄金 · COMEX 期货", unit:"美元/盎司", price:3577.60, prevClose:3515.40, dayHigh:3629.60, dayLow:3552.30, prevHigh:3638.10, prevLow:3502.90 },
   { product:"copper", symbol:"HG=F", label:"精铜 · COMEX 期货",   unit:"美元/磅",   price:5.429,   prevClose:5.477,   dayHigh:5.582,   dayLow:5.408,   prevHigh:5.608,   prevLow:5.439 },
