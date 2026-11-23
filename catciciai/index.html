@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>catciciai 公开版 — AI 资讯</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:2.25rem}
+  :root{
+    --bg:#f4f1ea; --surface:#fbf9f4; --ink:#3e3a34; --dim:#7a7368; --line:#ddd5c6; --accent:#5f7263;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#211f1c; --surface:#2a2723; --ink:#ede7db; --dim:#a79e8e; --line:#3d3831; --accent:#a8bfa9; color-scheme:dark; }
+  }
+  body.night{ --bg:#211f1c; --surface:#2a2723; --ink:#ede7db; --dim:#a79e8e; --line:#3d3831; --accent:#a8bfa9; color-scheme:dark; }
+  body.day{ --bg:#f4f1ea; --surface:#fbf9f4; --ink:#3e3a34; --dim:#7a7368; --line:#ddd5c6; --accent:#5f7263; color-scheme:light; }
+  /* Per-category Morandi tints — same as personal version */
+  .cat-models{--cat-bg:#edf0e9;--cat-accent:#5f7263;--cat-chip:#dce3d8}
+  .cat-robots{--cat-bg:#edf0f3;--cat-accent:#5b7186;--cat-chip:#ebd9dc}
+  .cat-apps{--cat-bg:#f3ede2;--cat-accent:#96754f;--cat-chip:#e9dcc4}
+  .cat-policy{--cat-bg:#eceef0;--cat-accent:#5e6875;--cat-chip:#dde1e7}
+  .cat-funding{--cat-bg:#f2e9e4;--cat-accent:#96604f;--cat-chip:#ead5cb}
+  .cat-github{--cat-bg:#e9efea;--cat-accent:#476354;--cat-chip:#d3e0d6}
+  body.night .cat-models{--cat-bg:#2c332b;--cat-accent:#a8bfa9;--cat-chip:#39443a}
+  body.night .cat-robots{--cat-bg:#2b3238;--cat-accent:#a9bfd2;--cat-chip:#4a3a3e}
+  body.night .cat-apps{--cat-bg:#353026;--cat-accent:#d3b98c;--cat-chip:#453c2c}
+  body.night .cat-policy{--cat-bg:#2e3136;--cat-accent:#b3bcc8;--cat-chip:#3d4149}
+  body.night .cat-funding{--cat-bg:#362c28;--cat-accent:#d2a08e;--cat-chip:#473832}
+  body.night .cat-github{--cat-bg:#29332d;--cat-accent:#9fc2ab;--cat-chip:#36463b}
+  @media (prefers-color-scheme: dark){
+    .cat-models{--cat-bg:#2c332b;--cat-accent:#a8bfa9;--cat-chip:#39443a}
+    .cat-robots{--cat-bg:#2b3238;--cat-accent:#a9bfd2;--cat-chip:#4a3a3e}
+    .cat-apps{--cat-bg:#353026;--cat-accent:#d3b98c;--cat-chip:#453c2c}
+    .cat-policy{--cat-bg:#2e3136;--cat-accent:#b3bcc8;--cat-chip:#3d4149}
+    .cat-funding{--cat-bg:#362c28;--cat-accent:#d2a08e;--cat-chip:#473832}
+    .cat-github{--cat-bg:#29332d;--cat-accent:#9fc2ab;--cat-chip:#36463b}
+    body.day .cat-models{--cat-bg:#edf0e9;--cat-accent:#5f7263;--cat-chip:#dce3d8}
+    body.day .cat-robots{--cat-bg:#edf0f3;--cat-accent:#5b7186;--cat-chip:#ebd9dc}
+    body.day .cat-apps{--cat-bg:#f3ede2;--cat-accent:#96754f;--cat-chip:#e9dcc4}
+    body.day .cat-policy{--cat-bg:#eceef0;--cat-accent:#5e6875;--cat-chip:#dde1e7}
+    body.day .cat-funding{--cat-bg:#f2e9e4;--cat-accent:#96604f;--cat-chip:#ead5cb}
+    body.day .cat-github{--cat-bg:#e9efea;--cat-accent:#476354;--cat-chip:#d3e0d6}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;line-height:1.75;font-size:16px}
+  a{color:inherit}
+  .serif{font-family:"Noto Serif SC","Songti SC","STSong",serif}
+  .wrap{max-width:768px;margin:0 auto;padding:0 16px 48px}
+  /* Sticky top bar — same layout as personal version */
+  .topbar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:12px 16px;display:flex;gap:8px;align-items:center}
+  .topbar .search{flex:1;min-width:0;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;font-size:14px}
+  .toggle{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:14px}
+  .brand{font-size:30px;font-weight:700;letter-spacing:-.01em;margin:22px 0 0}
+  .brand span{color:var(--accent)}
+  .sub{color:var(--dim);margin:4px 0 0;font-size:14px}
+  .status{color:var(--dim);font-size:14px;margin:14px 0 0}
+  .status strong{color:var(--ink)}
+  h2{font-size:24px;margin:22px 0 0}
+  /* Digest */
+  .digest{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-top:12px}
+  .digest ol{list-style:none;margin:0;padding:0}
+  .digest li{margin:0}
+  .digest li+li{margin-top:12px}
+  .digest a{display:flex;align-items:baseline;gap:12px;text-decoration:none;line-height:1.6}
+  .digest .num{font-family:"Noto Serif SC",serif;font-size:20px;font-weight:700;color:var(--accent);flex:none}
+  .digest .dtitle{font-size:15px;font-weight:500}
+  .digest .dcat{margin-left:8px;font-size:12px;color:var(--dim);font-weight:400}
+  /* Filters */
+  .filters{margin-top:24px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chips+.chips{margin-top:12px}
+  .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:14px;min-height:36px}
+  .chip[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+  .sep{width:1px;height:20px;background:var(--line);margin:0 4px}
+  .markall{background:none;border:none;color:var(--dim);text-decoration:underline;text-underline-offset:4px;cursor:pointer;font-size:14px;padding:6px 4px}
+  .favnote{font-size:12px;color:var(--dim);width:100%}
+  .count{color:var(--dim);font-size:13px;margin-top:12px}
+  /* Cards */
+  .card{background:var(--cat-bg);border-radius:14px;padding:18px 20px;margin-bottom:12px}
+  .card.is-read .card-body{opacity:.6}
+  .card-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px}
+  .tag{background:var(--cat-chip);color:var(--cat-accent);font-weight:600;border-radius:999px;padding:3px 10px}
+  .region{background:var(--cat-chip);border-radius:999px;padding:3px 10px}
+  .badge{background:var(--cat-chip);color:var(--cat-accent);border-radius:999px;padding:3px 10px}
+  .badge-strong{background:var(--cat-accent);color:var(--cat-bg);font-weight:600;border-radius:999px;padding:3px 10px}
+  .readmark{color:var(--dim)}
+  .srcmeta{margin-left:auto;color:var(--dim)}
+  .card h3{font-family:"Noto Serif SC","Songti SC","STSong",serif;margin:12px 0 0;font-size:18px;font-weight:600;line-height:1.5}
+  .orig{margin:4px 0 0;font-size:12px;color:var(--dim);line-height:1.6}
+  .summary{margin:8px 0 0;font-size:15px;line-height:1.75}
+  .starsline{margin:8px 0 0;font-size:14px;font-weight:600;color:var(--cat-accent)}
+  .why{background:var(--cat-chip);border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.7;margin:12px 0 0}
+  .why b{color:var(--cat-accent)}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;align-items:center}
+  .orig-link{background:var(--cat-accent);color:var(--cat-bg);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;min-height:36px}
+  .fav-btn,.read-btn{border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer;min-height:36px;background:transparent}
+  .fav-btn{border:1px solid var(--cat-accent);color:var(--cat-accent)}
+  .fav-btn[aria-pressed="true"]{background:var(--cat-chip)}
+  .read-btn{border:1px solid var(--line);color:var(--dim)}
+  .empty{display:none;text-align:center;color:var(--dim);padding:40px 0;font-size:14px}
+  footer{margin-top:40px;text-align:center;color:var(--dim);font-size:12px;line-height:1.9}
+  @media(max-width:560px){.brand{font-size:26px}.card{padding:16px}.srcmeta{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <label for="q" style="position:absolute;left:-9999px">搜索资讯（标题、摘要、来源）</label>
+    <input class="search" id="q" type="search" placeholder="搜存档：Kimi、机器人、融资…" aria-label="搜索资讯（标题、摘要、来源）">
+    <button class="toggle" id="themeBtn" type="button" aria-pressed="false">☾ 夜间</button>
+  </div>
+
+  <h1 class="brand serif">cat<span>cici</span>ai <span style="font-size:15px;color:var(--dim);font-family:system-ui,sans-serif;font-weight:400">公开版</span></h1>
+  <p class="sub">最新 AI 资讯 — 国内外都要，中国重点看 Kimi、豆包、DeepSeek、WorkBuddy。内容与个人版相同，在任何浏览器打开就能看。</p>
+  <p class="status" id="statusLine">上次同步 <strong>2026年11月23日 08:00</strong> · 新增 11 条 · 存档共 <strong>54</strong> 条 · 未读 <span id="unreadCount">54</span> 条</p>
+
+  <section aria-label="今日头条">
+    <h2 class="serif">今日头条</h2>
+    <div class="digest"><ol>
+        <li><a href="https://tbb.ceo/ai/e/29" target="_blank" rel="noopener"><span class="num">1</span><span class="dtitle">万亿美元的一周<span class="dcat">大模型</span></span></a></li>
+        <li><a href="https://m.economictimes.com/tech/artificial-intelligence/cognition-in-talks-for-75-billion-value-with-new-funding/amp_articleshow/136075677.cms" target="_blank" rel="noopener"><span class="num">2</span><span class="dtitle">Cognition洽谈新融资，估值达750亿美元<span class="dcat">投融资</span></span></a></li>
+        <li><a href="https://developer.cloud.tencent.com/article/2788174" target="_blank" rel="noopener"><span class="num">3</span><span class="dtitle">规则竞速：AIGC合规的转折<span class="dcat">政策法规</span></span></a></li>
+        <li><a href="https://buttondown.com/ai-daily-mini/archive/ai-daily-2026-11-17/" target="_blank" rel="noopener"><span class="num">4</span><span class="dtitle">2026年11月17日AI日报：阿里发布Qwen4-Max，OpenAI向科研工作者免费开放前沿模型<span class="dcat">AI 应用</span></span></a></li>
+        <li><a href="https://roboticsandautomationnews.com/2026/11/22/nvidia-expands-isaac-robotics-platform-with-new-humanoid-and-ai-development-tools/107472/" target="_blank" rel="noopener"><span class="num">5</span><span class="dtitle">英伟达扩展Isaac机器人平台，推出人形机器人与AI工具<span class="dcat">机器人</span></span></a></li>
+    </ol></div>
+  </section>
+
+  <section class="filters" aria-label="筛选">
+    <div class="chips" role="group" aria-label="按分类筛选" id="catChips">
+      <button class="chip" data-cat="all" aria-pressed="true">全部</button>
+      <button class="chip" data-cat="models" aria-pressed="false">大模型</button>
+      <button class="chip" data-cat="robots" aria-pressed="false">机器人</button>
+      <button class="chip" data-cat="apps" aria-pressed="false">AI 应用</button>
+      <button class="chip" data-cat="policy" aria-pressed="false">政策法规</button>
+      <button class="chip" data-cat="funding" aria-pressed="false">投融资</button>
+      <button class="chip" data-cat="github" aria-pressed="false">GitHub 开源</button>
+    </div>
+    <div class="chips" role="group" aria-label="按地区和时间筛选">
+      <span id="regionChips" style="display:contents">
+        <button class="chip" data-region="all" aria-pressed="true">全部地区</button>
+        <button class="chip" data-region="china" aria-pressed="false">中国</button>
+        <button class="chip" data-region="global" aria-pressed="false">全球</button>
+      </span>
+      <span class="sep" aria-hidden="true"></span>
+      <span id="rangeChips" style="display:contents">
+        <button class="chip" data-days="0" aria-pressed="true">全部时间</button>
+        <button class="chip" data-days="1" aria-pressed="false">今天</button>
+        <button class="chip" data-days="7" aria-pressed="false">近 7 天</button>
+        <button class="chip" data-days="30" aria-pressed="false">近 30 天</button>
+      </span>
+    </div>
+    <div class="chips">
+      <button class="chip" id="favOnly" aria-pressed="false">★ 只看收藏（<span id="favCount">0</span>）</button>
+      <button class="chip" id="unreadOnly" aria-pressed="false">只看未读</button>
+      <button class="markall" id="markAll" type="button">全部标为已读</button>
+      <span class="favnote">公开版的收藏和已读在本次打开内有效；个人版里是长期保存的。</span>
+    </div>
+    <div class="count" id="count"></div>
+  </section>
+
+<main id="list" style="margin-top:16px">
+  <article class="card cat-funding" data-id="54" data-cat="funding" data-region="china" data-fetched="1795392057967" data-text="蚂蚁集团押注simplexity，布局中国人形机器人竞赛 ant group bets on simplexity to thrive in china’s humanoid race 中国具身智能初创公司simplexity robotics获得由蚂蚁集团领投的1亿美元融资，估值达16亿美元。本轮为pre-a轮融资，阿里巴巴、腾讯、红杉中国和蓝驰创投等现有投资者参与，董事长兼联合创始人王凯向彭博新闻介绍了相关情况。蚂蚁集团此举意在押注该公司能在日益发展的中国机器人市场中与更成熟的竞争对手抗衡。 news.bloomberglaw.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">news.bloomberglaw.com · 23 小时前</span></div>
+      <h3>蚂蚁集团押注Simplexity，布局中国人形机器人竞赛</h3>
+      <p class="orig">原标题：Ant Group Bets on Simplexity to Thrive in China’s Humanoid Race</p>
+      <p class="summary">中国具身智能初创公司Simplexity Robotics获得由蚂蚁集团领投的1亿美元融资，估值达16亿美元。本轮为Pre-A轮融资，阿里巴巴、腾讯、红杉中国和蓝驰创投等现有投资者参与，董事长兼联合创始人王凯向彭博新闻介绍了相关情况。蚂蚁集团此举意在押注该公司能在日益发展的中国机器人市场中与更成熟的竞争对手抗衡。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://news.bloomberglaw.com/capital-markets/ant-group-bets-on-simplexity-to-thrive-in-chinas-humanoid-race" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="53" data-cat="funding" data-region="global" data-fetched="1795392057967" data-text="ai研究初创公司flapping airplanes融资10亿美元，估值60亿美元 ai research startup flapping airplanes raised $1 billion at a $6 billion valuation 仅成立一年的ai研究初创公司flapping airplanes已获得10亿美元新融资，估值达60亿美元，融资消息将于周三公布。本轮融资由index ventures和lux capital领投，红杉资本、谷歌风投gv和kleiner perkins参与，英伟达也是该公司的支持者之一。该公司成立于2025年底，总部位于旧金山。 lite.dailyadvent.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">lite.dailyadvent.com · 23 小时前</span></div>
+      <h3>AI研究初创公司Flapping Airplanes融资10亿美元，估值60亿美元</h3>
+      <p class="orig">原标题：AI research startup Flapping Airplanes raised $1 billion at a $6 billion valuation</p>
+      <p class="summary">仅成立一年的AI研究初创公司Flapping Airplanes已获得10亿美元新融资，估值达60亿美元，融资消息将于周三公布。本轮融资由Index Ventures和Lux Capital领投，红杉资本、谷歌风投GV和Kleiner Perkins参与，英伟达也是该公司的支持者之一。该公司成立于2025年底，总部位于旧金山。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="http://lite.dailyadvent.com/detail/1b83e639261021en_ng?uid=022d2ad232644a2a9a4e9d108ec1d497en_ng&amp;country=ng&amp;language=en&amp;category=main&amp;page=1" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="52" data-cat="funding" data-region="global" data-fetched="1795392057967" data-text="cognition洽谈新融资，估值达750亿美元 cognition in talks for $75 billion value with new funding ai编程初创公司cognition ai正在洽谈新一轮融资，估值达750亿美元，考虑融资20亿美元或更多。参与谈判的现有投资者包括avenir、accel、lightspeed venture partners、lux capital和贝塞默风险投资。若融资完成，这将是该公司今年第三轮融资，其2026年至今已融资超过30亿美元，相关谈判仍在进行中，细节可能变化。 m.economictimes.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">m.economictimes.com · 23 小时前</span></div>
+      <h3>Cognition洽谈新融资，估值达750亿美元</h3>
+      <p class="orig">原标题：Cognition in talks for $75 billion value with new funding</p>
+      <p class="summary">AI编程初创公司Cognition AI正在洽谈新一轮融资，估值达750亿美元，考虑融资20亿美元或更多。参与谈判的现有投资者包括Avenir、Accel、Lightspeed Venture Partners、Lux Capital和贝塞默风险投资。若融资完成，这将是该公司今年第三轮融资，其2026年至今已融资超过30亿美元，相关谈判仍在进行中，细节可能变化。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://m.economictimes.com/tech/artificial-intelligence/cognition-in-talks-for-75-billion-value-with-new-funding/amp_articleshow/136075677.cms" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-policy" data-id="51" data-cat="policy" data-region="china" data-fetched="1795392057967" data-text="规则竞速：aigc合规的转折 规则竞速，aigc合规的转折-腾讯云开发者社区-腾讯云 文章认为，2026年9月至11月标志着ai治理从“纸面规则”迈向“实质执法”，最高人民法院于9月7日发布《关于依法审理涉人工智能纠纷案件的意见》，多项生成式ai网络安全国家标准于11月1日实施。乌镇峰会网络法治论坛于11月4日举行，欧盟《人工智能法案》则全面进入执行阶段，欧盟ai办公室获得对通用人工智能模型的直接处罚权，罚款上限为全球营业额的7%。相关国家标准涵盖预训练和优化训练数据安全规范、生成式人工智能服务安全基本要求、数据标注安全规范等内容。 developer.cloud.tencent.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">政策法规</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">developer.cloud.tencent.com · 3 天前</span></div>
+      <h3>规则竞速：AIGC合规的转折</h3>
+      <p class="orig">原标题：规则竞速，AIGC合规的转折-腾讯云开发者社区-腾讯云</p>
+      <p class="summary">文章认为，2026年9月至11月标志着AI治理从“纸面规则”迈向“实质执法”，最高人民法院于9月7日发布《关于依法审理涉人工智能纠纷案件的意见》，多项生成式AI网络安全国家标准于11月1日实施。乌镇峰会网络法治论坛于11月4日举行，欧盟《人工智能法案》则全面进入执行阶段，欧盟AI办公室获得对通用人工智能模型的直接处罚权，罚款上限为全球营业额的7%。相关国家标准涵盖预训练和优化训练数据安全规范、生成式人工智能服务安全基本要求、数据标注安全规范等内容。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://developer.cloud.tencent.com/article/2788174" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-apps" data-id="50" data-cat="apps" data-region="global" data-fetched="1795392057967" data-text="2026年11月17日ai日报：阿里发布qwen4-max，openai向科研工作者免费开放前沿模型 ai daily · 2026-11-17 阿里发布qwen4-max，在artificial analysis智能指数上获得43分，领先qwen3.8 max 9分，成本比kimi k3.1 pro低约11%。openai将前沿模型免费开放给最多20万名科研工作者，11月23日开放申请，官方表示默认不会用参与者数据训练模型，并提供配套培训与支持。world labs正式并入amd，由李飞飞与苏姿丰联合宣布。 buttondown.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">AI 应用</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">buttondown.com · 5 天前</span></div>
+      <h3>2026年11月17日AI日报：阿里发布Qwen4-Max，OpenAI向科研工作者免费开放前沿模型</h3>
+      <p class="orig">原标题：AI Daily · 2026-11-17</p>
+      <p class="summary">阿里发布Qwen4-Max，在Artificial Analysis智能指数上获得43分，领先Qwen3.8 Max 9分，成本比Kimi K3.1 Pro低约11%。OpenAI将前沿模型免费开放给最多20万名科研工作者，11月23日开放申请，官方表示默认不会用参与者数据训练模型，并提供配套培训与支持。World Labs正式并入AMD，由李飞飞与苏姿丰联合宣布。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://buttondown.com/ai-daily-mini/archive/ai-daily-2026-11-17/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-apps" data-id="49" data-cat="apps" data-region="global" data-fetched="1795392057967" data-text="2026年11月23日全球ai新闻日报 2026.11.23 global ai news daily | aitnt 前tiktok live studio工程负责人梁秦创立everzone并推出免费本地ai视频编辑工具zoneclip，可自动识别约30款游戏录像中的精彩片段、生成字幕并转为竖屏视频，支持离线编辑、mp4导出和云端分析。以色列公司zenzap融资4400万美元，并于2026年10月推出面向职场场景的whatsapp版本，增加了审计与访问控制等合规功能，ai智能体可在群聊中查询数据、创建任务并执行跨系统操作。puppygraph完成1000万美元a轮融资，累计融资达1500万美元，本轮由particle future领投，资金将用于研发和企业市场拓展。 www.aitntnews.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">AI 应用</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.aitntnews.com · 23 小时前</span></div>
+      <h3>2026年11月23日全球AI新闻日报</h3>
+      <p class="orig">原标题：2026.11.23 Global AI News Daily | AITNT</p>
+      <p class="summary">前TikTok LIVE Studio工程负责人梁秦创立Everzone并推出免费本地AI视频编辑工具ZoneClip，可自动识别约30款游戏录像中的精彩片段、生成字幕并转为竖屏视频，支持离线编辑、MP4导出和云端分析。以色列公司Zenzap融资4400万美元，并于2026年10月推出面向职场场景的WhatsApp版本，增加了审计与访问控制等合规功能，AI智能体可在群聊中查询数据、创建任务并执行跨系统操作。PuppyGraph完成1000万美元A轮融资，累计融资达1500万美元，本轮由Particle Future领投，资金将用于研发和企业市场拓展。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.aitntnews.com/ainews/en" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-apps" data-id="48" data-cat="apps" data-region="global" data-fetched="1795392057967" data-text="2026年11月9日ai新闻：openai推出200美元游戏掌机，anthropic发布新模型 ai news, 9 november 2026 openai的supply co.商店上架了售价200美元的modretro chromatic：codex edition掌机，可游玩game boy和game boy color卡带，并能用codex和相关插件在gb studio中制作游戏。anthropic于11月9日发布了claude fable 5.2和claude mythos 5.2，谷歌则在同一天宣布google maps platform已接入google ai studio，可用于构建应用。此外，nous research的hermes agent新增了可审查代码安全漏洞的官方security插件。 theindependentai.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">AI 应用</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">theindependentai.com · 2026-11-09</span></div>
+      <h3>2026年11月9日AI新闻：OpenAI推出200美元游戏掌机，Anthropic发布新模型</h3>
+      <p class="orig">原标题：AI news, 9 November 2026</p>
+      <p class="summary">OpenAI的Supply Co.商店上架了售价200美元的ModRetro Chromatic：Codex Edition掌机，可游玩Game Boy和Game Boy Color卡带，并能用Codex和相关插件在GB Studio中制作游戏。Anthropic于11月9日发布了Claude Fable 5.2和Claude Mythos 5.2，谷歌则在同一天宣布Google Maps Platform已接入Google AI Studio，可用于构建应用。此外，Nous Research的Hermes Agent新增了可审查代码安全漏洞的官方Security插件。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://theindependentai.com/news/2026-11-09" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="47" data-cat="robots" data-region="china" data-fetched="1795392057967" data-text="151台机器人共舞：中国人形机器人再破吉尼斯纪录，但能像人一样工作吗 151 robots and 1 dance routine: china&#x27;s humanoid robots break &quot;guinness record&quot; again, but can they work like humans? 151台人形机器人在深圳完成了同步舞蹈表演，并于11月17日创造了新的吉尼斯世界纪录，表演在亚太经合组织经济领导人会议之前举行。参与活动的企业包括engineai、宇树科技和智元机器人，活动由深圳市龙岗区人工智能（机器人）局与相关机器人公司共同组织。文章提出，尽管人形机器人已能大规模协同舞蹈，但它们距离像人类一样完成日常任务还有多远仍值得追问。 www.moneycontrol.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.moneycontrol.com · 23 小时前</span></div>
+      <h3>151台机器人共舞：中国人形机器人再破吉尼斯纪录，但能像人一样工作吗</h3>
+      <p class="orig">原标题：151 Robots and 1 Dance Routine: China&#x27;s humanoid robots break &quot;Guinness record&quot; again, but can they work like humans?</p>
+      <p class="summary">151台人形机器人在深圳完成了同步舞蹈表演，并于11月17日创造了新的吉尼斯世界纪录，表演在亚太经合组织经济领导人会议之前举行。参与活动的企业包括EngineAI、宇树科技和智元机器人，活动由深圳市龙岗区人工智能（机器人）局与相关机器人公司共同组织。文章提出，尽管人形机器人已能大规模协同舞蹈，但它们距离像人类一样完成日常任务还有多远仍值得追问。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.moneycontrol.com/science/151-robots-and-1-dance-routine-china-s-humanoid-robots-break-guinness-record-again-but-can-they-work-like-humans-article-14086618.html/amp" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="46" data-cat="robots" data-region="global" data-fetched="1795392057967" data-text="人形机器人走进工厂：全球产业与制造趋势 humanoids at work: global trends in industry and manufacturing 人形机器人已不再只是概念，正在以数万台的规模生产，被汽车制造商采购并写入国家产业规划。2026年上半年全球人形机器人出货量约19100台，一年内出货量几乎翻了两番，但工厂实际应用仍处于早期阶段。文章认为，当前的关键问题已从是否可行，转向推进速度、应用地点、适用岗位以及何时能在真实产线上收回成本。 outnormr.blog">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">outnormr.blog · 2026-11-22</span></div>
+      <h3>人形机器人走进工厂：全球产业与制造趋势</h3>
+      <p class="orig">原标题：Humanoids at work: global trends in industry and manufacturing</p>
+      <p class="summary">人形机器人已不再只是概念，正在以数万台的规模生产，被汽车制造商采购并写入国家产业规划。2026年上半年全球人形机器人出货量约19100台，一年内出货量几乎翻了两番，但工厂实际应用仍处于早期阶段。文章认为，当前的关键问题已从是否可行，转向推进速度、应用地点、适用岗位以及何时能在真实产线上收回成本。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://outnormr.blog/2026/11/22/humanoids-at-work/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="45" data-cat="robots" data-region="global" data-fetched="1795392057967" data-text="英伟达扩展isaac机器人平台，推出人形机器人与ai工具 nvidia expands isaac robotics platform with new humanoid and ai tools 英伟达在gtc柏林大会上宣布大幅扩展isaac机器人开发平台，新增仿真框架、ai训练工具、数据集和参考人形机器人。agile robots推出的agile one sn人形研究平台高1.4米、重40公斤，拥有31个自由度，搭载英伟达isaac gr00t基础模型和jetson thor计算系统。它的两只五指机械手各有20个自由度，具备触觉感知和力控能力，平台同时更新了isaac lab并推出新的isaac os运行环境。 roboticsandautomationnews.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">roboticsandautomationnews.com · 2026-11-22</span></div>
+      <h3>英伟达扩展Isaac机器人平台，推出人形机器人与AI工具</h3>
+      <p class="orig">原标题：Nvidia expands Isaac robotics platform with new humanoid and AI tools</p>
+      <p class="summary">英伟达在GTC柏林大会上宣布大幅扩展Isaac机器人开发平台，新增仿真框架、AI训练工具、数据集和参考人形机器人。Agile Robots推出的Agile ONE SN人形研究平台高1.4米、重40公斤，拥有31个自由度，搭载英伟达Isaac GR00T基础模型和Jetson Thor计算系统。它的两只五指机械手各有20个自由度，具备触觉感知和力控能力，平台同时更新了Isaac Lab并推出新的Isaac OS运行环境。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://roboticsandautomationnews.com/2026/11/22/nvidia-expands-isaac-robotics-platform-with-new-humanoid-and-ai-development-tools/107472/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="44" data-cat="models" data-region="global" data-fetched="1795392057967" data-text="万亿美元的一周 the trillion-dollar week 本期周报指出，ai在一周内同时跨越多个门槛，anthropic成为万亿美元上市公司，openai季度收入达100亿美元，谷歌在七周内发布了四个模型。anthropic首次公开募股募资813亿美元，以ant为代码在纳斯达克上市，发行价83美元，首日开盘111.5美元，盘中最高115.1美元，收于97.17美元，谷歌和英伟达各参与了100亿美元的私募配售。openai在该季度发布了gpt-6.2，同时三位州总检察长开始关注自主智能体带来的法律问题。 tbb.ceo">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">tbb.ceo · 2 天前</span></div>
+      <h3>万亿美元的一周</h3>
+      <p class="orig">原标题：The Trillion-Dollar Week</p>
+      <p class="summary">本期周报指出，AI在一周内同时跨越多个门槛，Anthropic成为万亿美元上市公司，OpenAI季度收入达100亿美元，谷歌在七周内发布了四个模型。Anthropic首次公开募股募资813亿美元，以ANT为代码在纳斯达克上市，发行价83美元，首日开盘111.5美元，盘中最高115.1美元，收于97.17美元，谷歌和英伟达各参与了100亿美元的私募配售。OpenAI在该季度发布了GPT-6.2，同时三位州总检察长开始关注自主智能体带来的法律问题。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://tbb.ceo/ai/e/29" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="43" data-cat="funding" data-region="china" data-fetched="1795348568452" data-text="上半年中国ai融资超3000亿元，近半vc资金投向ai 上半年，vc们的钱一半投向了ai，光这30家公司就融了超1700亿元-36氪 2026年上半年，中国ai赛道融资事件达1203起，融资总金额突破3000亿元，仅6个月已超过2025年全年，ai融资金额占市场约48.6%，事件数占比约22.5%。大模型赛道最吸金，deepseek、阶跃星辰、月之暗面kimi三家合计融资换算约930亿元，占全市场融资总额的30%；世界模型成为早期投资最大共识，6家聚焦世界模型的早期初创合计融资约97亿元。地域上，北京以321起融资事件、955.17亿元融资总额居全国第一，杭州凭借deepseek首轮超500亿元认购位居第二，上海有211起、595.70亿元，深圳有215起、359.43亿元。 www.36kr.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.36kr.com · 11 小时前</span></div>
+      <h3>上半年中国AI融资超3000亿元，近半VC资金投向AI</h3>
+      <p class="orig">原标题：上半年，VC们的钱一半投向了AI，光这30家公司就融了超1700亿元-36氪</p>
+      <p class="summary">2026年上半年，中国AI赛道融资事件达1203起，融资总金额突破3000亿元，仅6个月已超过2025年全年，AI融资金额占市场约48.6%，事件数占比约22.5%。大模型赛道最吸金，DeepSeek、阶跃星辰、月之暗面Kimi三家合计融资换算约930亿元，占全市场融资总额的30%；世界模型成为早期投资最大共识，6家聚焦世界模型的早期初创合计融资约97亿元。地域上，北京以321起融资事件、955.17亿元融资总额居全国第一，杭州凭借DeepSeek首轮超500亿元认购位居第二，上海有211起、595.70亿元，深圳有215起、359.43亿元。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.36kr.com/p/3879665206407427" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="42" data-cat="funding" data-region="global" data-fetched="1795348568452" data-text="isomorphic labs获50亿美元c轮融资，ai药物研发成融资焦点 startup funding news today, november 18, 2026: isomorphic labs, genesis ai, model ml, science corporation, vincue &amp; more 投资者向九家初创公司投入超过66亿美元，另有一家加拿大初创公司融资4000万加元，其中isomorphic labs以50亿美元c轮融资领跑，用于推进ai驱动的药物发现，约占当日美元融资总额的75%。巴黎genesis ai融资5亿美元，用于开发通用工业机器人，science corporation融资4亿美元，用于商业化视觉恢复系统并资助下一代神经接口，三家合计59亿美元，约占九笔美元融资的88.8%。model ml则融资2.5亿美元，用于服务金融专业人士的ai智能体。 techstartups.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">techstartups.com · 2026-11-18</span></div>
+      <h3>Isomorphic Labs获50亿美元C轮融资，AI药物研发成融资焦点</h3>
+      <p class="orig">原标题：Startup Funding News Today, November 18, 2026: Isomorphic Labs, Genesis AI, Model ML, Science Corporation, VINCUE &amp; More</p>
+      <p class="summary">投资者向九家初创公司投入超过66亿美元，另有一家加拿大初创公司融资4000万加元，其中Isomorphic Labs以50亿美元C轮融资领跑，用于推进AI驱动的药物发现，约占当日美元融资总额的75%。巴黎Genesis AI融资5亿美元，用于开发通用工业机器人，Science Corporation融资4亿美元，用于商业化视觉恢复系统并资助下一代神经接口，三家合计59亿美元，约占九笔美元融资的88.8%。Model ML则融资2.5亿美元，用于服务金融专业人士的AI智能体。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://techstartups.com/2026/11/18/startup-funding-news-today-november-18-2026-isomorphic-labs-genesis-ai-model-ml-science-corporation-vincue-more/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="41" data-cat="funding" data-region="global" data-fetched="1795348568452" data-text="mirendil获10亿美元a轮融资，langchain与q-ctrl亦完成大额融资 startup funding news today, november 13, 2026: mirendil, langchain, luminal, kindo, q-ctrl &amp; more 旧金山mirendil以10亿美元a轮融资领跑，投资方为kleiner perkins和clearlake capital；langchain获alphabet旗下capitalg领投的3亿美元投资，估值30亿美元；q-ctrl融资2.9亿美元，由salesforce ventures领投，估值突破10亿美元。databento则完成1亿美元c轮融资，用于金融数据基础设施。 techstartups.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">techstartups.com · 2026-11-13</span></div>
+      <h3>Mirendil获10亿美元A轮融资，LangChain与Q-CTRL亦完成大额融资</h3>
+      <p class="orig">原标题：Startup Funding News Today, November 13, 2026: Mirendil, LangChain, Luminal, Kindo, Q-CTRL &amp; More</p>
+      <p class="summary">旧金山Mirendil以10亿美元A轮融资领跑，投资方为Kleiner Perkins和Clearlake Capital；LangChain获Alphabet旗下CapitalG领投的3亿美元投资，估值30亿美元；Q-CTRL融资2.9亿美元，由Salesforce Ventures领投，估值突破10亿美元。Databento则完成1亿美元C轮融资，用于金融数据基础设施。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://techstartups.com/2026/11/13/startup-funding-news-today-november-13-2026-mirendil-langchain-luminal-kindo-q-ctrl-more/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-apps" data-id="40" data-cat="apps" data-region="global" data-fetched="1795348568452" data-text="谷歌发布gemini 4 carbon，anthropic将claude带入职场会议 the big picture 文章认为，本周最强的信号是ai行业正从构建有能力的模型，转向在真实业务工作流中运行可靠、受治理的智能体。谷歌发布了面向开发者、企业、科学家和消费者的gemini 4 carbon，该模型面向长周期智能体工作流、复杂软件工程、网络安全和科学推理，并正在antigravity中预览/swarm，让多个智能体以架构、实现和审计等分工协同工作。anthropic于11月10日推出claude meetings、whiteboards和sheets，其中claude meetings是可见的会议参与者，可跟进讨论、起草计划、制定时间表、回答问题并创建行动项。 jhparmar.medium.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">AI 应用</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">jhparmar.medium.com · 11 小时前</span></div>
+      <h3>谷歌发布Gemini 4 Carbon，Anthropic将Claude带入职场会议</h3>
+      <p class="orig">原标题：The big picture</p>
+      <p class="summary">文章认为，本周最强的信号是AI行业正从构建有能力的模型，转向在真实业务工作流中运行可靠、受治理的智能体。谷歌发布了面向开发者、企业、科学家和消费者的Gemini 4 Carbon，该模型面向长周期智能体工作流、复杂软件工程、网络安全和科学推理，并正在Antigravity中预览/swarm，让多个智能体以架构、实现和审计等分工协同工作。Anthropic于11月10日推出Claude Meetings、Whiteboards和Sheets，其中Claude Meetings是可见的会议参与者，可跟进讨论、起草计划、制定时间表、回答问题并创建行动项。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://jhparmar.medium.com/the-big-picture-ff9d1b1c8e1b" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="39" data-cat="robots" data-region="global" data-fetched="1795348568452" data-text="机器人仿真评测被曝大量误判，人形机器人急停亦存风险 robotics: industry and vacuums ship, humanoids are demos — atlas of the present 一项针对robotwin 2.0、robocasa365和robodojo中手写成功判定器的审计发现，49项任务中存在61处已确认缺陷，包括40个“幻影成功”和21个“静默失败”，修复判定器后已发布策略最多有9.1%的回合结果会翻转，其中x-vla在“点击铃铛”任务上的成功率从95%降至20%。研究还指出，在70公斤、用于拆解电动汽车电池的unitree h1-2人形机器人上，急停本身也构成风险。 www.atlasofthepresent.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.atlasofthepresent.com · 11 小时前</span></div>
+      <h3>机器人仿真评测被曝大量误判，人形机器人急停亦存风险</h3>
+      <p class="orig">原标题：Robotics: industry and vacuums ship, humanoids are demos — Atlas of the Present</p>
+      <p class="summary">一项针对RoboTwin 2.0、RoboCasa365和RoboDojo中手写成功判定器的审计发现，49项任务中存在61处已确认缺陷，包括40个“幻影成功”和21个“静默失败”，修复判定器后已发布策略最多有9.1%的回合结果会翻转，其中X-VLA在“点击铃铛”任务上的成功率从95%降至20%。研究还指出，在70公斤、用于拆解电动汽车电池的Unitree H1-2人形机器人上，急停本身也构成风险。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.atlasofthepresent.com/en/dossiers/robotics/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="38" data-cat="robots" data-region="global" data-fetched="1795348568452" data-text="atlas走出汽车工厂，人形机器人进军芯片厂 atlas leaves the car plant: humanoid robots are heading for the chip fab 2026年11月17日，波士顿动力与格罗方德宣布，格罗方德将于2027年初开始在其半导体工厂测试atlas人形机器人，这是atlas首次在汽车行业以外接受客户试用，也是半导体制造领域首个此类人形机器人项目。格罗方德成为波士顿动力atlas早期采用者计划中除现代汽车集团外首个公开的制造业客户，此前atlas 2026年的全部产量已承诺给现代汽车和谷歌deepmind，后者正将gemini robotics基础模型集成到atlas中。atlas的四足机器人spot已在格罗方德位于佛蒙特州伯灵顿的工厂运行四年多。 que.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">que.com · 11 小时前</span></div>
+      <h3>Atlas走出汽车工厂，人形机器人进军芯片厂</h3>
+      <p class="orig">原标题：Atlas Leaves the Car Plant: Humanoid Robots Are Heading for the Chip Fab</p>
+      <p class="summary">2026年11月17日，波士顿动力与格罗方德宣布，格罗方德将于2027年初开始在其半导体工厂测试Atlas人形机器人，这是Atlas首次在汽车行业以外接受客户试用，也是半导体制造领域首个此类人形机器人项目。格罗方德成为波士顿动力Atlas早期采用者计划中除现代汽车集团外首个公开的制造业客户，此前Atlas 2026年的全部产量已承诺给现代汽车和谷歌DeepMind，后者正将Gemini Robotics基础模型集成到Atlas中。Atlas的四足机器人Spot已在格罗方德位于佛蒙特州伯灵顿的工厂运行四年多。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://que.com/atlas-leaves-the-car-plant-humanoid-robots-are-heading-for-the-chip-fab/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="37" data-cat="funding" data-region="global" data-fetched="1795342259583" data-text="brightai融资9700万美元，为管线和电力线路部署物理ai brightai raises $97m led by smith point capital, with customer ge vernova investing, to put physical ai on pipelines and power lines 位于美国加州帕洛阿尔托的brightai于2026年11月18日宣布完成9700万美元融资，由smith point capital领投，其客户ge vernova也作为投资者加入。该公司成立于2019年，面向基础服务基础设施提供其所称的“物理ai”，本轮融资后累计融资额达到1.84亿美元。新投资者还包括cobalt capital、marlinspike partners和zero infinity partners，khosla ventures等现有投资者也继续参投。 growthlist.co">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">growthlist.co · 10 小时前</span></div>
+      <h3>BrightAI融资9700万美元，为管线和电力线路部署物理AI</h3>
+      <p class="orig">原标题：BrightAI Raises $97M Led by Smith Point Capital, With Customer GE Vernova Investing, to Put Physical AI on Pipelines and Power Lines</p>
+      <p class="summary">位于美国加州帕洛阿尔托的BrightAI于2026年11月18日宣布完成9700万美元融资，由Smith Point Capital领投，其客户GE Vernova也作为投资者加入。该公司成立于2019年，面向基础服务基础设施提供其所称的“物理AI”，本轮融资后累计融资额达到1.84亿美元。新投资者还包括Cobalt Capital、Marlinspike Partners和Zero Infinity Partners，Khosla Ventures等现有投资者也继续参投。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://growthlist.co/brightai-97m-smith-point-ge-vernova-physical-ai/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-policy" data-id="36" data-cat="policy" data-region="global" data-fetched="1795342259583" data-text="欧盟数字综合法案调整《人工智能法案》时间表并新增禁令 eu digital omnibus reshapes ai act timelines and adds new prohibitions 欧盟法规（eu）2026/1744于2026年7月27日生效，修订《人工智能法案》，推迟关键截止日期、新增两项禁令并加强整个ai价值链的执法。高风险ai系统义务对附件iii系统将从2027年12月2日起适用，对产品安全相关系统将从2028年8月2日起适用。自2026年12月2日起，新增禁令将涵盖ai生成的未经同意私密影像和ai生成的儿童性虐待材料。 egov.eletsonline.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">政策法规</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">egov.eletsonline.com · 2026-11</span></div>
+      <h3>欧盟数字综合法案调整《人工智能法案》时间表并新增禁令</h3>
+      <p class="orig">原标题：EU Digital Omnibus Reshapes AI Act Timelines and Adds New Prohibitions</p>
+      <p class="summary">欧盟法规（EU）2026/1744于2026年7月27日生效，修订《人工智能法案》，推迟关键截止日期、新增两项禁令并加强整个AI价值链的执法。高风险AI系统义务对附件III系统将从2027年12月2日起适用，对产品安全相关系统将从2028年8月2日起适用。自2026年12月2日起，新增禁令将涵盖AI生成的未经同意私密影像和AI生成的儿童性虐待材料。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://egov.eletsonline.com/2026/11/eu-digital-omnibus-reshapes-ai-act-timelines-and-adds-new-prohibitions/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="35" data-cat="robots" data-region="global" data-fetched="1795342259583" data-text="embodied ai人形机器人air在工厂线缆任务中达到98%可靠性 embodied ai&#x27;s air humanoid hits 98% on factory cable tasks 瑞士初创公司embodied ai发布首款商用人形机器人air，这是一款采用轮式移动和肌腱驱动手臂设计的人形机器人。公司称，经过操作人员约一个月的现场引导学习后，air处理线缆任务的可靠性达到98%。air的设计遵循协作机器人安全标准iso/ts 15066:2016，公司称其已签下oem合同，并计划2027年取得ce标志以扩大欧洲销售。 theroboticsmedia.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">theroboticsmedia.com · 10 小时前</span></div>
+      <h3>Embodied AI人形机器人AIR在工厂线缆任务中达到98%可靠性</h3>
+      <p class="orig">原标题：Embodied AI&#x27;s AIR Humanoid Hits 98% on Factory Cable Tasks</p>
+      <p class="summary">瑞士初创公司Embodied AI发布首款商用人形机器人AIR，这是一款采用轮式移动和肌腱驱动手臂设计的人形机器人。公司称，经过操作人员约一个月的现场引导学习后，AIR处理线缆任务的可靠性达到98%。AIR的设计遵循协作机器人安全标准ISO/TS 15066:2016，公司称其已签下OEM合同，并计划2027年取得CE标志以扩大欧洲销售。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://theroboticsmedia.com/article/embodied-ai-air-humanoid-robot-factory-tasks" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="34" data-cat="models" data-region="china" data-fetched="1795342259583" data-text="分析称kimi k3与deepseek v4权重留有受禁英伟达blackwell芯片痕迹 kimi k3 and deepseek v4 weights show traces of banned nvidia blackwell chips 新分析称，中国开放模型kimi k3和deepseek v4的权重中留有英伟达blackwell芯片配置的痕迹，该芯片被美国禁止向中国出口。前openai研究员will depue在模型权重中发现了类似机床在零件上留下标记的特征。但这并不能证明存在违规行为，因为相关芯片也可能位于马来西亚等地的数据中心。 news.hamidun.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">news.hamidun.com · 1 天前</span></div>
+      <h3>分析称Kimi K3与DeepSeek V4权重留有受禁英伟达Blackwell芯片痕迹</h3>
+      <p class="orig">原标题：Kimi K3 and DeepSeek V4 Weights Show Traces of Banned Nvidia Blackwell Chips</p>
+      <p class="summary">新分析称，中国开放模型Kimi K3和DeepSeek V4的权重中留有英伟达Blackwell芯片配置的痕迹，该芯片被美国禁止向中国出口。前OpenAI研究员Will DePue在模型权重中发现了类似机床在零件上留下标记的特征。但这并不能证明存在违规行为，因为相关芯片也可能位于马来西亚等地的数据中心。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://news.hamidun.com/en/news/16701/kimi-k3-and-deepseek-v4-weights-show-traces-of-banned-nvidia" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="33" data-cat="models" data-region="global" data-fetched="1795342259583" data-text="mistral与月之暗面设2000万美元门槛，开放权重模型许可出现分化 mistral&#x27;s $20m threshold splits open-weight ai models in 2026 mistral和月之暗面为其开放权重模型引入基于收入的限制，而deepseek和阿里巴巴提供更宽松的许可。mistral large 4采用修改版mit许可，要求年收入超过2000万美元的模型即服务企业另行达成商业协议，kimi k3.1 pro的自定义许可也设置了收入相关的限制。相比之下，deepseek v4.1 flash和阿里qwen3.8分别采用普通mit和apache 2.0许可，没有此类限制。 aistartupsnews.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">aistartupsnews.com · 10 小时前</span></div>
+      <h3>Mistral与月之暗面设2000万美元门槛，开放权重模型许可出现分化</h3>
+      <p class="orig">原标题：Mistral&#x27;s $20M threshold splits open-weight AI models in 2026</p>
+      <p class="summary">Mistral和月之暗面为其开放权重模型引入基于收入的限制，而DeepSeek和阿里巴巴提供更宽松的许可。Mistral Large 4采用修改版MIT许可，要求年收入超过2000万美元的模型即服务企业另行达成商业协议，Kimi K3.1 Pro的自定义许可也设置了收入相关的限制。相比之下，DeepSeek V4.1 Flash和阿里Qwen3.8分别采用普通MIT和Apache 2.0许可，没有此类限制。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://aistartupsnews.com/news/mistral-s-20m-threshold-splits-open-weight-ai-models-in-2026/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="32" data-cat="models" data-region="china" data-fetched="1795342259583" data-text="研究称美国云服务通过16家非中国供应商提供deepseek模型 cset: us clouds serve deepseek across 16 non-china providers 乔治城大学安全与新兴技术中心三名研究人员在《财富》撰文称，至少16家总部位于中国以外的推理供应商提供deepseek最新模型，亚马逊bedrock也在其中。together ai、baseten和fireworks等公司在搭载美国芯片的服务器上运行中国模型权重。文章还称，月之暗面据报已向微软、亚马逊和谷歌提出，对年销售额超过2000万美元的客户收取kimi k3收入的30%。 aiweekly.co">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">aiweekly.co · 10 小时前</span></div>
+      <h3>研究称美国云服务通过16家非中国供应商提供DeepSeek模型</h3>
+      <p class="orig">原标题：CSET: US Clouds Serve DeepSeek Across 16 Non-China Providers</p>
+      <p class="summary">乔治城大学安全与新兴技术中心三名研究人员在《财富》撰文称，至少16家总部位于中国以外的推理供应商提供DeepSeek最新模型，亚马逊Bedrock也在其中。Together AI、Baseten和Fireworks等公司在搭载美国芯片的服务器上运行中国模型权重。文章还称，月之暗面据报已向微软、亚马逊和谷歌提出，对年销售额超过2000万美元的客户收取Kimi K3收入的30%。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://aiweekly.co/alerts/cset-us-clouds-serve-deepseek-across-16-non-china-providers" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-policy" data-id="31" data-cat="policy" data-region="china" data-fetched="1795342259583" data-text="美众议院报告标记中国ai模型，cursor考虑逐步弃用相关底座模型 house flags chinese ai models: cursor weighs shift — casrai 美国众议院国土安全委员会与众议院美中战略竞争特别委员会发布联合调查报告，敦促将中国开发的开放权重人工智能模型排除在联邦系统和关键基础设施之外。该调查考察了美国软件平台如何集成阿里巴巴、月之暗面、deepseek和minimax等中国企业开发的基础模型。报告称，spacex旗下的ai编程开发商cursor正积极探索逐步弃用月之暗面kimi k2.5等中国底座模型，以降低地缘政治供应链风险。 casrai.org">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">政策法规</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">casrai.org · 1 天前</span></div>
+      <h3>美众议院报告标记中国AI模型，Cursor考虑逐步弃用相关底座模型</h3>
+      <p class="orig">原标题：House Flags Chinese AI Models: Cursor Weighs Shift — CASRAI</p>
+      <p class="summary">美国众议院国土安全委员会与众议院美中战略竞争特别委员会发布联合调查报告，敦促将中国开发的开放权重人工智能模型排除在联邦系统和关键基础设施之外。该调查考察了美国软件平台如何集成阿里巴巴、月之暗面、DeepSeek和MiniMax等中国企业开发的基础模型。报告称，SpaceX旗下的AI编程开发商Cursor正积极探索逐步弃用月之暗面Kimi K2.5等中国底座模型，以降低地缘政治供应链风险。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://casrai.org/news/house-committees-cursor-chinese-open-weight-ai-models-report-2026" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="30" data-cat="funding" data-region="china" data-fetched="1795307142140" data-text="融资1055亿元，deepseek扩列ai硬件朋友圈：生态第一，模型第二 融资1055亿，deepseek扩列ai硬件朋友圈：生态第一，模型第二-36氪 据报道，deepseek最新一轮融资规模扩大至1055亿元人民币，估值达6155亿元。投资方包括宁德时代、中国移动、中国电信、长鑫存储、中芯国际、vivo、美的、立讯精密、吉利、美团、小红书等近30家企业，覆盖半导体、通信、消费电子、智能家电、先进制造和互联网应用等领域。文章认为，此次融资不只是为算力和模型投入，也有助于deepseek打通ai软硬件落地生态。 www.36kr.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">中国</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.36kr.com · 12 小时前</span></div>
+      <h3>融资1055亿元，DeepSeek扩列AI硬件朋友圈：生态第一，模型第二</h3>
+      <p class="orig">原标题：融资1055亿，DeepSeek扩列AI硬件朋友圈：生态第一，模型第二-36氪</p>
+      <p class="summary">据报道，DeepSeek最新一轮融资规模扩大至1055亿元人民币，估值达6155亿元。投资方包括宁德时代、中国移动、中国电信、长鑫存储、中芯国际、vivo、美的、立讯精密、吉利、美团、小红书等近30家企业，覆盖半导体、通信、消费电子、智能家电、先进制造和互联网应用等领域。文章认为，此次融资不只是为算力和模型投入，也有助于DeepSeek打通AI软硬件落地生态。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.36kr.com/p/4051127486355332" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="29" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="prompts.chat：可自托管的社区提示词分享与收藏平台 f/prompts.chat prompts.chat前身是知名的awesome chatgpt prompts，是一个分享、发现和收藏社区提示词的开源平台。它免费开源并支持为组织自托管，在方便复用优质提示词的同时保障完整隐私。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>prompts.chat：可自托管的社区提示词分享与收藏平台</h3>
+      <p class="orig">原标题：f/prompts.chat</p>
+      <p class="summary">prompts.chat前身是知名的Awesome ChatGPT Prompts，是一个分享、发现和收藏社区提示词的开源平台。它免费开源并支持为组织自托管，在方便复用优质提示词的同时保障完整隐私。</p>
+      <p class="starsline">★ GitHub Stars 17.8 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它沉淀了大量经过社区验证的实用提示词，还能自托管，适合想提升ChatGPT使用效率的普通用户以及需要内部提示词库的团队。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/f/prompts.chat" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="28" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="ollama：在本地轻松运行主流大模型的工具 ollama/ollama ollama让你能在本地快速启动和运行kimi、glm、minimax、deepseek、gpt-oss、qwen、gemma等多种开源模型。它大幅降低了本地部署大模型的门槛，方便离线体验、测试和开发ai应用。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>ollama：在本地轻松运行主流大模型的工具</h3>
+      <p class="orig">原标题：ollama/ollama</p>
+      <p class="summary">ollama让你能在本地快速启动和运行Kimi、GLM、MiniMax、DeepSeek、gpt-oss、Qwen、Gemma等多种开源模型。它大幅降低了本地部署大模型的门槛，方便离线体验、测试和开发AI应用。</p>
+      <p class="starsline">★ GitHub Stars 18.8 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它几乎是本地跑大模型的首选入门工具，安装简单、模型生态丰富，适合注重隐私、想离线试模型或做本地AI开发的个人和团队。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/ollama/ollama" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="27" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="autogpt：让人人都能使用和搭建的自主ai智能体平台 significant-gravitas/autogpt autogpt是早期走红的自主智能体项目，愿景是让每个人都能便捷地使用和构建ai能力。它提供相应工具让用户把精力放在目标本身，由智能体尝试自主拆解并执行任务。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>AutoGPT：让人人都能使用和搭建的自主AI智能体平台</h3>
+      <p class="orig">原标题：Significant-Gravitas/AutoGPT</p>
+      <p class="summary">AutoGPT是早期走红的自主智能体项目，愿景是让每个人都能便捷地使用和构建AI能力。它提供相应工具让用户把精力放在目标本身，由智能体尝试自主拆解并执行任务。</p>
+      <p class="starsline">★ GitHub Stars 18.8 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它是自主智能体领域的标志性开源项目，生态和知名度高，适合想入门智能体、复现经典工作流或在其基础上二次开发的用户。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="26" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="ponytail：让ai像资深懒人工程师一样少写代码的编程助手 dietrichgebert/ponytail ponytail致力于让ai编程智能体像经验丰富的资深开发者一样思考，奉行最好的代码是根本不用写的代码。它通过克制、务实的策略减少不必要的生成与复杂度，帮助产出更简洁的解决方案。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>ponytail：让AI像资深懒人工程师一样少写代码的编程助手</h3>
+      <p class="orig">原标题：DietrichGebert/ponytail</p>
+      <p class="summary">ponytail致力于让AI编程智能体像经验丰富的资深开发者一样思考，奉行最好的代码是根本不用写的代码。它通过克制、务实的策略减少不必要的生成与复杂度，帮助产出更简洁的解决方案。</p>
+      <p class="starsline">★ GitHub Stars 19.6 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它直击AI过度写代码、过度设计的痛点，适合希望让编程智能体输出更简洁、更可维护方案的开发者尝试和借鉴。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="25" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="firecrawl：让智能体高效搜索与抓取网络知识的基础设施 firecrawl/firecrawl firecrawl是为智能体提供知识接入的基础设施，可通过一个api完成搜索、网页抓取并访问550多个数据提供方。它能把分散的网络内容转化为智能体可直接使用的结构化信息，提升检索与回答质量。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>firecrawl：让智能体高效搜索与抓取网络知识的基础设施</h3>
+      <p class="orig">原标题：firecrawl/firecrawl</p>
+      <p class="summary">firecrawl是为智能体提供知识接入的基础设施，可通过一个API完成搜索、网页抓取并访问550多个数据提供方。它能把分散的网络内容转化为智能体可直接使用的结构化信息，提升检索与回答质量。</p>
+      <p class="starsline">★ GitHub Stars 20.6 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它是RAG和联网智能体的实用数据入口，能大幅省去自建爬虫的时间，适合开发搜索增强、知识问答和数据采集应用的团队。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/firecrawl/firecrawl" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="24" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="hermes-agent：能与用户共同成长的个人智能体 nousresearch/hermes-agent hermes-agent是nousresearch推出的智能体项目，主打随使用不断学习和进化的能力。它致力于成为能长期陪伴用户、适应个人习惯与需求的智能助手。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>hermes-agent：能与用户共同成长的个人智能体</h3>
+      <p class="orig">原标题：NousResearch/hermes-agent</p>
+      <p class="summary">hermes-agent是NousResearch推出的智能体项目，主打随使用不断学习和进化的能力。它致力于成为能长期陪伴用户、适应个人习惯与需求的智能助手。</p>
+      <p class="starsline">★ GitHub Stars 26.5 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为“共同成长”的定位区别于一次性问答工具，适合想打造长期个人智能体、关注智能体记忆与个性化进化的用户和研究者。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="23" data-cat="github" data-region="china" data-fetched="1795307024956" data-text="deepseek-harness：一切皆插件的deepseek智能体运行框架 deepseek-ai/deepseek-harness deepseek-harness是deepseek推出的智能体运行框架，以“一切皆插件”为核心理念来组织功能扩展。它让开发者能以插件方式组合工具与能力，快速搭建和定制自己的智能体应用。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">中国</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>deepseek-harness：一切皆插件的DeepSeek智能体运行框架</h3>
+      <p class="orig">原标题：deepseek-ai/deepseek-harness</p>
+      <p class="summary">deepseek-harness是DeepSeek推出的智能体运行框架，以“一切皆插件”为核心理念来组织功能扩展。它让开发者能以插件方式组合工具与能力，快速搭建和定制自己的智能体应用。</p>
+      <p class="starsline">★ GitHub Stars 28.5 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为插件化架构灵活易扩展，且出自DeepSeek生态，适合想基于DeepSeek模型搭建智能体、或学习插件式框架设计的开发者。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-github" data-id="22" data-cat="github" data-region="global" data-fetched="1795307024956" data-text="ecc：为编程智能体提速增智的性能优化系统 affaan-m/ecc ecc是一套面向智能体运行框架的性能优化系统，整合技能、本能式决策、记忆、安全与研究优先的开发流程。它可用于claude code、codex、opencode、cursor等多种编程智能体，帮助它们更稳定高效地完成任务。 github">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">GitHub 开源</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">GitHub</span></div>
+      <h3>ECC：为编程智能体提速增智的性能优化系统</h3>
+      <p class="orig">原标题：affaan-m/ECC</p>
+      <p class="summary">ECC是一套面向智能体运行框架的性能优化系统，整合技能、本能式决策、记忆、安全与研究优先的开发流程。它可用于Claude Code、Codex、OpenCode、Cursor等多种编程智能体，帮助它们更稳定高效地完成任务。</p>
+      <p class="starsline">★ GitHub Stars 30.8 万</p>
+      <p class="why"><b>推荐理由：</b>推荐收藏是因为它把技能、记忆和安全等分散能力系统化，适合重度使用编程智能体、希望提升开发效率与可靠性的开发者和团队。</p>
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="21" data-cat="funding" data-region="china" data-fetched="1795307024956" data-text="中国ai创企半年吸金超3000亿元，77笔上亿元融资流向何处 超3000亿，中国ai创企半年猛吸金，77笔上亿融资流向谁？-36氪 据智东西不完全统计，2026年上半年全球ai产业链上亿元融资共165起、总额约2.7万亿元，其中中国企业77起、合计约1262亿元居事件数量第一，deepseek、阶跃星辰和月之暗面为国内融资金额最高的三家。it桔子口径则显示上半年中国ai创业公司总融资额突破3000亿元，仅6个月已超过2025年全年，资金继续流向基础模型与算力并向视频生成、智能体和医疗等应用扩散。 www.36kr.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.36kr.com · 13 小时前</span></div>
+      <h3>中国AI创企半年吸金超3000亿元，77笔上亿元融资流向何处</h3>
+      <p class="orig">原标题：超3000亿，中国AI创企半年猛吸金，77笔上亿融资流向谁？-36氪</p>
+      <p class="summary">据智东西不完全统计，2026年上半年全球AI产业链上亿元融资共165起、总额约2.7万亿元，其中中国企业77起、合计约1262亿元居事件数量第一，DeepSeek、阶跃星辰和月之暗面为国内融资金额最高的三家。IT桔子口径则显示上半年中国AI创业公司总融资额突破3000亿元，仅6个月已超过2025年全年，资金继续流向基础模型与算力并向视频生成、智能体和医疗等应用扩散。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.36kr.com/p/3974902531125510" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="20" data-cat="funding" data-region="global" data-fetched="1795307024956" data-text="5亿美元投资助推ai机器人进入工作场所，genesis ai估值达35亿美元 $500m investment could bring ai robots to your workplace genesis ai宣布以35亿美元投后估值完成5亿美元a轮融资，premji invest、khosla ventures和eclipse共同领投，nvidia、amd ventures及eric schmidt等亦参投。公司2026年已开始概念验证项目和客户试点，计划2027年起将通用机器人eno带到客户现场、从工业工作场所开始。 foxnews.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">foxnews.com · 12 小时前</span></div>
+      <h3>5亿美元投资助推AI机器人进入工作场所，Genesis AI估值达35亿美元</h3>
+      <p class="orig">原标题：$500M investment could bring AI robots to your workplace</p>
+      <p class="summary">Genesis AI宣布以35亿美元投后估值完成5亿美元A轮融资，Premji Invest、Khosla Ventures和Eclipse共同领投，NVIDIA、AMD Ventures及Eric Schmidt等亦参投。公司2026年已开始概念验证项目和客户试点，计划2027年起将通用机器人Eno带到客户现场、从工业工作场所开始。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://foxnews.com/tech/500m-investment-bring-ai-robots-workplace" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="19" data-cat="funding" data-region="global" data-fetched="1795307024956" data-text="genesis ai融资5亿美元，拟将通用机器人eno带入工作场所 $500m investment could bring ai robots to your workplace genesis ai以35亿美元投后估值完成5亿美元a轮融资，由premji invest、khosla ventures与eclipse共同领投，nvidia、amd ventures、samsung next等参投。公司2026年已启动概念验证与客户试点，计划2027年起先在工业场所将通用机器人eno部署到客户现场。 mezha.net">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">mezha.net · 1 天前</span></div>
+      <h3>Genesis AI融资5亿美元，拟将通用机器人Eno带入工作场所</h3>
+      <p class="orig">原标题：$500M investment could bring AI robots to your workplace</p>
+      <p class="summary">Genesis AI以35亿美元投后估值完成5亿美元A轮融资，由Premji Invest、Khosla Ventures与Eclipse共同领投，NVIDIA、AMD Ventures、Samsung Next等参投。公司2026年已启动概念验证与客户试点，计划2027年起先在工业场所将通用机器人Eno部署到客户现场。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://mezha.net/eng/news/mezha-9a49ef8f5fa29d1c2392ef7a_500m_investment_could/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="18" data-cat="funding" data-region="global" data-fetched="1795307024956" data-text="本周热门ai初创融资：nominal、spines、geniosai与venomics ai top ai startup funding rounds: nominal, spines, geniosai, and venomics ai nominal以30亿美元估值完成2.4亿美元c轮融资，用于在灾难性物理故障前测试关键硬件；spines完成6400万美元增长轮融资，以自主ai智能体自动化图书出版供应链。geniosai完成1910万美元种子及a轮融资，为机构金融提供可验证智能与审计追踪；venomics ai完成270万美元种子前融资，尝试将致命动物毒素转化为人类药物。 hasbrains.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">hasbrains.com · 1 天前</span></div>
+      <h3>本周热门AI初创融资：Nominal、Spines、geniosAI与Venomics AI</h3>
+      <p class="orig">原标题：Top AI startup funding rounds: Nominal, Spines, geniosAI, and Venomics AI</p>
+      <p class="summary">Nominal以30亿美元估值完成2.4亿美元C轮融资，用于在灾难性物理故障前测试关键硬件；Spines完成6400万美元增长轮融资，以自主AI智能体自动化图书出版供应链。geniosAI完成1910万美元种子及A轮融资，为机构金融提供可验证智能与审计追踪；Venomics AI完成270万美元种子前融资，尝试将致命动物毒素转化为人类药物。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://hasbrains.com/news/hottest-ai-rounds-nominal-spines-geniosai-venomics" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-funding" data-id="17" data-cat="funding" data-region="global" data-fetched="1795307024956" data-text="cognition据报洽谈新融资，估值或达750亿美元 cognition in talks for new funding at $75 billion valuation, bloomberg news reports 据彭博社援引知情人士报道，编程初创公司cognition ai正洽谈以750亿美元估值进行新一轮融资，考虑募资20亿美元或更多，谈判仍在进行且细节可能变化。约两个月前该公司刚以480亿美元估值完成20亿美元e轮融资，其产品为可规划、编写、测试和部署代码的自主软件工程智能体。 www.channelnewsasia.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">投融资</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.channelnewsasia.com · 1 天前</span></div>
+      <h3>Cognition据报洽谈新融资，估值或达750亿美元</h3>
+      <p class="orig">原标题：Cognition in talks for new funding at $75 billion valuation, Bloomberg News reports</p>
+      <p class="summary">据彭博社援引知情人士报道，编程初创公司Cognition AI正洽谈以750亿美元估值进行新一轮融资，考虑募资20亿美元或更多，谈判仍在进行且细节可能变化。约两个月前该公司刚以480亿美元估值完成20亿美元E轮融资，其产品为可规划、编写、测试和部署代码的自主软件工程智能体。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.channelnewsasia.com/business/cognition-in-talks-new-funding-75-billion-valuation-bloomberg-news-reports-6570606" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-policy" data-id="16" data-cat="policy" data-region="global" data-fetched="1795307024956" data-text="全球人工智能立法动态与治理趋势：2026年政策全景扫描 全球人工智能立法动态与治理趋势：2026年政策全景扫描-36氪 文章称全球ai立法进入密集调整期，欧盟考虑推迟或暂停《人工智能法案》部分高风险条款实施，美英等国呈放松监管导向，韩国、日本则分别通过框架法与促进法推进透明、安全与产业促进。中国已颁布人工智能标注规则要求对ai生成内容添加显式和隐式标签，文章预计2026年合规将成为执法重点并需关注数据、版权与虚假信息等问题。 www.36kr.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">政策法规</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.36kr.com · 9 小时前</span></div>
+      <h3>全球人工智能立法动态与治理趋势：2026年政策全景扫描</h3>
+      <p class="orig">原标题：全球人工智能立法动态与治理趋势：2026年政策全景扫描-36氪</p>
+      <p class="summary">文章称全球AI立法进入密集调整期，欧盟考虑推迟或暂停《人工智能法案》部分高风险条款实施，美英等国呈放松监管导向，韩国、日本则分别通过框架法与促进法推进透明、安全与产业促进。中国已颁布人工智能标注规则要求对AI生成内容添加显式和隐式标签，文章预计2026年合规将成为执法重点并需关注数据、版权与虚假信息等问题。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.36kr.com/p/3678814524338697" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-apps" data-id="15" data-cat="apps" data-region="china" data-fetched="1795307024956" data-text="ai应用周度观察：腾讯元宝搜索开放，百度搭子与阿里千问go更新 ai应用周度观察（2026.10.19-2026.10.25）_腾讯新闻 腾讯宣布元宝搜索升级并通过腾讯云向开发者与企业开放，接入13个垂直行业的157个权威信源，并提供skill、mcp和api三种接入方式。百度发布搭子企业场景能力，称企业客户数环比增长83%且新版支持computer use与mobile use；阿里千问go上线“我的应用”，用户可用自然语言搭建可分享、可长期保存和持续更新的应用。 news.qq.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">AI 应用</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">news.qq.com · 1 天前</span></div>
+      <h3>AI应用周度观察：腾讯元宝搜索开放，百度搭子与阿里千问Go更新</h3>
+      <p class="orig">原标题：AI应用周度观察（2026.10.19-2026.10.25）_腾讯新闻</p>
+      <p class="summary">腾讯宣布元宝搜索升级并通过腾讯云向开发者与企业开放，接入13个垂直行业的157个权威信源，并提供Skill、MCP和API三种接入方式。百度发布搭子企业场景能力，称企业客户数环比增长83%且新版支持Computer Use与Mobile Use；阿里千问Go上线“我的应用”，用户可用自然语言搭建可分享、可长期保存和持续更新的应用。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://news.qq.com/rain/a/20261025A09LD500" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="14" data-cat="robots" data-region="china" data-fetched="1795307024956" data-text="人形机器人周报：政策推动具身智能产业化，多家企业发布成果 20261026-国元证券-人形机器人周报_两办推动具身智能产业化_智元启动ai_wave成果发布_8页_618kb - 研报客 国元证券周报称中办、国办文件将具身智能纳入前沿领域重点布局，八部门规划强调以场景牵引布局关键基础产品，推动技术成果转化。产品方面墨甲机器人发布家庭陪伴机器人“墨宝”、大晓机器人推出具身基模型ace-brain-0.6、智元启动发布七项全栈成果的“ai wave”计划；投融资方面法奥机器人完成近10亿元融资、辉羲智能完成约17亿元融资、伊塔动力完成超亿元融资。 www.yanbaoke.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.yanbaoke.com · 26 天前</span></div>
+      <h3>人形机器人周报：政策推动具身智能产业化，多家企业发布成果</h3>
+      <p class="orig">原标题：20261026-国元证券-人形机器人周报_两办推动具身智能产业化_智元启动AI_WAVE成果发布_8页_618kb - 研报客</p>
+      <p class="summary">国元证券周报称中办、国办文件将具身智能纳入前沿领域重点布局，八部门规划强调以场景牵引布局关键基础产品，推动技术成果转化。产品方面墨甲机器人发布家庭陪伴机器人“墨宝”、大晓机器人推出具身基模型ACE-Brain-0.6、智元启动发布七项全栈成果的“AI WAVE”计划；投融资方面法奥机器人完成近10亿元融资、辉羲智能完成约17亿元融资、伊塔动力完成超亿元融资。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.yanbaoke.com/info/TJcqvCeRNypi2u8hWoXMuN" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="13" data-cat="robots" data-region="china" data-fetched="1795307024956" data-text="具身智能走向物理世界，还差几步 具身智能：ai走向物理世界，还差几步 （本文作者为 猫头鹰科技社，钛媒体经授权发布）文 | 猫头鹰科技社，作者｜李贤焕在 计算机 编程的传统里，新手写的第一个... - 雪球 文章以宇树科技科创板上市、amd拟收购world labs、特斯拉optimus开始在生产线生产为例，指出整机、部件、模型与平台构成的具身智能产业正在成形。按it桔子统计，截至2026年8月20日中国具身智能融资已达466起、约1245亿元，不足8个月金额达到2025年全年的约2.7倍，但批量供给之外更广泛的任务能力与持续使用需求尚未同步成熟。 www.xueqiu.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.xueqiu.com · 6 天前</span></div>
+      <h3>具身智能走向物理世界，还差几步</h3>
+      <p class="orig">原标题：具身智能：AI走向物理世界，还差几步 （本文作者为 猫头鹰科技社，钛媒体经授权发布）文 | 猫头鹰科技社，作者｜李贤焕在 计算机 编程的传统里，新手写的第一个... - 雪球</p>
+      <p class="summary">文章以宇树科技科创板上市、AMD拟收购World Labs、特斯拉Optimus开始在生产线生产为例，指出整机、部件、模型与平台构成的具身智能产业正在成形。按IT桔子统计，截至2026年8月20日中国具身智能融资已达466起、约1245亿元，不足8个月金额达到2025年全年的约2.7倍，但批量供给之外更广泛的任务能力与持续使用需求尚未同步成熟。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.xueqiu.com/5899108858/416997060" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="12" data-cat="robots" data-region="global" data-fetched="1795307024956" data-text="具身ai机器人：从炒作走向真实世界智能 embodied ai robotics: from hype to real world intelligence wipro文章称2026年上半年韩国、中国、新加坡及多所大学实验室在人形机器人等方向出现一系列进展，机器人展示了冲刺、打网球、读取脑信号和生长活体肌肉等能力，实验室演示与工业现实之间的距离快速缩小。文章认为持久空间记忆和严格的真实世界数据验证将决定势头能否转化为可扩展系统。 www.wipro.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.wipro.com · 2 小时前</span></div>
+      <h3>具身AI机器人：从炒作走向真实世界智能</h3>
+      <p class="orig">原标题：Embodied AI Robotics: From Hype to Real World Intelligence</p>
+      <p class="summary">Wipro文章称2026年上半年韩国、中国、新加坡及多所大学实验室在人形机器人等方向出现一系列进展，机器人展示了冲刺、打网球、读取脑信号和生长活体肌肉等能力，实验室演示与工业现实之间的距离快速缩小。文章认为持久空间记忆和严格的真实世界数据验证将决定势头能否转化为可扩展系统。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.wipro.com/engineering/articles/embodied-ai-robotics-from-hype-to-real-world-intelligence/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-robots" data-id="11" data-cat="robots" data-region="global" data-fetched="1795307024956" data-text="第46周机器人动态：轮式atlas、英伟达爆米花机器人与机器人新闻主播 week 46, 2026 本周机器人故事包括波士顿动力将atlas的双脚换成滑板轮以测试电机极限，以及一台运行英伟达gr00t 2模型的人形机器人自主分发爆米花，英伟达称其能以71%的成功率从一次演示学习新任务。中国方面，优必选与新华社打造了具仿生皮肤的真人大小机器人新闻主播新妍和新宇，ring则推出可在报警时按路线飞行的室内无人机摄像头。 eliarobotics.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">机器人</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">eliarobotics.com · 1 小时前</span></div>
+      <h3>第46周机器人动态：轮式Atlas、英伟达爆米花机器人与机器人新闻主播</h3>
+      <p class="orig">原标题：Week 46, 2026</p>
+      <p class="summary">本周机器人故事包括波士顿动力将Atlas的双脚换成滑板轮以测试电机极限，以及一台运行英伟达GR00T 2模型的人形机器人自主分发爆米花，英伟达称其能以71%的成功率从一次演示学习新任务。中国方面，优必选与新华社打造了具仿生皮肤的真人大小机器人新闻主播新妍和新宇，Ring则推出可在报警时按路线飞行的室内无人机摄像头。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://eliarobotics.com/weekly/2026-w46/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="10" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="中国ai模型日益强大，全球ai竞赛格局生变？ china’s ai models are getting stronger. is the global ai race changing? 文章称从deepseek、通义千问到kimi和glm，中国ai公司正以强劲模型、开放权重和不同的竞争方式挑战既有领先者。2026年11月，阿里推出qwen4-max，月之暗面的kimi以及deepseek和智谱的新发布继续加压，deepseek较新的v4.1-flash-1017也为开发者和编程工作流提供新选择。 medium.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">medium.com · 1 天前</span></div>
+      <h3>中国AI模型日益强大，全球AI竞赛格局生变？</h3>
+      <p class="orig">原标题：China’s AI Models Are Getting Stronger. Is the Global AI Race Changing?</p>
+      <p class="summary">文章称从DeepSeek、通义千问到Kimi和GLM，中国AI公司正以强劲模型、开放权重和不同的竞争方式挑战既有领先者。2026年11月，阿里推出Qwen4-Max，月之暗面的Kimi以及DeepSeek和智谱的新发布继续加压，DeepSeek较新的V4.1-Flash-1017也为开发者和编程工作流提供新选择。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://medium.com/@rubyengineer/chinas-ai-models-are-getting-stronger-is-the-global-ai-race-changing-3ae76588bbbc" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="9" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="kimi拿走61%份额，美国企业开源模型支出近九成流向中国模型 kimi拿走61%，美国企业开源账单近九成给了中国模型-36氪 门罗风投《2026年企业ai现状报告》基于对近400名美国企业ai业务负责人的调研称，美国企业开源大模型支出的89%付给了中国模型，其中kimi占61%、deepseek占15%、智谱glm占11%、阿里通义千问占3%。openrouter最新一周排行则显示deepseek以29.8%的文本请求份额居所有作者首位，中国大模型token调用量已连续27周超过美国模型。 www.36kr.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.36kr.com · 12 小时前</span></div>
+      <h3>Kimi拿走61%份额，美国企业开源模型支出近九成流向中国模型</h3>
+      <p class="orig">原标题：Kimi拿走61%，美国企业开源账单近九成给了中国模型-36氪</p>
+      <p class="summary">门罗风投《2026年企业AI现状报告》基于对近400名美国企业AI业务负责人的调研称，美国企业开源大模型支出的89%付给了中国模型，其中Kimi占61%、DeepSeek占15%、智谱GLM占11%、阿里通义千问占3%。OpenRouter最新一周排行则显示DeepSeek以29.8%的文本请求份额居所有作者首位，中国大模型token调用量已连续27周超过美国模型。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.36kr.com/p/4058059476440707" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="8" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="豆包工作上线kimi、智谱glm与deepseek大模型 豆包工作突然上线 kimi、智谱 glm、deepseek 大模型！ 2026年11月12日，豆包工作宣布正式接入kimi k3.1 pro、glm 5.3、deepseek v4.1 flash等多款第三方模型，并推出限时特惠计划。此次更新还在模型选择页面标注额度消耗倍率，并下调豆包2.1 lite与deepseek v4.1 flash的倍率，同等任务消耗更少。 www.163.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.163.com · 9 天前</span></div>
+      <h3>豆包工作上线Kimi、智谱GLM与DeepSeek大模型</h3>
+      <p class="orig">原标题：豆包工作突然上线 Kimi、智谱 GLM、DeepSeek 大模型！</p>
+      <p class="summary">2026年11月12日，豆包工作宣布正式接入Kimi K3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash等多款第三方模型，并推出限时特惠计划。此次更新还在模型选择页面标注额度消耗倍率，并下调豆包2.1 Lite与DeepSeek V4.1 Flash的倍率，同等任务消耗更少。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.163.com/dy/article/LBKMMKS30511D6RL.html" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="7" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="豆包工作扩大第三方模型接入，用户可自主选择kimi、glm与deepseek 刚刚，豆包工作官宣接入 kimi、deepseek，ai 模型自由来了 在此前向企业客户开放后，豆包工作正式宣布接入kimi 3.1 pro、glm 5.3、deepseek v4.1 flash等多款第三方模型，用户可根据任务需求自主选择。平台同时在选择页面标注各模型额度消耗倍率并推出限时优惠，已下调豆包2.1 lite和deepseek v4.1 flash的倍率。 tech.ifeng.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">tech.ifeng.com · 10 天前</span></div>
+      <h3>豆包工作扩大第三方模型接入，用户可自主选择Kimi、GLM与DeepSeek</h3>
+      <p class="orig">原标题：刚刚，豆包工作官宣接入 Kimi、DeepSeek，AI 模型自由来了</p>
+      <p class="summary">在此前向企业客户开放后，豆包工作正式宣布接入Kimi 3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash等多款第三方模型，用户可根据任务需求自主选择。平台同时在选择页面标注各模型额度消耗倍率并推出限时优惠，已下调豆包2.1 Lite和DeepSeek V4.1 Flash的倍率。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://tech.ifeng.com/c/8xzT8cLKm02" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="6" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="豆包工作向企业开放第三方大模型，首批接入kimi、glm与deepseek 豆包工作开放第三方大模型：首批接入kimi、glm、deepseek，企业无需另行采购_中华网 豆包工作日前向团队订阅版和企业订阅版客户开放第三方大模型，首批接入kimi 3.1 pro、glm 5.3、deepseek v4.1 flash等系列模型。该功能默认开启，企业无需另行向模型厂商采购或额外申请，后续按用量扣除已有ai点数，并可指定模型在不同办公场景中生效。 3g.china.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">3g.china.com · 23 天前</span></div>
+      <h3>豆包工作向企业开放第三方大模型，首批接入Kimi、GLM与DeepSeek</h3>
+      <p class="orig">原标题：豆包工作开放第三方大模型：首批接入Kimi、GLM、DeepSeek，企业无需另行采购_中华网</p>
+      <p class="summary">豆包工作日前向团队订阅版和企业订阅版客户开放第三方大模型，首批接入Kimi 3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash等系列模型。该功能默认开启，企业无需另行向模型厂商采购或额外申请，后续按用量扣除已有AI点数，并可指定模型在不同办公场景中生效。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://3g.china.com/act/finance/13004688/20261030/49828188.html" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="5" data-cat="models" data-region="china" data-fetched="1795307024956" data-text="豆包工作接入多款第三方模型，与workbuddy争夺ai办公入口 豆包开始抢workbuddy的用户了_模型_工作_deepseek 11月12日，豆包旗下ai办公产品“豆包工作”宣布更新，除自研模型外正式接入kimi k3.1 pro、glm 5.3、deepseek v4.1 flash等第三方模型，并在菜单中标注额度消耗倍率供用户按任务与成本选择。豆包工作还推出限时优惠并下调部分模型倍率，新用户登录电脑版可免费领取30天订阅权益。 www.sohu.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">中国</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.sohu.com · 5 天前</span></div>
+      <h3>豆包工作接入多款第三方模型，与WorkBuddy争夺AI办公入口</h3>
+      <p class="orig">原标题：豆包开始抢WorkBuddy的用户了_模型_工作_DeepSeek</p>
+      <p class="summary">11月12日，豆包旗下AI办公产品“豆包工作”宣布更新，除自研模型外正式接入Kimi K3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash等第三方模型，并在菜单中标注额度消耗倍率供用户按任务与成本选择。豆包工作还推出限时优惠并下调部分模型倍率，新用户登录电脑版可免费领取30天订阅权益。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.sohu.com/a/1102606849_121071031" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="4" data-cat="models" data-region="global" data-fetched="1795307024956" data-text="openai发布gpt-6.2 astra，欲从claude手中夺回性能领先 openai releases gpt-6.2 astra to regain performance lead from claude fable 5.2 在anthropic发布claude fable与mythos 5.2、谷歌推出gemini 4 hydrogen一周后，openai发布gpt-6.2 astra和sol，称其为专业工作的新标准。openai称新模型性能与anthropic最新模型大体相当但成本显著更低，现已向chatgpt work和codex的plus、pro、enterprise和edu用户开放。 9to5google.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="badge-strong">重磅</span><span class="readmark" hidden>已读</span><span class="srcmeta">9to5google.com · 2026-11-17</span></div>
+      <h3>OpenAI发布GPT-6.2 Astra，欲从Claude手中夺回性能领先</h3>
+      <p class="orig">原标题：OpenAI releases GPT-6.2 Astra to regain performance lead from Claude Fable 5.2</p>
+      <p class="summary">在Anthropic发布Claude Fable与Mythos 5.2、谷歌推出Gemini 4 Hydrogen一周后，OpenAI发布GPT-6.2 Astra和Sol，称其为专业工作的新标准。OpenAI称新模型性能与Anthropic最新模型大体相当但成本显著更低，现已向ChatGPT Work和Codex的Plus、Pro、Enterprise和Edu用户开放。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://9to5google.com/2026/11/17/openai-releases-gpt-6-2-astra-and-sol-for-complex-projects-a-week-after-claude-5-2/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="3" data-cat="models" data-region="global" data-fetched="1795307024956" data-text="ai构建者简报：专用接口增多，企业部署加速 ai builder brief — openai, anthropic, google for saturday, 24 october 2026 简报称通用推理正在商品化、专用端点不断增多，openai推出用于快速分类决策的decisions api，mistral推出预测模型、voxtral 3整合语音sdk，谷歌发布专用嵌入模型。企业落地方面，uber向3万名员工推出chatgpt work，anthropic则继续推进claude platform的企业集成。 ainews.mavenotics.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="readmark" hidden>已读</span><span class="srcmeta">ainews.mavenotics.com · 2026-10-24</span></div>
+      <h3>AI构建者简报：专用接口增多，企业部署加速</h3>
+      <p class="orig">原标题：AI Builder Brief — OpenAI, Anthropic, Google for Saturday, 24 October 2026</p>
+      <p class="summary">简报称通用推理正在商品化、专用端点不断增多，OpenAI推出用于快速分类决策的Decisions API，Mistral推出预测模型、Voxtral 3整合语音SDK，谷歌发布专用嵌入模型。企业落地方面，Uber向3万名员工推出ChatGPT Work，Anthropic则继续推进Claude Platform的企业集成。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://ainews.mavenotics.com/2026-10-24" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="2" data-cat="models" data-region="global" data-fetched="1795307024956" data-text="本周ai：前沿模型瞄准漏洞与药物研发，mistral发布万亿参数模型权重 this week in ai, 8 items — frontier models aim at finding vulnerabilities and drug development, and mistral releases a 1-trillion-parameter model&#x27;s weights 本周前沿模型聚焦防御性安全用途，谷歌发布仅向部分网络防御者开放的gemini 4 carbon，mistral发布mistral large 4权重，相关数据均为公司自报且未经第三方复现。生命科学方面，openai发布仅限批准使用的生物学模型gpt-6 rosalind，anthropic报告与六家机构合作药物研发并收购mithril medicine；同时openai推出gpt-6.1 terra并向部分订阅用户提供每月最高500美元api额度。 forsmile.jp">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">forsmile.jp · 21 天前</span></div>
+      <h3>本周AI：前沿模型瞄准漏洞与药物研发，Mistral发布万亿参数模型权重</h3>
+      <p class="orig">原标题：This Week in AI, 8 Items — Frontier Models Aim at Finding Vulnerabilities and Drug Development, and Mistral Releases a 1-Trillion-Parameter Model&#x27;s Weights</p>
+      <p class="summary">本周前沿模型聚焦防御性安全用途，谷歌发布仅向部分网络防御者开放的Gemini 4 Carbon，Mistral发布Mistral Large 4权重，相关数据均为公司自报且未经第三方复现。生命科学方面，OpenAI发布仅限批准使用的生物学模型GPT-6 Rosalind，Anthropic报告与六家机构合作药物研发并收购Mithril Medicine；同时OpenAI推出GPT-6.1 Terra并向部分订阅用户提供每月最高500美元API额度。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://forsmile.jp/en/ai-news/ai-news-20261101" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+  <article class="card cat-models" data-id="1" data-cat="models" data-region="global" data-fetched="1795307024956" data-text="anthropic claude登顶ai排名，openai限制网络安全模型使用 anthropic’s claude tops ai rankings as openai limits cyber model anthropic的claude fable 5.2以65分登顶artificial analysis智能指数，超过谷歌gemini 4 carbon，jump trading、balyasny和box被列为其用户。meta发布面向重复性智能体任务的muse ember，输入价格为每百万token 0.10美元；openai则将gpt-6 cyber限定于获批的安全客户，该模型在测试中发现了81个此前未知的firefox高危漏洞。 www.pymnts.com">
+    <div class="card-body">
+      <div class="card-top"><span class="tag">大模型</span><span class="region">全球</span><span class="badge">重要</span><span class="readmark" hidden>已读</span><span class="srcmeta">www.pymnts.com · 9 天前</span></div>
+      <h3>Anthropic Claude登顶AI排名，OpenAI限制网络安全模型使用</h3>
+      <p class="orig">原标题：Anthropic’s Claude Tops AI Rankings as OpenAI Limits Cyber Model</p>
+      <p class="summary">Anthropic的Claude Fable 5.2以65分登顶Artificial Analysis智能指数，超过谷歌Gemini 4 Carbon，Jump Trading、Balyasny和Box被列为其用户。Meta发布面向重复性智能体任务的Muse Ember，输入价格为每百万token 0.10美元；OpenAI则将GPT-6 Cyber限定于获批的安全客户，该模型在测试中发现了81个此前未知的Firefox高危漏洞。</p>
+      
+      
+    </div>
+    <div class="actions">
+      <a class="orig-link" href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropics-claude-tops-ai-rankings-as-openai-limits-cyber-model/" target="_blank" rel="noopener">原文链接 ↗</a>
+      <button type="button" class="fav-btn" aria-pressed="false">☆ 收藏</button>
+      <button type="button" class="read-btn" aria-pressed="false">标为已读</button>
+    </div>
+  </article>
+
+  <div class="empty" id="empty">这个筛选下暂时没有资讯，换个分类或时间范围试试。</div>
+</main>
+
+<footer>
+  <p>资讯来自公开来源，每条都附原文链接；英文资讯已自动翻译成中文。<br>
+  个人版每天 08:00 与 20:00（北京时间）自动抓取，本公开版随后同步，内容与个人版一致 · 存档可按关键词、分类、地区和时间查找。<br>
+  中国重点跟踪：Kimi（月之暗面）、豆包（字节跳动）、DeepSeek、WorkBuddy（腾讯）。</p>
+</footer>
+</div>
+<script>
+(function(){
+  var SYNC_NOW = 1795392057967;
+  var q=document.getElementById('q'),
+      cards=[].slice.call(document.querySelectorAll('.card')),
+      count=document.getElementById('count'), empty=document.getElementById('empty'),
+      unreadCount=document.getElementById('unreadCount'), favCount=document.getElementById('favCount'),
+      markAllBtn=document.getElementById('markAll'),
+      cat='all', region='all', days=0, favOnly=false, unreadOnly=false;
+  var favs={}, reads={};
+  function setPressed(groupSel, btn){
+    [].forEach.call(document.querySelectorAll(groupSel+' .chip'),function(x){x.setAttribute('aria-pressed','false')});
+    btn.setAttribute('aria-pressed','true');
+  }
+  function apply(){
+    var kw=q.value.trim().toLowerCase(), n=0, unread=0, favn=0;
+    cards.forEach(function(c){
+      var id=c.getAttribute('data-id');
+      var isFav=!!favs[id], isRead=!!reads[id];
+      if(isFav)favn++;
+      if(!isRead)unread++;
+      var fetched=parseInt(c.getAttribute('data-fetched'),10);
+      var okCat = cat==='all' || c.getAttribute('data-cat')===cat;
+      var okRegion = region==='all' || c.getAttribute('data-region')===region;
+      var okTime = days===0 || fetched >= SYNC_NOW - days*86400000;
+      var okFav = !favOnly || isFav;
+      var okUnread = !unreadOnly || !isRead;
+      var okKw = !kw || (c.getAttribute('data-text')||'').indexOf(kw)>-1;
+      var show=okCat&&okRegion&&okTime&&okFav&&okUnread&&okKw;
+      c.style.display=show?'':'none'; if(show)n++;
+    });
+    count.textContent='当前显示 '+n+' 条';
+    unreadCount.textContent=unread;
+    favCount.textContent=favn;
+    markAllBtn.style.display=unread?'':'none';
+    empty.style.display=n?'none':'block';
+  }
+  [].forEach.call(document.querySelectorAll('#catChips .chip'),function(b){ b.addEventListener('click',function(){ setPressed('#catChips',b); cat=b.getAttribute('data-cat'); apply(); });});
+  [].forEach.call(document.querySelectorAll('#regionChips .chip'),function(b){ b.addEventListener('click',function(){ setPressed('#regionChips',b); region=b.getAttribute('data-region'); apply(); });});
+  [].forEach.call(document.querySelectorAll('#rangeChips .chip'),function(b){ b.addEventListener('click',function(){ setPressed('#rangeChips',b); days=parseInt(b.getAttribute('data-days'),10); apply(); });});
+  var favOnlyBtn=document.getElementById('favOnly');
+  favOnlyBtn.addEventListener('click',function(){ favOnly=!favOnly; favOnlyBtn.setAttribute('aria-pressed',favOnly?'true':'false'); apply(); });
+  var unreadOnlyBtn=document.getElementById('unreadOnly');
+  unreadOnlyBtn.addEventListener('click',function(){ unreadOnly=!unreadOnly; unreadOnlyBtn.setAttribute('aria-pressed',unreadOnly?'true':'false'); apply(); });
+  markAllBtn.addEventListener('click',function(){ cards.forEach(function(c){ reads[c.getAttribute('data-id')]=true; syncCard(c); }); apply(); });
+  function syncCard(c){
+    var id=c.getAttribute('data-id'), isFav=!!favs[id], isRead=!!reads[id];
+    c.classList.toggle('is-read',isRead);
+    c.querySelector('.readmark').hidden=!isRead;
+    var fb=c.querySelector('.fav-btn'); fb.setAttribute('aria-pressed',isFav?'true':'false'); fb.textContent=isFav?'\u2605 已收藏':'\u2606 收藏';
+    var rb=c.querySelector('.read-btn'); rb.setAttribute('aria-pressed',isRead?'true':'false'); rb.textContent=isRead?'标为未读':'标为已读';
+  }
+  cards.forEach(function(c){
+    var id=c.getAttribute('data-id');
+    c.querySelector('.fav-btn').addEventListener('click',function(){ favs[id]=!favs[id]; syncCard(c); apply(); });
+    c.querySelector('.read-btn').addEventListener('click',function(){ reads[id]=!reads[id]; syncCard(c); apply(); });
+    c.querySelector('.orig-link').addEventListener('click',function(){ if(!reads[id]){ reads[id]=true; syncCard(c); apply(); } });
+  });
+  var t; q.addEventListener('input',function(){ clearTimeout(t); t=setTimeout(apply,250); });
+  apply();
+  var btn=document.getElementById('themeBtn');
+  btn.addEventListener('click',function(){
+    var night=document.body.classList.toggle('night');
+    document.body.classList.toggle('day',!night);
+    btn.setAttribute('aria-pressed',night?'true':'false');
+    btn.textContent=night?'\u2600 日间':'\u263e 夜间';
+  });
+})();
+</script>
+</body>
+</html>
