@@ -386,124 +386,151 @@ document.getElementById("fLang").innerHTML='<option value="">全部语言</optio
 renderCats(); render(); renderFav(); renderCmp();
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script>
-/* __CG_AUTH_MODULE__ catgithub 账号登录与收藏同步（Supabase） */
-(function(){
-  var SB_URL = "https://hssenfyuklskjylwaah.supabase.co";
-  var SB_KEY = "sb_publishable_cLkEvWHo8qJWA-zrtA_8_g_maDOS0yA";
-  var user = null, lastSnap = null, sb = null;
-  try { if (window.supabase) sb = window.supabase.createClient(SB_URL, SB_KEY); } catch(e) { sb = null; }
 
-  function $(id){ return document.getElementById(id); }
-  function snapshot(){
-    var s = {};
-    P.forEach(function(p){
-      if (favs[p.id] || reads[p.id] || notes[p.id] || favcats[p.id]) {
-        s[p.fn] = { f: !!favs[p.id], r: !!reads[p.id], n: notes[p.id] || "", c: favcats[p.id] || "" };
-      }
+
+<script>
+/* __CG_AUTH_MODULE_V2__ 账号登录 + 跨设备同步（Cloudflare Worker + D1） */
+(function(){
+  var API = 'https://catgithub-api4.325268538.workers.dev';
+  var cgToken = localStorage.getItem('cg_token') || '';
+  var cgEmail = localStorage.getItem('cg_email') || '';
+
+  function byFn(){ var m={}; PROJECTS.forEach(function(p){ m[p.fn]=p.id; }); return m; }
+  function api(path, opts){
+    opts = opts || {};
+    opts.headers = opts.headers || {};
+    if (cgToken) opts.headers['Authorization'] = 'Bearer ' + cgToken;
+    if (opts.body) opts.headers['Content-Type'] = 'application/json';
+    return fetch(API + path, opts).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(j){ return { status: r.status, body: j }; });
     });
-    return s;
   }
-  async function pushDiff(){
-    if (!user || !sb) return;
-    var cur = snapshot();
-    if (lastSnap === null) lastSnap = {};
-    var keys = {}, rows = [];
-    Object.keys(cur).forEach(function(k){ keys[k] = 1; });
-    Object.keys(lastSnap).forEach(function(k){ keys[k] = 1; });
-    Object.keys(keys).forEach(function(k){
-      var a = lastSnap[k], b = cur[k];
-      if (JSON.stringify(a || null) === JSON.stringify(b || null)) return;
-      if (b) rows.push({ user_id: user.id, project_key: k, is_favorite: b.f, is_read: b.r, note: b.n, fav_category: b.c, updated_at: new Date().toISOString() });
-      else rows.push({ user_id: user.id, project_key: k, is_favorite: false, is_read: false, note: "", fav_category: "", updated_at: new Date().toISOString() });
-    });
-    if (!rows.length) { lastSnap = cur; return; }
-    var res = await sb.from("user_state").upsert(rows, { onConflict: "user_id,project_key" });
-    if (!res.error) lastSnap = cur;
+  function rowFor(id){
+    var p = PROJECTS[id]; if (!p) return null;
+    return { project_key: p.fn, is_favorite: favs.has(id) ? 1 : 0, is_read: reads.has(id) ? 1 : 0,
+             note: notes[id] || '', fav_category: favCats[id] || '' };
   }
-  function scheduleSync(){ setTimeout(function(){ pushDiff(); }, 400); }
-  document.addEventListener("click", function(e){
-    var t = e.target && e.target.closest ? e.target.closest("[data-act='fav'],[data-act='read'],#btnNote,#btnFav2") : null;
-    if (t && user) scheduleSync();
+  function pushRows(rows){
+    if (!cgToken || !rows.length) return;
+    api('/api/state', { method: 'POST', body: JSON.stringify({ rows: rows }) }).catch(function(){});
+  }
+  function pushOne(id){ var r = rowFor(id); if (r) pushRows([r]); }
+  function pushAll(){
+    if (!cgToken) return;
+    var seen = {}, rows = [];
+    function add(id){ if (seen[id]) return; seen[id] = 1; var r = rowFor(id); if (r) rows.push(r); }
+    favs.forEach(add); reads.forEach(add);
+    Object.keys(notes).forEach(function(k){ add(+k); });
+    Object.keys(favCats).forEach(function(k){ add(+k); });
+    for (var i = 0; i < rows.length; i += 200) pushRows(rows.slice(i, i + 200));
+  }
+  function pullMerge(pushBack){
+    if (!cgToken) return Promise.resolve();
+    return api('/api/state').then(function(res){
+      if (res.status === 401) { setSession('', ''); return; }
+      var rows = (res.body && res.body.rows) || [], m = byFn();
+      rows.forEach(function(r){
+        var id = m[r.project_key]; if (id === undefined) return;
+        if (r.is_favorite) favs.add(id); else favs.delete(id);
+        if (r.is_read) reads.add(id); else reads.delete(id);
+        if (r.note) notes[id] = r.note; else delete notes[id];
+        if (r.fav_category) favCats[id] = r.fav_category; else delete favCats[id];
+      });
+      persistLocal(); renderAll(); updateAuthBtn();
+      if (pushBack) pushAll();
+    }).catch(function(){});
+  }
+  function setSession(token, email){
+    cgToken = token; cgEmail = email;
+    if (token) { localStorage.setItem('cg_token', token); localStorage.setItem('cg_email', email); }
+    else { localStorage.removeItem('cg_token'); localStorage.removeItem('cg_email'); }
+    updateAuthBtn();
+  }
+
+  /* ---- 同步钩子：收藏/已读/笔记/收藏分类变化时推送 ---- */
+  var _tf = toggleFav, _tr = toggleRead;
+  toggleFav = function(id){ _tf(id); pushOne(id); };
+  toggleRead = function(id){ _tr(id); pushOne(id); };
+  document.addEventListener('click', function(e){
+    if (!cgToken || !e.target || !e.target.id) return;
+    if (e.target.id === 'btnNote' || e.target.id === 'btnFav2') {
+      setTimeout(function(){ if (typeof curId === 'number' && curId >= 0) pushOne(curId); }, 350);
+    }
   }, true);
 
-  async function pullState(){
-    var res = await sb.from("user_state").select("*");
-    if (res.error) return;
-    var byFn = {}; P.forEach(function(p){ byFn[p.fn] = p; });
-    var serverSnap = {};
-    (res.data || []).forEach(function(r){
-      serverSnap[r.project_key] = { f: !!r.is_favorite, r: !!r.is_read, n: r.note || "", c: r.fav_category || "" };
-      var p = byFn[r.project_key];
-      if (p) {
-        if (r.is_favorite) favs[p.id] = true;
-        if (r.is_read) reads[p.id] = true;
-        if (r.note) notes[p.id] = r.note;
-        if (r.fav_category) favcats[p.id] = r.fav_category;
-      }
-    });
-    lastSnap = serverSnap;
-    try { updateBadges(); refresh(); } catch(e) {}
-    pushDiff();
-  }
-
-  /* ---------- 登录界面 ---------- */
-  var css = "#cgAuthBtn{white-space:nowrap} #cgAuthMask{position:fixed;inset:0;background:rgba(40,36,32,.45);display:none;align-items:center;justify-content:center;z-index:999} #cgAuthMask.on{display:flex} #cgAuthBox{background:var(--panel,#fff);color:var(--ink,#333);border-radius:16px;padding:22px;width:min(92vw,360px);box-shadow:0 12px 40px rgba(0,0,0,.25)} #cgAuthBox h3{margin:0 0 6px} #cgAuthBox p{margin:4px 0 10px;font-size:13px;opacity:.75} #cgAuthBox input{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line,#ccc);border-radius:10px;margin:6px 0;background:transparent;color:inherit} #cgAuthMsg{font-size:13px;min-height:18px;margin:8px 0;color:#a4553f} #cgAuthBox .rowb{display:flex;gap:8px;margin-top:6px} #cgAuthBox .rowb button{flex:1}";
-  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
-
-  var mask = document.createElement("div"); mask.id = "cgAuthMask";
-  mask.innerHTML = '<div id="cgAuthBox"><h3>🐾 账号登录</h3><p>登录后，你的收藏、已读和笔记会存到你的账号里，换手机、换电脑登录同一账号都能看到。没账号就点「注册新账号」。</p><input id="cgEmail" type="email" placeholder="邮箱" autocomplete="email"><input id="cgPwd" type="password" placeholder="密码（至少 6 位）" autocomplete="current-password"><div id="cgAuthMsg"></div><div class="rowb"><button class="btn primary" id="cgDoLogin">登录</button><button class="btn" id="cgDoSignup">注册新账号</button></div><div class="rowb"><button class="btn" id="cgClose">关闭</button></div></div>';
+  /* ---- 登录 UI ---- */
+  var css = document.createElement('style');
+  css.textContent = '#cgAuthMask{position:fixed;inset:0;background:rgba(40,35,30,.45);display:none;align-items:center;justify-content:center;z-index:999}'
+    + '#cgAuthBox{background:#fffdf9;border-radius:16px;padding:22px 22px 16px;width:min(92vw,360px);box-shadow:0 12px 40px rgba(0,0,0,.25);color:#4a4238}'
+    + '#cgAuthBox h3{margin:0 0 4px;font-size:17px}#cgAuthBox p{margin:0 0 12px;font-size:12px;color:#8a7f6d}'
+    + '#cgAuthBox input{width:100%;box-sizing:border-box;padding:10px 12px;margin:0 0 10px;border:1px solid #d8cfc0;border-radius:10px;font-size:14px;background:#fff}'
+    + '#cgAuthBox .row{display:flex;gap:8px}#cgAuthBox button{flex:1;padding:10px;border:none;border-radius:10px;font-size:14px;cursor:pointer}'
+    + '#cgDoLogin{background:#a8b8a0;color:#fff}#cgDoSignup{background:#e9e2d4;color:#5a5040}#cgDoClose{background:none;color:#8a7f6d;flex:0 0 auto;padding:10px 4px}'
+    + '#cgAuthMsg{font-size:12px;min-height:16px;margin-top:8px;color:#b0552f}'
+    + '#cgAuthBtn{margin-left:8px}';
+  document.head.appendChild(css);
+  var mask = document.createElement('div');
+  mask.id = 'cgAuthMask';
+  mask.innerHTML = '<div id="cgAuthBox"><h3>👤 账号</h3><p>登录后，收藏、已读和笔记会同步到你的所有设备。</p>'
+    + '<div id="cgLogged" style="display:none"><p id="cgWho" style="font-size:14px;color:#4a4238"></p><div class="row"><button id="cgDoLogout">退出登录</button></div></div>'
+    + '<div id="cgForm"><input id="cgEmail" type="email" placeholder="邮箱" autocomplete="email">'
+    + '<input id="cgPass" type="password" placeholder="密码（至少 6 位）" autocomplete="current-password">'
+    + '<div class="row"><button id="cgDoLogin">登录</button><button id="cgDoSignup">注册新账号</button></div></div>'
+    + '<div id="cgAuthMsg"></div><div class="row"><button id="cgDoClose">关闭</button></div></div>';
   document.body.appendChild(mask);
-  mask.addEventListener("click", function(e){ if (e.target === mask) mask.classList.remove("on"); });
-  $("cgClose").addEventListener("click", function(){ mask.classList.remove("on"); });
-
-  function msg(t){ $("cgAuthMsg").textContent = t || ""; }
-  $("cgDoSignup").addEventListener("click", async function(){
-    if (!sb) { msg("登录服务没加载成功，请刷新页面或检查网络再试。"); return; }
-    var em = $("cgEmail").value.trim(), pw = $("cgPwd").value;
-    if (!em || pw.length < 6) { msg("请填邮箱，密码至少 6 位。"); return; }
-    msg("正在注册…");
-    var r = await sb.auth.signUp({ email: em, password: pw, options: { emailRedirectTo: location.origin + location.pathname } });
-    if (r.error) { msg("注册失败：" + r.error.message); return; }
-    if (r.data && r.data.session) { msg("注册成功，已自动登录！"); }
-    else msg("注册申请已提交！请去邮箱点确认链接完成注册，然后回来登录。");
-  });
-  $("cgDoLogin").addEventListener("click", async function(){
-    if (!sb) { msg("登录服务没加载成功，请刷新页面或检查网络再试。"); return; }
-    var em = $("cgEmail").value.trim(), pw = $("cgPwd").value;
-    if (!em || !pw) { msg("请填邮箱和密码。"); return; }
-    msg("正在登录…");
-    var r = await sb.auth.signInWithPassword({ email: em, password: pw });
-    if (r.error) { msg("登录失败：" + r.error.message + "（如果刚注册，请先去邮箱确认）"); return; }
-    mask.classList.remove("on"); msg("");
-  });
-
-  var btn = document.createElement("button");
-  btn.className = "btn"; btn.id = "cgAuthBtn"; btn.textContent = "👤 登录 / 注册";
-  btn.addEventListener("click", function(){
-    if (user) {
-      if (confirm("当前登录：" + user.email + "\n点「确定」退出登录，点「取消」留在页面。")) { sb.auth.signOut(); }
-    } else { mask.classList.add("on"); }
-  });
-  var anchor = $("tabCmp");
-  if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
-  else document.body.appendChild(btn);
-
-  function reflect(){
-    if (user) { btn.textContent = "🐾 " + user.email + "（已登录）"; }
-    else { btn.textContent = "👤 登录 / 注册"; lastSnap = null; }
+  var btn = document.createElement('button');
+  btn.className = 'tab'; btn.id = 'cgAuthBtn'; btn.type = 'button';
+  var tabs = document.querySelector('.tabs');
+  if (tabs) tabs.appendChild(btn);
+  function updateAuthBtn(){ btn.textContent = cgToken ? ('👤 ' + (cgEmail || '已登录')) : '👤 登录 / 注册'; }
+  updateAuthBtn();
+  function msg(t){ document.getElementById('cgAuthMsg').textContent = t || ''; }
+  function openDlg(){
+    document.getElementById('cgLogged').style.display = cgToken ? 'block' : 'none';
+    document.getElementById('cgForm').style.display = cgToken ? 'none' : 'block';
+    if (cgToken) document.getElementById('cgWho').textContent = '已登录：' + cgEmail;
+    msg(''); mask.style.display = 'flex';
   }
-  if (sb) {
-    sb.auth.getSession().then(function(r){
-      user = (r.data && r.data.session) ? r.data.session.user : null;
-      reflect(); if (user) pullState();
-    });
-    sb.auth.onAuthStateChange(function(ev, session){
-      user = session ? session.user : null;
-      reflect(); if (user && ev === "SIGNED_IN") pullState();
-    });
+  btn.addEventListener('click', openDlg);
+  document.getElementById('cgDoClose').addEventListener('click', function(){ mask.style.display = 'none'; });
+  mask.addEventListener('click', function(e){ if (e.target === mask) mask.style.display = 'none'; });
+  function creds(){
+    return { email: document.getElementById('cgEmail').value.trim(), password: document.getElementById('cgPass').value };
   }
+  document.getElementById('cgDoSignup').addEventListener('click', function(){
+    var c = creds(); msg('注册中…');
+    api('/api/signup', { method: 'POST', body: JSON.stringify(c) }).then(function(res){
+      if (res.body && res.body.token) {
+        setSession(res.body.token, res.body.email);
+        msg('注册成功，已自动登录 ✓ 正在同步你的收藏…');
+        pullMerge(true).then(function(){ msg('注册成功，已登录 ✓'); });
+      } else msg('注册失败：' + ((res.body && res.body.error) || ('HTTP ' + res.status)));
+    }).catch(function(e){ msg('注册失败：' + e.message); });
+  });
+  document.getElementById('cgDoLogin').addEventListener('click', function(){
+    var c = creds(); msg('登录中…');
+    api('/api/login', { method: 'POST', body: JSON.stringify(c) }).then(function(res){
+      if (res.body && res.body.token) {
+        setSession(res.body.token, res.body.email);
+        msg('登录成功 ✓ 正在同步…');
+        pullMerge(true).then(function(){ msg('登录成功，同步完成 ✓'); });
+      } else msg('登录失败：' + ((res.body && res.body.error) || ('HTTP ' + res.status)));
+    }).catch(function(e){ msg('登录失败：' + e.message); });
+  });
+  document.getElementById('cgDoLogout').addEventListener('click', function(){
+    api('/api/logout', { method: 'POST' }).catch(function(){});
+    setSession('', ''); msg('已退出登录。本机上的收藏还在，但不会再同步。');
+    document.getElementById('cgLogged').style.display = 'none';
+    document.getElementById('cgForm').style.display = 'block';
+  });
+
+  /* 把「关闭页面就清空」那句说明改掉 */
+  document.querySelectorAll('p.note, .saved-note').forEach(function(el){
+    if (el.textContent.indexOf('关闭页面') >= 0) el.textContent = '登录账号后，收藏、已读和笔记会跨设备同步保存；不登录时仅保存在本浏览器。';
+  });
+
+  /* 已登录则启动时拉取云端状态 */
+  if (cgToken) pullMerge(false);
 })();
 </script>
 
