@@ -196,21 +196,25 @@ function renderLive(){
   document.getElementById("liveGrid").innerHTML = html;
 }
 function pollLive(){
-  LIVE.forEach(function(it){
-    fetch("https://query2.finance.yahoo.com/v8/finance/chart/" + encodeURIComponent(it.symbol) + "?range=1d&interval=1m")
-      .then(function(r){ return r.json(); })
-      .then(function(j){
-        var meta = j && j.chart && j.chart.result && j.chart.result[0] && j.chart.result[0].meta;
-        if (!meta || meta.regularMarketPrice == null) return;
-        it.price = meta.regularMarketPrice;
-        if (meta.regularMarketDayHigh != null) it.dayHigh = meta.regularMarketDayHigh;
-        if (meta.regularMarketDayLow != null) it.dayLow = meta.regularMarketDayLow;
-        renderLive();
-        var now = new Date();
-        document.getElementById("liveStamp").textContent = "已刷新 · 本页更新于 " + now.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}) + "（北京时间）";
-      })
-      .catch(function(){ /* 连不通行情源时保留快照价，不报错打扰读者 */ });
-  });
+  fetch("https://catgithub-api4.325268538.workers.dev/api/prices")
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if (!j) return;
+      var changed = false;
+      LIVE.forEach(function(it){
+        var q = j[it.product];
+        if (!q || q.price == null) return;
+        it.price = q.price;
+        if (q.dayHigh != null) it.dayHigh = q.dayHigh;
+        if (q.dayLow != null) it.dayLow = q.dayLow;
+        changed = true;
+      });
+      if (!changed) return;
+      renderLive();
+      var now = new Date();
+      document.getElementById("liveStamp").textContent = "已刷新 · 本页更新于 " + now.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}) + "（北京时间）";
+    })
+    .catch(function(){ /* 连不通行情源时保留快照价，不报错打扰读者 */ });
 }
 renderLive();
 setInterval(pollLive, 10000);
