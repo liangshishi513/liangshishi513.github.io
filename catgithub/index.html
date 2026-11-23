@@ -391,6 +391,8 @@ renderCats(); render(); renderFav(); renderCmp();
 
 
 <!-- cg-build 2026-11-23-v2b -->
+
+
 <script>
 /* __CG_AUTH_MODULE_V3__ 账号登录 + 跨设备同步（Cloudflare Worker + D1，按公开版真实页面结构编写） */
 (function(){
@@ -513,10 +515,15 @@ renderCats(); render(); renderFav(); renderCmp();
     + '<div id="cgAuthMsg"></div><div class="row"><button id="cgDoClose">关闭</button></div></div>';
   document.body.appendChild(mask);
   var btn = document.createElement('button');
-  btn.className = 'btn'; btn.id = 'cgAuthBtn'; btn.type = 'button';
-  var anchor = document.getElementById('tabCmp');
-  if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
-  else document.body.appendChild(btn);
+  btn.id = 'cgAuthBtn'; btn.type = 'button';
+  btn.style.cssText = 'margin-left:12px;vertical-align:middle;background:#7d8b74;color:#fff;border:none;border-radius:999px;padding:7px 15px;font-size:13.5px;cursor:pointer;box-shadow:0 2px 8px rgba(90,80,60,.28);white-space:nowrap';
+  var h1 = document.querySelector('header h1') || document.querySelector('h1');
+  if (h1) h1.appendChild(btn);
+  else {
+    var anchor = document.getElementById('tabCmp');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+    else document.body.appendChild(btn);
+  }
   function updateAuthBtn(){ btn.textContent = cgToken ? ('👤 ' + (cgEmail || '已登录')) : '👤 登录 / 注册'; }
   updateAuthBtn();
   function msg(t){ document.getElementById('cgAuthMsg').textContent = t || ''; }
