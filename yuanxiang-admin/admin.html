@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元象小店 · 店主后台（体验版）</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#F4EFE7; color:#3E4A44; }
+  .wrap { max-width:880px; margin:0 auto; padding:0 16px 48px; }
+  header { padding:26px 0 6px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
+  header h1 { font-size:22px; color:#1E4A5A; }
+  header a { color:#1E4A5A; font-size:13.5px; }
+  .demo-bar { background:#FDF6E3; border:1px dashed #C9B458; color:#7A6420; border-radius:10px; padding:10px 14px; font-size:13.5px; line-height:1.7; margin:14px 0; }
+  .panel { background:#FFFDF7; border-radius:14px; padding:20px 22px; box-shadow:0 2px 10px rgba(30,74,90,.08); margin-bottom:18px; }
+  .panel h3 { color:#1E4A5A; font-size:17px; margin-bottom:12px; }
+  label { display:block; font-size:13.5px; color:#77817A; margin:10px 0 4px; }
+  input[type=text], input[type=number], input[type=password], textarea, select { width:100%; padding:9px 11px; border:1px solid #D8D2C4; border-radius:8px; font-size:14.5px; background:#fff; font-family:inherit; }
+  textarea { min-height:64px; resize:vertical; }
+  .btn { background:#1E4A5A; color:#fff; border:none; padding:9px 20px; border-radius:20px; font-size:14px; cursor:pointer; }
+  .btn.gold { background:#C9B458; color:#3E3410; }
+  .btn.ghost { background:#EFEAE0; color:#5C665F; }
+  .btn.sm { padding:5px 12px; font-size:12.5px; }
+  .btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { padding:9px 8px; border-bottom:1px solid #EFEAE0; text-align:left; vertical-align:middle; }
+  th { color:#8A7B5C; font-weight:600; font-size:13px; }
+  td img { width:44px; height:44px; object-fit:cover; border-radius:8px; display:block; }
+  .thumb-ph { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.9); font-weight:700; }
+  .msg { font-size:13.5px; color:#4E7A51; margin-top:10px; min-height:18px; }
+  #loginBox { max-width:380px; margin:60px auto; }
+  .hidden { display:none; }
+  .prev { margin-top:8px; } .prev img { max-width:180px; border-radius:10px; display:block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="loginBox" class="panel">
+    <h3>店主后台登录</h3>
+    <label>管理员密码</label>
+    <input type="password" id="pw" placeholder="输入密码">
+    <div class="btnrow"><button class="btn" onclick="doLogin()">登录</button></div>
+    <div class="msg" id="loginMsg"></div>
+    <p style="font-size:12.5px;color:#A39A87;margin-top:12px;line-height:1.7;">体验版密码：<b>yuanxiang123</b>（正式版会换成店主自己的密码，并存在服务器上验证）</p>
+  </div>
+
+  <div id="adminBox" class="hidden">
+    <header>
+      <h1>元象小店 · 店主后台</h1>
+      <span><a href="index.html" target="_blank">查看前台 →</a> &nbsp; <a href="#" onclick="doLogout();return false;">退出登录</a></span>
+    </header>
+    <div class="demo-bar">欢迎回来。在这里加产品、改价格、换图片，点保存后打开前台就能看到更新 — 这就是"自助上传"。<br>体验版说明：数据保存在<b>这台设备的浏览器</b>里，换一台设备看不到变化；正式版会把数据存到服务器数据库，所有人看到的都是同一份。</div>
+
+    <div class="panel">
+      <h3 id="formTitle">添加新产品</h3>
+      <input type="hidden" id="f_id">
+      <label>产品名称</label>
+      <input type="text" id="f_name" placeholder="例如：简历优化">
+      <label>类型</label>
+      <select id="f_type"><option value="service">服务</option><option value="digital">数字产品</option></select>
+      <label>价格（元）</label>
+      <input type="number" id="f_price" step="0.1" min="0" placeholder="例如：49">
+      <label>价格后缀（可空，如"起"）</label>
+      <input type="text" id="f_unit" placeholder="起">
+      <label>一句话介绍</label>
+      <textarea id="f_desc" placeholder="这个产品是做什么的、适合谁"></textarea>
+      <label>产品图片（可选，不传就用彩色字卡）</label>
+      <input type="file" id="f_img" accept="image/*">
+      <div class="prev" id="imgPrev"></div>
+      <div class="btnrow">
+        <button class="btn gold" onclick="saveProduct()">保存并发布</button>
+        <button class="btn ghost" onclick="resetForm()">清空重填</button>
+      </div>
+      <div class="msg" id="formMsg"></div>
+    </div>
+
+    <div class="panel">
+      <h3>已上架产品</h3>
+      <table><thead><tr><th>图</th><th>名称</th><th>类型</th><th>价格</th><th>操作</th></tr></thead><tbody id="rows"></tbody></table>
+      <div class="btnrow">
+        <button class="btn ghost sm" onclick="exportData()">导出备份（JSON）</button>
+        <button class="btn ghost sm" onclick="document.getElementById('imp').click()">导入备份</button>
+        <input type="file" id="imp" accept=".json" class="hidden">
+        <button class="btn ghost sm" onclick="resetSeed()">恢复默认产品</button>
+      </div>
+      <div class="msg" id="listMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  var ADMIN_PW = 'yuanxiang123';
+  var imgData = '';
+  function doLogin(){
+    if (document.getElementById('pw').value === ADMIN_PW) {
+      sessionStorage.setItem('yx_admin','1'); showAdmin();
+    } else { document.getElementById('loginMsg').textContent = '密码不对，再试试。'; }
+  }
+  function doLogout(){ sessionStorage.removeItem('yx_admin'); location.reload(); }
+  function showAdmin(){
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('adminBox').classList.remove('hidden');
+    renderRows();
+  }
+  if (sessionStorage.getItem('yx_admin') === '1') showAdmin();
+
+  document.getElementById('f_img').addEventListener('change', function(){
+    var f = this.files[0]; if (!f) return;
+    var img = new Image();
+    img.onload = function(){
+      var c = document.createElement('canvas');
+      var scale = Math.min(1, 800 / img.width);
+      c.width = img.width * scale; c.height = img.height * scale;
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      imgData = c.toDataURL('image/jpeg', 0.82);
+      document.getElementById('imgPrev').innerHTML = '<img src="'+imgData+'">';
+      URL.revokeObjectURL(img.src);
+    };
+    img.src = URL.createObjectURL(f);
+  });
+
+  function resetForm(){
+    ['f_id','f_name','f_price','f_unit','f_desc'].forEach(function(i){ document.getElementById(i).value=''; });
+    document.getElementById('f_type').value = 'service';
+    document.getElementById('f_img').value = ''; imgData = '';
+    document.getElementById('imgPrev').innerHTML = '';
+    document.getElementById('formTitle').textContent = '添加新产品';
+    document.getElementById('formMsg').textContent = '';
+  }
+  function saveProduct(){
+    var name = document.getElementById('f_name').value.trim();
+    var price = parseFloat(document.getElementById('f_price').value);
+    if (!name || isNaN(price)) { document.getElementById('formMsg').textContent = '名称和价格必填。'; return; }
+    var list = yxLoad();
+    var id = document.getElementById('f_id').value;
+    var p = { id: id ? +id : Date.now(), type: document.getElementById('f_type').value, name: name, price: price,
+              unit: document.getElementById('f_unit').value.trim(), desc: document.getElementById('f_desc').value.trim(), img: imgData };
+    if (id) {
+      var old = list.find(function(x){ return x.id === +id; });
+      if (old && !imgData) p.img = old.img;
+      list = list.map(function(x){ return x.id === +id ? p : x; });
+    } else { list.push(p); }
+    yxSave(list); renderRows(); resetForm();
+    document.getElementById('formMsg').textContent = '已保存！打开前台页面就能看到更新。';
+  }
+  function editProduct(id){
+    var p = yxLoad().find(function(x){ return x.id === id; }); if (!p) return;
+    document.getElementById('f_id').value = p.id;
+    document.getElementById('f_name').value = p.name;
+    document.getElementById('f_type').value = p.type;
+    document.getElementById('f_price').value = p.price;
+    document.getElementById('f_unit').value = p.unit || '';
+    document.getElementById('f_desc').value = p.desc || '';
+    imgData = '';
+    document.getElementById('imgPrev').innerHTML = p.img ? '<img src="'+p.img+'">' : '';
+    document.getElementById('formTitle').textContent = '修改产品：' + p.name;
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function delProduct(id){
+    if (!confirm('确定下架并删除这个产品吗？')) return;
+    yxSave(yxLoad().filter(function(x){ return x.id !== id; }));
+    renderRows();
+    document.getElementById('listMsg').textContent = '已删除，前台同步更新。';
+  }
+  function renderRows(){
+    var list = yxLoad();
+    document.getElementById('rows').innerHTML = list.map(function(p){
+      var thumb = p.img ? '<img src="'+p.img+'">' : '<div class="thumb-ph" style="background:'+(p.type==='digital'?'#A9B795':'#7FA3AE')+'">'+p.name.slice(0,1)+'</div>';
+      return '<tr><td>'+thumb+'</td><td>'+p.name+'</td><td>'+(p.type==='digital'?'数字产品':'服务')+'</td><td>¥'+p.price+(p.unit||'')+'</td><td><button class="btn ghost sm" onclick="editProduct('+p.id+')">改</button> <button class="btn ghost sm" onclick="delProduct('+p.id+')">删</button></td></tr>';
+    }).join('');
+  }
+  function exportData(){
+    var blob = new Blob([JSON.stringify(yxLoad(), null, 2)], {type:'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = '元象小店产品备份.json'; a.click();
+  }
+  document.getElementById('imp').addEventListener('change', function(){
+    var f = this.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(){ try { var d = JSON.parse(r.result); if (Array.isArray(d)) { yxSave(d); renderRows(); document.getElementById('listMsg').textContent = '导入成功。'; } } catch(e){ document.getElementById('listMsg').textContent = '这个文件不对，导入失败。'; } };
+    r.readAsText(f);
+  });
+  function resetSeed(){ if (confirm('恢复成最初的 9 个产品？你改过的会没掉。')) { localStorage.removeItem(YX_KEY); renderRows(); resetForm(); } }
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元象设计小店 · 后台体验版（前台）</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#F4EFE7; color:#3E4A44; }
+  .wrap { max-width:880px; margin:0 auto; padding:0 16px 48px; }
+  header { text-align:center; padding:34px 0 8px; }
+  header h1 { font-size:28px; color:#1E4A5A; letter-spacing:2px; }
+  header p { color:#8A7B5C; margin-top:8px; font-size:14px; }
+  .demo-bar { background:#FDF6E3; border:1px dashed #C9B458; color:#7A6420; border-radius:10px; padding:10px 14px; font-size:13.5px; line-height:1.7; margin:18px 0 4px; text-align:center; }
+  h2.sec { font-size:20px; color:#1E4A5A; margin:30px 0 14px; padding-left:10px; border-left:4px solid #C9B458; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; }
+  .card { background:#FFFDF7; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(30,74,90,.08); }
+  .card .cov { height:120px; overflow:hidden; }
+  .card .cov img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card .ph { height:120px; display:flex; align-items:center; justify-content:center; font-size:44px; color:rgba(255,255,255,.85); font-weight:700; }
+  .card .bd { padding:14px 16px 16px; }
+  .card h3 { font-size:16.5px; color:#2C3E37; margin-bottom:6px; }
+  .card p { font-size:13.5px; color:#77817A; line-height:1.65; min-height:44px; }
+  .row { display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+  .price { color:#B4762A; font-weight:700; font-size:19px; }
+  .price small { font-size:12px; font-weight:400; }
+  .btn { background:#1E4A5A; color:#fff; border:none; padding:8px 16px; border-radius:20px; font-size:13.5px; cursor:pointer; text-decoration:none; }
+  footer { text-align:center; color:#A39A87; font-size:12.5px; margin-top:40px; line-height:1.8; }
+  footer a { color:#1E4A5A; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>元象设计 · 小店</h1>
+    <p>独立站 / PPT / 表格 / 文案 / 配音 — 先聊需求，确认能做再付款</p>
+  </header>
+
+  <div class="demo-bar">这是「自助后台体验版」的前台：产品由店主在后台自己上传，发布后这里自动更新。<br>后台入口在页面最下面，密码问店主。</div>
+
+  <h2 class="sec">服务</h2>
+  <div class="grid" id="svc"></div>
+
+  <h2 class="sec">数字产品</h2>
+  <div class="grid" id="dig"></div>
+
+  <footer>
+    元象设计 · 中山市元象文艺创作工作室<br>
+    <a href="admin.html">店主后台登录 →</a>
+  </footer>
+</div>
+<script src="shared.js"></script>
+<script>
+  function card(p){
+    return '<div class="card"><div class="cov">'+yxCover(p)+'</div><div class="bd"><h3>'+p.name+'</h3><p>'+p.desc+'</p><div class="row"><span class="price">¥'+p.price+' <small>'+(p.unit||'')+'</small></span><a class="btn" href="https://liangshishi513.github.io/yuanxiang/" target="_blank">去下单</a></div></div></div>';
+  }
+  var list = yxLoad();
+  document.getElementById('svc').innerHTML = list.filter(function(p){return p.type==='service';}).map(card).join('') || '<p>暂无</p>';
+  document.getElementById('dig').innerHTML = list.filter(function(p){return p.type==='digital';}).map(card).join('') || '<p>暂无</p>';
+</script>
+</body>
+</html>
