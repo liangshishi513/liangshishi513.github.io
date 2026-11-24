@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>元象设计小店 · 后台体验版（前台）</title>
+<title>元象设计小店 · 自助后台版（前台）</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#F4EFE7; color:#3E4A44; }
@@ -36,7 +36,7 @@
     <p>独立站 / PPT / 表格 / 文案 / 配音 — 先聊需求，确认能做再付款</p>
   </header>
 
-  <div class="demo-bar">这是「自助后台体验版」的前台：产品由店主在后台自己上传，发布后这里自动更新。<br>后台入口在页面最下面，密码问店主。</div>
+  <div class="demo-bar">产品由店主在后台自己上传，数据存云端数据库 — 在任何设备打开，看到的都是最新的一份。</div>
 
   <h2 class="sec">服务</h2>
   <div class="grid" id="svc"></div>
@@ -49,14 +49,18 @@
     <a href="admin.html">店主后台登录 →</a>
   </footer>
 </div>
-<script src="shared.js"></script>
+<script>var API="https://yuanxiang-shop-api.325268538.workers.dev";</script>
 <script>
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function cover(p){ if (p.img) return '<img src="'+p.img+'" alt="">'; var c = p.type==='digital' ? 'linear-gradient(135deg,#C4CDB4,#A9B795)' : 'linear-gradient(135deg,#A9BCC4,#7FA3AE)'; return '<div class="ph" style="background:'+c+'">'+esc(p.name).slice(0,1)+'</div>'; }
   function card(p){
-    return '<div class="card"><div class="cov">'+yxCover(p)+'</div><div class="bd"><h3>'+p.name+'</h3><p>'+p.desc+'</p><div class="row"><span class="price">¥'+p.price+' <small>'+(p.unit||'')+'</small></span><a class="btn" href="https://liangshishi513.github.io/yuanxiang/" target="_blank">去下单</a></div></div></div>';
+    return '<div class="card"><div class="cov">'+cover(p)+'</div><div class="bd"><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p><div class="row"><span class="price">¥'+p.price+' <small>'+esc(p.unit||'')+'</small></span><a class="btn" href="https://liangshishi513.github.io/yuanxiang/" target="_blank">去下单</a></div></div></div>';
   }
-  var list = yxLoad();
-  document.getElementById('svc').innerHTML = list.filter(function(p){return p.type==='service';}).map(card).join('') || '<p>暂无</p>';
-  document.getElementById('dig').innerHTML = list.filter(function(p){return p.type==='digital';}).map(card).join('') || '<p>暂无</p>';
+  fetch(API + '/products').then(function(r){ return r.json(); }).then(function(d){
+    var list = d.products || [];
+    document.getElementById('svc').innerHTML = list.filter(function(p){return p.type==='service';}).map(card).join('') || '<p>暂无</p>';
+    document.getElementById('dig').innerHTML = list.filter(function(p){return p.type==='digital';}).map(card).join('') || '<p>暂无</p>';
+  }).catch(function(){ document.getElementById('svc').innerHTML = '<p>加载失败，请刷新重试。</p>'; });
 </script>
 </body>
 </html>
