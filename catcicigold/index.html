@@ -94,13 +94,13 @@ footer{color:var(--dim);font-size:12.5px;padding:26px 0 6px;border-top:1px solid
 <div class="wrap">
 
 <header>
-  <h1>catcicigold <span>公开版 · 2026-11-23 晚间版 · 美黄金 / COMEX 精铜 / 纽约 WTI 原油</span></h1>
+  <h1>catcicigold <span>公开版 · 2026-11-24 早间版 · 美黄金 / COMEX 精铜 / 纽约 WTI 原油</span></h1>
   <p class="lede">三个期货品种的行情高低点、能影响行情的消息面（带影响分析和重要程度）、每日研判、本周总结与下周数据日历。莫兰迪分色：黄金燕麦、精铜灰绿、原油灰蓝。无 K 线图。</p>
   <div class="stats">
-    <div class="stat"><b>2026-11-23 周一</b><small>晚间版 · 盘中数据截至约 20:00（北京时间）</small></div>
-    <div class="stat"><b>11月23日 – 27日</b><small>本周高低点统计区间</small></div>
-    <div class="stat"><b>46 条</b><small>本周市场消息（带分析）</small></div>
-    <div class="stat"><b>2026-11-23 晚间版</b><small>本期公开快照（北京时间）</small></div>
+    <div class="stat"><b>2026-11-23 周一收盘</b><small>早间版 · 上个交易日收盘数据</small></div>
+    <div class="stat"><b>11月23日 – 27日</b><small>感恩节当周 · 本周迄今仅周一一个交易日，本周高低点即周一区间</small></div>
+    <div class="stat"><b>59 条</b><small>本周市场消息（带分析）</small></div>
+    <div class="stat"><b>2026-11-24 早间版</b><small>本期公开快照（北京时间）</small></div>
   </div>
   <p class="note">公开版与个人版内容口径一致，差别只在更新方式：个人版每天 08:00 / 20:00 自动更新，公开版是定期发布的静态快照，在任何浏览器打开就能看；下方「最新参考价」在浏览器能连通行情源时会尝试每 5 秒刷新，连不通时显示快照价并注明时间。</p>
   <div class="chips" role="group" aria-label="显示模式">
@@ -113,26 +113,25 @@ footer{color:var(--dim);font-size:12.5px;padding:26px 0 6px;border-top:1px solid
 </header>
 
 <!-- ============ 最新参考价 ============ -->
-<h2 class="sec" style="margin-top:22px">最新参考价 <span id="liveStamp">快照取于 2026-11-23 晚间（北京时间）· 每 5 秒尝试刷新</span></h2>
+<h2 class="sec" style="margin-top:22px">最新参考价 <span id="liveStamp">快照取于 2026-11-24 早间（北京时间）· 每 5 秒尝试刷新</span></h2>
 <p class="note" style="margin:2px 0 0">免费源（腾讯财经外盘期货报价，代码 hf_GC / hf_HG / hf_CL；精铜报价单位为美分/磅，页面已换算为美元/磅），免费报价可能延迟约 10–15 分钟，报价本身约每分钟更新一次；这是公开参考价，不是 WeTrade MT5 的原生报价，MT5 实际报价以经纪商为准。</p>
 <div class="live-grid" id="liveGrid"></div>
 
 <!-- ============ 行情卡 ============ -->
-<h2 class="sec">今日盘中与本周 / 本月高低点 <span>周一 2026-11-23 盘中（截至北京时间约 20:00，美盘尚未收盘）· 上一已收盘交易日为 2026-11-20 周五</span></h2>
+<h2 class="sec">上个交易日收盘与本周 / 本月高低点 <span>2026-11-23 周一收盘数据 · 本周为 11 月 23–27 日感恩节当周，本周迄今仅周一一个交易日，故本周高低点即周一区间</span></h2>
 <div style="display:flex;flex-direction:column;gap:16px;margin-top:12px" id="priceCards"></div>
 
 <!-- ============ 研判 ============ -->
-<h2 class="sec">今日研判 <span>基本面 + 技术面结合 · 2026-11-23 晚间版</span></h2>
+<h2 class="sec">早间研判 <span>基本面 + 技术面结合 · 2026-11-24 早间版</span></h2>
 <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px" id="briefings"></div>
 
 <!-- ============ 周报 + 日历 ============ -->
 <h2 class="sec">本周总结与下周日历</h2>
 <section class="panel" style="margin-top:12px">
-  <p style="margin:0">本周美黄金收于 3,622.00 美元，周涨 3.03%，在上周重创后超跌反弹，美元涨势暂歇带来支撑，但美联储鹰派预期与强美元仍构成压制，市场等待核心 PCE 等通胀数据指引。精铜收于 5.52 美元，周涨 0.77%，但中国现货成交与铜杆订单双降、全球铜库存创历史新高，叠加美联储鹰派预期和 AI 需求担忧，铜价仍以弱势盘整为主。美原油收于 82.18 美元，周跌 2.14%，WTI 一度跌破 83 美元，供应过剩与库存增加预期压制油价，盖过中东紧张局势与海湾袭击带来的地缘支撑。整体看，黄金反弹能否持续取决于通胀数据是否支持加息预期降温，铜价需等待中国需求与宏观预期边际改善，原油则在过剩叙事与 25–30 美元地缘溢价拉锯下波动风险较高，近月反弹、远月走弱暗示中长期承压。</p>
+  <p style="margin:0">本周美黄金收于 3626.20 美元/盎司，周涨 3.15%，在前期重创后企稳反弹，美元涨势暂歇、空头回补及贝森特警告美联储勿过度紧缩缓和了鹰派预期，但 GDP 与 10 月核心 PCE 等数据仍是决定金价下一步方向的关键。精铜收于 5.59 美元/磅，周涨 2.10%，在大跌后企稳于 5.50 美元上方并强劲反弹，美国库存改道中国缓解了供应紧张，英伟达黄仁勋复职点燃 AI 交易也修复了铜需求预期，但 AI 投资前景与美联储鹰派立场仍存不确定性。美原油收于 80.35 美元/桶，周跌 4.32%，市场对美国再次袭击伊朗的担忧降温令战争溢价回落，叠加 IEA 下调需求预期及供应过剩预期升温，油价承压，个别机构甚至看空至 50 美元附近。总体看，本周金铜反弹、油价走弱的分化格局主要由美元与美联储政策预期、地缘局势缓和、铜库存流向与 AI 需求情绪共同驱动，下周需重点关注通胀与增长数据对政策预期的验证。</p>
   <h3 style="margin:16px 0 0;font-size:15px">本周剩余日程（北京时间）</h3>
   <ul class="cal">
-    <li><div><b>今晚 11/23</b>　21:30 芝加哥联储全国活动指数（10 月）；22:45 美国 11 月 S&amp;P Global 闪值 PMI；明日凌晨 05:00 纽约联储主席 Williams 讲话 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge important">重要</span></li>
-    <li><div><b>周二 11/24</b>　23:00 美国咨商会消费者信心；API 原油库存（周三 05:30 公布） <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge normal">一般</span></li>
+        <li><div><b>周二 11/24</b>　23:00 美国咨商会消费者信心；API 原油库存（周三 05:30 公布） <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge normal">一般</span></li>
     <li><div><b>周三 11/25（本周最重磅）</b>　21:30 美国 10 月核心 PCE（预期环比 +0.3%、同比 +3.2–3.3%）、Q3 GDP 二次修正（预期 3.4%）、耐用品订单、初请失业金；23:30 EIA 原油库存；周四凌晨 03:00 美联储褐皮书 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge major">重大</span></li>
     <li><div><b>周四 11/26</b>　感恩节，美股、美债休市，流动性薄、波动可能放大 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge important">重要</span></li>
     <li><div><b>周五 11/27</b>　美股提前收盘 <span class="ptag" style="background:var(--gold-bg);color:var(--gold-deep)">黄金</span> <span class="ptag" style="background:var(--copper-bg);color:var(--copper-deep)">精铜</span> <span class="ptag" style="background:var(--oil-bg);color:var(--oil-deep)">原油</span></div><span class="badge normal">一般</span></li>
@@ -164,7 +163,7 @@ footer{color:var(--dim);font-size:12.5px;padding:26px 0 6px;border-top:1px solid
 
 <footer>
 行情来源：历史高低点为 Yahoo Finance 期货日线（COMEX / NYMEX 主力及连续合约）；盘中最新参考价为腾讯财经外盘期货报价（免费报价，可能延迟约 10–15 分钟）。结算价口径以 CME 为准，不同数据源盘中高低点可能略有出入，文中已注明。本页价格均为公开参考价，不是 WeTrade MT5 的原生报价，MT5 实际报价以经纪商为准。<br />
-以上内容为信息整理，不是投资建议，据此操作风险自担。公开版为静态快照（本期 2026-11-23 晚间版），数据时点见各卡片标注；个人版每天 08:00 / 20:00 自动更新。
+以上内容为信息整理，不是投资建议，据此操作风险自担。公开版为静态快照（本期 2026-11-24 早间版），数据时点见各卡片标注；个人版每天 08:00 / 20:00 自动更新。
 </footer>
 </div>
 
@@ -180,9 +179,9 @@ function pctCls(v){ return v==null||v===0 ? "" : (v>0 ? "up" : "down"); }
 
 /* ---------- 最新参考价（快照值；页面打开后每 5 秒尝试从腾讯财经拉新价） ---------- */
 var LIVE = [
-  { product:"gold",   tcode:"v_hf_GC", scale:1,    label:"美黄金 · COMEX 期货", unit:"美元/盎司", price:3622.00, prevClose:3515.40, dayHigh:3636.40, dayLow:3552.30, prevHigh:3638.10, prevLow:3502.90 },
-  { product:"copper", tcode:"v_hf_HG", scale:0.01, label:"精铜 · COMEX 期货",   unit:"美元/磅",   price:5.519,   prevClose:5.477,   dayHigh:5.5815,  dayLow:5.408,   prevHigh:5.608,   prevLow:5.4405 },
-  { product:"oil",    tcode:"v_hf_CL", scale:1,    label:"WTI 原油 · NYMEX 期货（1 月主力）", unit:"美元/桶", price:82.18, prevClose:83.41, dayHigh:83.95, dayLow:81.93, prevHigh:84.35, prevLow:81.55 }
+  { product:"gold",   tcode:"v_hf_GC", scale:1,    label:"美黄金 · COMEX 期货", unit:"美元/盎司", price:3626.20, prevClose:3515.40, dayHigh:3641.30, dayLow:3626.20, prevHigh:3638.10, prevLow:3502.90 },
+  { product:"copper", tcode:"v_hf_HG", scale:0.01, label:"精铜 · COMEX 期货",   unit:"美元/磅",   price:5.592,   prevClose:5.477,   dayHigh:5.6365,  dayLow:5.5905,  prevHigh:5.608,   prevLow:5.4405 },
+  { product:"oil",    tcode:"v_hf_CL", scale:1,    label:"WTI 原油 · NYMEX 期货（1 月主力）", unit:"美元/桶", price:80.35, prevClose:83.41, dayHigh:80.44, dayLow:80.12, prevHigh:84.35, prevLow:81.55 }
 ];
 function renderLive(){
   var html = "";
@@ -235,30 +234,31 @@ function pollLive(){
 renderLive();
 setInterval(pollLive, 5000);
 
-/* ---------- 行情卡（周一 2026-11-23 盘中，截至北京时间约 20:00） ---------- */
+/* ---------- 行情卡（周一 2026-11-23 收盘） ---------- */
 var PRICES = [
   { product:"gold", label:"美黄金", contract:"COMEX 黄金期货 12 月主力", unit:"美元/盎司",
-    open:3570.50, high:3636.40, low:3552.30, close:3622.00, chg:3.03,
-    weekHigh:3636.40, weekLow:3552.30, weekChg:3.03, monthHigh:4157.70, monthLow:3502.90,
-    extra:'<p style="margin:0">周一为盘中数据（截至北京时间约 20:00，美盘尚未收盘），非收盘价。上周五（11/20）：最高 <b>3,638.10</b> / 最低 <b>3,502.90</b> / 结算 <b>3,515.40</b>。</p>'
-        + '<p style="margin:6px 0 0"><b>MT5 XAUUSD 参考价：</b>约 <b>3,621–3,626</b> 美元/盎司（FXStreet 约 3,621；现货 3,625.55）。不同报价商现货价略有差异，MT5 实际报价以经纪商（WeTrade）为准；本页期货数字均为公开参考价，不是 MT5 里的价格。</p>' },
+    open:3636.40, high:3641.30, low:3626.20, close:3626.20, chg:3.15,
+    weekHigh:3641.30, weekLow:3626.20, weekChg:3.15, monthHigh:4157.70, monthLow:3502.90,
+    extra:'<p style="margin:0">周一为收盘价。上周五（11/20）12 月合约最高 <b>3,638.10</b> / 最低 <b>3,502.90</b> / 结算 <b>3,515.40</b>。</p>'
+        + '<p style="margin:6px 0 0"><b>MT5 XAUUSD 参考价：</b>约 <b>3,650</b> 美元/盎司（来源 FXStreet《黄金收复 3650 美元》）。不同报价商现货价略有差异，MT5 实际报价以经纪商（WeTrade）为准；本页期货数字均为公开参考价，不是 MT5 里的价格。</p>'
+        + '<p style="margin:6px 0 0">另注：华尔街日报口径前月（11 月）合约结算 3,649.20（+3.90%），与 12 月合约收盘略有差异，属合约口径不同。</p>' },
   { product:"copper", label:"精铜", contract:"COMEX 精铜期货", unit:"美元/磅",
-    open:5.4725, high:5.5815, low:5.4080, close:5.519, chg:0.77,
-    weekHigh:5.5815, weekLow:5.4080, weekChg:0.77, monthHigh:6.549, monthLow:5.408,
-    extra:'<p style="margin:0">周一为盘中数据（截至北京时间约 20:00），非收盘价。上周五前月合约结算 <b>5.4770</b> 美元/磅，盘中低点 5.4405。</p>'
-        + '<p style="margin:6px 0 0">LME 三个月铜周一盘中一度跌破 12,000 美元/吨（最低 <b>11,948</b>，为 3 月以来首次），后回升至约 <b>12,240.50</b>（+0.66%）；上周五 LME 收 12,160 美元/吨。</p>' },
-  { product:"oil", label:"纽约 WTI 原油", contract:"NYMEX WTI 原油期货 1 月主力（12 月合约已到期）", unit:"美元/桶",
-    open:83.67, high:83.95, low:81.93, close:82.18, chg:-2.14,
-    weekHigh:83.95, weekLow:81.93, weekChg:-2.14, monthHigh:102.75, monthLow:81.55,
-    extra:'<p style="margin:0">周一为盘中数据（截至北京时间约 20:00），非收盘价。现价较 1 月合约上周五结算 83.41 跌约 1.5%；按 12 月合约结算 83.98 口径为 -2.14%。</p>'
-        + '<p style="margin:6px 0 0">上周五 12 月合约：最高 <b>84.35</b> / 最低 <b>81.55</b> / 结算 <b>83.98</b>；1 月合约结算 83.41。布伦特 1 月约 91.97–92.10 美元/桶。</p>' }
+    open:5.616, high:5.6365, low:5.5905, close:5.592, chg:2.10,
+    weekHigh:5.6365, weekLow:5.5905, weekChg:2.10, monthHigh:6.549, monthLow:5.457,
+    extra:'<p style="margin:0">周一为收盘价。上周五前月合约结算 <b>5.4770</b> 美元/磅，盘中低点 5.4405。</p>'
+        + '<p style="margin:6px 0 0">LME 三个月铜周一盘中一度跌破 12,000 美元/吨（最低 <b>11,948</b>，3 月 24 日以来首次），官方收盘回升至 <b>12,168</b> 美元/吨（+0.1%）；上周五收 12,160。</p>' },
+  { product:"oil", label:"纽约 WTI 原油", contract:"NYMEX WTI 原油期货 1 月主力", unit:"美元/桶",
+    open:80.36, high:80.44, low:80.12, close:80.35, chg:-4.32,
+    weekHigh:80.44, weekLow:80.12, weekChg:-4.32, monthHigh:102.75, monthLow:80.12,
+    extra:'<p style="margin:0">周一为收盘价。1 月合约结算口径：Rigzone / Biggo 为 <b>80.17</b> 美元/桶（-3.9%），卡塔尔通讯社（QNA）报道为 80.44（-3.56%），以 80.17 为主。布伦特 1 月结算 89.37 美元/桶（-3.5%）。</p>'
+        + '<p style="margin:6px 0 0">上周五 1 月合约结算 83.41，12 月合约结算 83.98（最高 84.35 / 最低 81.55）。</p>' }
 ];
 function rangePos(low, high, close){ if(low==null||high==null||close==null||high<=low) return 0; return Math.min(100, Math.max(0, (close-low)/(high-low)*100)); }
 var pcHtml = "";
 PRICES.forEach(function(p){
   var m = META[p.product], d = m.digits;
   var cells = p.open != null
-    ? [["开盘",p.open],["最高",p.high],["最低",p.low],["现价（约）",p.close]]
+    ? [["开盘",p.open],["最高",p.high],["最低",p.low],["收盘",p.close]]
     : [["最高",p.high],["最低",p.low],["结算",p.close],["日涨跌",null]];
   var cellHtml = "";
   cells.forEach(function(c){
@@ -268,12 +268,12 @@ PRICES.forEach(function(p){
     + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap"><div>'
     + '<h3 class="font-display" style="margin:0;font-size:20px;color:' + m.deep + '">' + p.label + '</h3>'
     + '<p style="margin:2px 0 0;font-size:12px;color:var(--dim)">' + p.contract + ' · ' + p.unit + '</p></div>'
-    + '<div style="text-align:right"><p style="margin:0;font-size:11px;color:var(--dim)">2026-11-23 周一 · 盘中（截至约 20:00）</p>'
+    + '<div style="text-align:right"><p style="margin:0;font-size:11px;color:var(--dim)">2026-11-23 周一 · 收盘</p>'
     + '<p class="font-display" style="margin:0;font-size:30px;font-weight:700;line-height:1.2">' + fmt(p.close, d) + '</p>'
     + '<p style="margin:0;font-weight:600" class="' + pctCls(p.chg) + '">' + fmtPct(p.chg) + '</p></div></div>'
     + '<div class="ohlc">' + cellHtml + '</div>'
     + '<div class="rangebar" aria-hidden="true"><div class="track"><div class="mark" style="left:calc(' + rangePos(p.weekLow, p.weekHigh, p.close) + '% - 1.5px);background:' + m.accent + '"></div></div>'
-    + '<div class="labs"><span>周低 ' + fmt(p.weekLow, d) + '</span><span>现价在本周区间的位置</span><span>周高 ' + fmt(p.weekHigh, d) + '</span></div></div>'
+    + '<div class="labs"><span>周低 ' + fmt(p.weekLow, d) + '</span><span>收盘价在本周区间的位置</span><span>周高 ' + fmt(p.weekHigh, d) + '</span></div></div>'
     + '<div class="hlgrid"><div><span class="lab">本周（11/23–11/27）</span><br />高 <b>' + fmt(p.weekHigh, d) + '</b>　低 <b>' + fmt(p.weekLow, d) + '</b><br /><span class="' + pctCls(p.weekChg) + '" style="font-weight:600;font-size:13px">周涨跌 ' + fmtPct(p.weekChg) + '</span></div>'
     + '<div><span class="lab">本月（11 月，连续合约口径）</span><br />高 <b>' + fmt(p.monthHigh, d) + '</b>　低 <b>' + fmt(p.monthLow, d) + '</b></div></div>'
     + (p.extra ? '<div style="margin-top:12px;border-radius:10px;padding:10px 12px;font-size:13.5px;background:color-mix(in srgb, var(--surface) 55%, transparent)">' + p.extra + '</div>' : '')
@@ -281,23 +281,23 @@ PRICES.forEach(function(p){
 });
 document.getElementById("priceCards").innerHTML = pcHtml;
 
-/* ---------- 研判（2026-11-23 晚间版） ---------- */
+/* ---------- 研判（2026-11-24 早间版） ---------- */
 var BRIEFINGS = [
-  { product:"gold", trend:"震荡偏多", trendBg:"var(--brick)", support:"3,552 / 3,503", resistance:"3,636 / 3,686 / 3,760",
-    analysis:"基本面：50 基点加息押注降温、美元涨势暂歇带来修复，但鹰派官员表态未变、12 月加息概率近 100%，反弹能否持续看周三核心 PCE；央行购金等长期支撑未变。技术面：上周 RSI(14) 仅 21.6，极度超卖；周一 +3.03% 收复 3,600，接近日内高点 3,636.40。",
-    risks:"PCE 若超预期会再度打压反弹；感恩节假期流动性薄，波动可能放大；勿把超跌反弹当作趋势反转。" },
-  { product:"copper", trend:"震荡偏空", trendBg:"var(--sage)", support:"5.41 / 5.34", resistance:"5.58 / 5.685 / 6.00",
-    analysis:"基本面：中国现货成交与铜杆订单双降、全球铜库存高位、AI 需求叙事退潮；现货紧（洋山升水纪录、LME 现货升水新高）与期货弱形成背离，瑞银看多 2027 年（预计 14,500–15,500 美元/吨）是中长期逻辑，短期难兑现。技术面：周一仅 +0.77% 至 5.52，仍接近本月低点 5.41，远低于 50 日均线 6.43；LME 一度跌破 12,000 后回升。",
-    risks:"投机净多已降至低位，空头回补可引发急弹；中国补库需求可能在企稳后放大反弹。" },
-  { product:"oil", trend:"偏空", trendBg:"var(--sage)", support:"81.93 / 81.55 / 80.00", resistance:"83.95 / 84.35",
-    analysis:"基本面：IEA 四季度过剩约 200 万桶/日、EIA 累库预期主导，盖过中东紧张；市场计入 25–30 美元地缘溢价，油价对地缘消息高度敏感。技术面：周一约 -1.5%（较 1 月合约结算），接近本周低点 81.93 和本月低点 81.55。",
-    risks:"霍尔木兹 / 中东局势升级可快速反弹；11 月 29 日 OPEC+ 会议是最大变量；近月反弹、远月走弱暗示中长期承压。" }
+  { product:"gold", trend:"震荡", trendBg:"var(--gold-accent)", support:"3626.20", resistance:"3641.30",
+    analysis:"金价收于 3626.20，与本周低点持平，虽日涨 3.15%，但盘中自 3641.30 高点回落，显示短线反弹动能有所减弱。本月价格自 4157.70 高点大幅回落至 3502.90 低点附近后企稳，美元涨势暂歇及财长缓和紧缩预期的表态为反弹提供支撑，但 GDP 与核心 PCE 数据尚未公布，趋势仍待数据验证。",
+    risks:"若 GDP 与核心 PCE 偏强、加息预期升温，实际利率上行可能再度打压金价。若跌破 3626.20，价格可能进一步考验 3502.90 附近的本月低点区域。" },
+  { product:"copper", trend:"震荡偏多", trendBg:"var(--brick)", support:"5.59", resistance:"5.64",
+    analysis:"铜价收于 5.59，与本周低点持平，虽日涨 2.10%，但盘中自 5.64 高点回落，显示反弹后短线抛压仍存。本月价格自 6.55 高点回落至 5.46 低点附近后企稳于 5.50 上方，美国库存改道缓解中国供应紧张，加上 AI 需求预期修复，短期为价格提供支撑。",
+    risks:"反弹主要由库存改道与 AI 情绪修复驱动，底部尚未确认。若 AI 投资预期再度转弱或美联储鹰派立场强化，铜价可能再度承压并考验 5.46 附近的本月低点。" },
+  { product:"oil", trend:"偏空", trendBg:"var(--sage)", support:"80.12", resistance:"80.44",
+    analysis:"油价收于 80.35，接近本周及本月低点 80.12，日跌 4.32%，且远低于本月高点 102.75，短线弱势明显。美国再次袭击伊朗的担忧降温削弱战争溢价，叠加 IEA 供应过剩预期与需求下调，中长期供需逻辑亦偏向压制油价。",
+    risks:"供应过剩尚未真正到来，若地缘紧张再度升级、霍尔木兹海峡运输受扰或 OPEC 采取减产干预，油价可能快速反弹。个别机构看空至 50 美元的观点并非官方预测，追空需谨慎。" }
 ];
 var bfHtml = "";
 BRIEFINGS.forEach(function(b){
   var m = META[b.product];
   bfHtml += '<article class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">'
-    + '<h3 class="font-display" style="margin:0;font-size:18px;color:' + m.deep + '">' + m.short + ' <span style="font-size:12px;font-weight:400;color:var(--dim)">2026-11-23 晚间研判</span></h3>'
+    + '<h3 class="font-display" style="margin:0;font-size:18px;color:' + m.deep + '">' + m.short + ' <span style="font-size:12px;font-weight:400;color:var(--dim)">2026-11-24 早间研判</span></h3>'
     + '<span class="trend" style="background:' + b.trendBg + '">' + b.trend + '</span></div>'
     + '<p style="margin:8px 0 0;font-size:14px">支撑 <b>' + b.support + '</b>　·　阻力 <b>' + b.resistance + '</b></p>'
     + '<p style="margin:8px 0 0;font-size:14px">' + b.analysis + '</p>'
@@ -307,143 +307,182 @@ document.getElementById("briefings").innerHTML = bfHtml;
 
 /* ---------- 资讯 ---------- */
 var NEWS = [
-  { title:"黄金周一大涨逾 2%，50 基点加息押注降温、PCE 成焦点", cat:"美联储 / 美元", source:"fxstreet.com", url:"https://www.fxstreet.com/news/gold-jumps-over-2-as-half-point-fed-hike-bets-fade-us-pce-in-focus-202611231116", products:["gold"], imp:"重大",
-    summary:"现货黄金周一反弹，盘中报约 3,621 美元/盎司，日内上涨 2.7%，此前上周大跌 9% 并触及 2025 年 9 月以来最低。",
-    impact:"利多黄金：加息 50 基点押注降温缓解利率压力，叠加超跌后的逢低买盘推动金价修复；但若 PCE 偏强、美元重拾涨势，反弹可能受阻。" },
-  { title:"美联储鹰派信号引发金价罕见大跌，12 月加息概率接近 100%", cat:"美联储 / 美元", source:"news.china.com", url:"https://news.china.com/socialgd/10000169/20261123/49896978.html", products:["gold"], imp:"重大",
-    summary:"美联储理事沃勒等官员集体放鹰，称若 12 月不加息 50 个基点，就应释放明年 1 月加息信号，市场预计 12 月加息概率接近 100%、明年 1 月接近 70.5%。美元指数本周从 101 升至逼近 104。",
-    impact:"利空黄金：加息预期升温推高美元和实际利率，直接压制以美元计价的无息资产金价；若 12 月真的加息 50 个基点或释放更鹰信号，金价仍有下行压力。" },
-  { title:"铜价跌至七个月低点，AI 押注退潮引发抛售", cat:"AI 需求 / 仓位", source:"investingnews.com", url:"https://investingnews.com/copper-sinks-seven-month-low/", products:["copper"], imp:"重大",
-    summary:"铜价跌至七个月低点，投机者抛弃 AI 需求押注，抛售自 10 月中旬以来持续。LME 三个月铜收跌 4.6% 至 12,471 美元/吨，为 4 月 7 日以来最弱收盘；COMEX 近月铜期货一度大跌 5.3% 至 5.6595 美元/磅，创 19 个月最大单日跌幅。",
-    impact:"利空精铜：AI 需求叙事退潮导致多头集中平仓，叠加加息担忧，短期铜价承压明显。" },
-  { title:"金价创八个月最大周跌幅，现货跌至 3,525.25 美元", cat:"价格 / 技术面", source:"thenationalnews.com", url:"https://www.thenationalnews.com/business/money/2026/11/20/why-is-gold-price-going-down/?utm_source=twitter&utm_medium=socialsharebtn&related=TheNatWorld,NationalComment,LifeNationalUAE,NatSportUAE&via=TheNationalNews", products:["gold"], imp:"重大",
-    summary:"现货黄金周五下跌 2.7% 至 3,525.25 美元/盎司，盘中触及 14 个月低点，全周跌约 9.2%，为八个月来最差一周。",
-    impact:"利空黄金：美元走强叠加加息预期直接削弱黄金吸引力，叠加技术性抛售和看跌押注，COMEX 黄金短期下行风险仍大。" },
-  { title:"IEA 预计四季度原油过剩 170 万桶/日，OPEC+ 将于 11 月 29 日开会", cat:"OPEC / 供需", source:"energyreader.io", url:"https://energyreader.io/brief/19766", products:["oil"], imp:"重大",
-    summary:"IEA 预计 2026 年四季度全球原油供应过剩 170 万桶/日，海湾地区停产规模缩小。11 月 20 日早盘 WTI 报 82.73 美元/桶，布伦特报 92.18 美元/桶。",
-    impact:"利空美原油：IEA 过剩预测直接打压油价预期，若 OPEC+ 会议未能拿出有力减产或限产信号，WTI 可能继续承压。" },
-  { title:"金价较年内高位跌约 2,000 美元，现货一度跌至 3,514.72 美元", cat:"价格 / 技术面", source:"global.hk01.com", url:"https://global.hk01.com/财经快讯/60413349/金价较年内高位已跌没2000美元-昔日热炒贵金属遭三重绞杀", products:["gold"], imp:"重大",
-    summary:"周五现货黄金跌破 3,600 美元/盎司，日内最低触及 3,514.72 美元，较年初历史高点已跌去约 2,000 美元，创 2025 年 9 月以来最低。本周金价跌约 8%，白银、铂金、钯金同步走弱。",
-    impact:"利空黄金：美元走强、加息预期升温和美债收益率上行同时压制无息资产黄金，叠加 AI 退潮引发的抛售情绪，金价短期仍承压。" },
-  { title:"金价较 1 月高点暴跌 37%，金银市值蒸发约 15 万亿美元", cat:"价格 / 市场情绪", source:"ceoworld.biz", url:"https://ceoworld.biz/2026/11/22/gold-price-slump-wipes-an-estimated-15-trillion-from-gold-and-silver/", products:["gold"], imp:"重大",
-    summary:"截至 11 月 16 日当周，金价收于 3,544 美元附近，较 1 月 29 日约 5,600 美元的盘中高点下跌约 37%，白银同期跌幅更大。",
-    impact:"利空美黄金：暴跌本身反映加息预期与强美元的持续压制，叠加紧急变现抛售，市场情绪极度脆弱，12 月议息前波动可能进一步放大。" },
-  { title:"交易商开始把美国铜运往中国，近两年贸易流向逆转", cat:"贸易流向 / 库存", source:"wallstreetcn.com", url:"https://wallstreetcn.com/articles/3786455", products:["copper"], imp:"重大",
-    summary:"关税预期降温与中国极度紧缺正逆转持续近两年的铜流向，约六艘运铜船已从长滩和洛杉矶驶往中国。Marex 数据显示目前约 94% 的 LME 与 CME 仓库铜库存位于美国，而两年前仅 20%。",
-    impact:"主要利空精铜：关税套利逻辑逆转后，美国巨额库存从被锁定的货源变成潜在供应，将压制 COMEX 升水和全球价格。" },
-  { title:"美国原油库存大增 338 万桶，油价三周连跌静待 OPEC+ 会议", cat:"EIA 库存", source:"tradingnews.com", url:"https://www.tradingnews.com/news/oil-forecast-wti-holsd-81-ud-and-brent-91-usd-into-3rd-weekly-loss", products:["oil"], imp:"重大",
-    summary:"1 月 WTI 合约跌至 81.65 美元、布伦特报 91.07 美元，两者均迈向连续第三周下跌。美国原油库存增加 338 万桶至 4.178 亿桶，远超 40 万桶的预期增幅。",
-    impact:"利空美原油：库存增幅远超预期显示美国供需偏松、需求或炼厂吸收不足。" },
-  { title:"霍尔木兹油轮触雷、胡塞袭击利雅得，WTI 仍被过剩预期压在 83 美元", cat:"地缘", source:"jafx.com", url:"https://jafx.com/market-pulse/usoil/", products:["oil"], imp:"重大",
-    summary:"WTI 被压在 82.50–83.00 美元附近，供过于求预测和美国库存增加抵消地缘风险。消息称胡塞导弹击中利雅得并损坏沙特主权财富基金所在大楼，两艘油轮在霍尔木兹海峡触及水雷。",
-    impact:"对美原油多空交织、短期偏利多：霍尔木兹航运风险一旦实质中断供应将迅速推高油价，但过剩预期和库存增加限制涨幅。" },
-  { title:"现货黄金跌至 2025 年 9 月以来最低，加息押注推升美元收益率", cat:"美联储 / 美元", source:"wikifx.com", url:"https://www.wikifx.com/en/newinfo/202611218974355310.html", products:["gold"], imp:"重大",
-    summary:"据路透，现货黄金 11 月 19 日一度跌至 3,667.19 美元/盎司，为 2025 年 9 月以来最低，美东时间 14:05 报 3,674.13 美元、跌 1.3%。",
-    impact:"利空美黄金：加息押注同时推升美元和美债收益率，形成对金价的双重压制。" },
-  { title:"黄金单周暴跌 8.9% 逼近 3,500 美元，美联储鹰派成头号推手", cat:"价格 / 技术面", source:"finance.ifeng.com", url:"https://finance.ifeng.com/c/8yFusSPPbxI", products:["gold"], imp:"重大",
-    summary:"过去一周国际金价接连失守 3,800、3,700、3,600 美元关口，上周五美国黄金期货跌 4% 收于 3,539 美元，现货黄金跌 2.41% 收于 3,538.11 美元、盘中最低 3,502 美元，单周跌 8.9%。",
-    impact:"利空美黄金：加息预期和实际利率上行抬高无息黄金的持有成本，资金转向美元美债。" },
-  { title:"海湾供应恢复、OPEC 10 月增产约 200 万桶/日", cat:"OPEC / 供需", source:"gazewire.com", url:"https://gazewire.com/energy-climate/oil-gas-petrochemicals/oil-forecasts-diverge-as-gulf-supply-returns", products:["oil"], imp:"重大",
-    summary:"EIA 估计海湾地区被关停的原油产量 10 月降至 250 万桶/日，低于 9 月的 480 万桶/日和 5 月 1,090 万桶/日的峰值。OPEC 称联盟 10 月原油产量增加约 200 万桶/日。",
-    impact:"利空美原油：实际供应回归叠加 OPEC 增产，与库存过剩预期形成共振，持续削弱地缘风险溢价。" },
-  { title:"铜价较纪录高点跌逾 20% 进入熊市，资金加速撤离", cat:"价格 / 技术面", source:"geomechanics.io", url:"https://www.geomechanics.io/news/article/copper-bear-market-project-pipeline-and-cost-risk-takeaways-for-mine-planners", products:["copper"], imp:"重大",
-    summary:"COMEX 12 月铜期货较 9 月 9 日 6.8885 美元/磅的纪录高点下跌 20.2%，进入熊市，本周跌幅逾 9%；LME 三个月铜跌至 12,020 美元/吨。",
-    impact:"利空精铜：资金集中撤离和美元走强放大跌幅，短期趋势偏空。" },
-  { title:"IEA 与 EIA 双双转向供应过剩预期，油价远低于 10 月高点", cat:"OPEC / 供需", source:"finscans.com", url:"https://finscans.com/news/2026/11/21/oil-prices-face-surplus-forecasts-as-wti-and-brent-trade", products:["oil"], imp:"重大",
-    summary:"IEA 11 月报告将 2026 年四季度供需平衡由预计短缺 180 万桶/日转为过剩 170 万桶/日，EIA 则预计 2027 年上半年库存将大幅增加。",
-    impact:"利空美原油为主：过剩和累库预期压制油价中枢；但胡塞武装和霍尔木兹海峡的袭击风险仍可能带来阶段性反弹。" },
-  { title:"美联储纪要强化 12 月加息预期，金铜同步跳水", cat:"美联储 / 美元", source:"news.qq.com", url:"https://news.qq.com/rain/a/20261119A03PVC00", products:["gold","copper"], imp:"重大",
-    summary:"美联储最新会议纪要显示，绝大多数官员认为通胀前景存在上行风险，一些官员称 12 月加息超过 25 个基点或是合理的。CME 数据显示，12 月加息 25 个基点的概率为 92.7%、加息 50 个基点的概率为 7.3%。",
+  { title:"原油大跌：市场对美国再次袭击伊朗的担忧降温", cat:"地缘政治", source:"www.barchart.com", url:"https://www.barchart.com/story/news/8970958/crude-prices-fall-on-reduced-concern-about-a-new-us-attack-on-iran", products:["oil"], imp:"重大",
+    summary:"1月WTI原油周一收跌3.24美元，跌幅3.88%，1月RBOB汽油也下跌3.45%。油价大幅下跌的主要原因是市场对美国再次袭击伊朗的担忧减弱，地缘风险溢价回落。国际能源署数据显示，第三季度经霍尔木兹海峡的原油与燃料运输量环比上升7%至910万桶/日，但仍远低于去年同期的2140万桶/日；该机构11月13日还下调了2026年全球原油需求预测至1.0229亿桶/日。",
+    impact:"利空美原油：伊朗局势缓和削弱战争溢价，叠加IEA下调需求预期，短期油价承压；若美伊紧张再度升级或霍尔木兹海峡运输受扰，油价可能快速反弹，需警惕地缘反复。" },
+  { title:"铜价跌入熊市：较9月高点回落20.2%", cat:"铜供应/中国需求", source:"euromining.news", url:"https://euromining.news/coppers-20-2-slide-puts-exposed-miners-valuations-under-pressure/", products:["copper"], imp:"重大",
+    summary:"铜价于11月20日星期五进入熊市，较9月峰值下跌20.2%，最活跃的12月COMEX铜合约一度下跌3.4%至每磅5.4405美元，为3月底以来最低水平。此次下跌拖累了矿业公司估值，但中国实物供应依然紧张，期货市场情绪与近期金属可获得性之间出现分化。这表明抛售更多由宏观与资金情绪驱动，而非中国现货供应立即过剩。",
+    impact:"利空精铜：熊市信号与宏观抛售打压铜价与市场情绪，短期仍有惯性下跌风险；但中国现货偏紧可能限制跌幅，若AI需求预期修复或供应紧张被重新定价，铜价存在超跌反弹空间。" },
+  { title:"黄金收复3650美元：英伟达消息引爆反弹，静候美国PCE", cat:"美联储/通胀", source:"www.fxstreet.com", url:"https://www.fxstreet.com/news/gold-reclaims-3-650-as-nvidia-news-sparks-rally-ahead-of-us-pce-202611231916", products:["gold"], imp:"重大",
+    summary:"黄金在上周大跌近9%后于周一反弹逾3.40%，此前曾跌至年内低点3502美元附近，现货金价现已站上3650美元。英伟达恢复黄仁勋首席执行官职务的消息引爆市场反弹，同时投资者正等待美国通胀数据公布。美元随之走弱，美债收益率回落也为金价提供了支撑。",
+    impact:"利多美黄金：避险与风险情绪回暖叠加收益率下行，短期提振金价反弹；但若本周PCE数据强于预期、加息预期再度升温，反弹可能受阻并重新承压。" },
+  { title:"铜价跌至七个月低点，AI押注退潮引发抛售", cat:"铜需求/AI", source:"investingnews.com", url:"https://investingnews.com/copper-sinks-seven-month-low/", products:["copper"], imp:"重大",
+    summary:"铜价跌至七个月低点，投机者抛弃AI需求押注，抛售自10月中旬以来持续。LME三个月铜收跌4.6%至12471美元/吨，为4月7日以来最弱收盘；COMEX近月铜期货一度大跌5.3%至5.6595美元/磅，创19个月最大单日跌幅。",
+    impact:"利空精铜：AI需求叙事退潮导致多头集中平仓，叠加加息担忧，短期铜价承压明显；需关注AI相关需求预期是否企稳，否则跌势可能延续。" },
+  { title:"黄金周一大涨逾2%，50基点加息押注降温、PCE成焦点", cat:"美联储/美元", source:"www.fxstreet.com", url:"https://www.fxstreet.com/news/gold-jumps-over-2-as-half-point-fed-hike-bets-fade-us-pce-in-focus-202611231116", products:["gold"], imp:"重大",
+    summary:"现货黄金周一反弹，盘中报约3621美元/盎司，日内上涨2.7%，此前上周大跌9%并触及2025年9月以来最低。市场下调12月加息50个基点的押注，逢低买盘入场，但美元仍具韧性、美联储鹰派前景仍是反弹持续性的阻力。本周焦点转向美国PCE通胀数据。",
+    impact:"利多黄金：加息50基点押注降温缓解利率压力，叠加超跌后的逢低买盘推动金价修复；但若PCE偏强、美元重拾涨势，反弹可能受阻。" },
+  { title:"美联储鹰派信号引发金价罕见大跌，12月加息概率接近100%", cat:"美联储/美元", source:"news.china.com", url:"https://news.china.com/socialgd/10000169/20261123/49896978.html", products:["gold"], imp:"重大",
+    summary:"美联储理事沃勒等官员集体放鹰，称若12月不加息50个基点，就应释放明年1月加息信号，市场预计12月加息概率接近100%、明年1月接近70.5%。美元指数本周从101升至逼近104，金价11月20日盘中跌破3600美元后逼近3500美元，与1月5598.75美元的历史高点相比回撤约37%。高盛还提示系统流动性紧张，美联储暂停储备管理购债加剧了市场压力。",
+    impact:"利空黄金：加息预期升温推高美元和实际利率，直接压制以美元计价的无息资产金价；若12月真的加息50个基点或释放更鹰信号，金价仍有下行压力。" },
+  { title:"金价创八个月最大周跌幅，现货跌至3525.25美元", cat:"美联储/美元", source:"www.thenationalnews.com", url:"https://www.thenationalnews.com/business/money/2026/11/20/why-is-gold-price-going-down/?utm_source=twitter&utm_medium=socialsharebtn&related=TheNatWorld,NationalComment,LifeNationalUAE,NatSportUAE&via=TheNationalNews", products:["gold"], imp:"重大",
+    summary:"现货黄金周五下跌2.7%至3525.25美元/盎司，盘中触及14个月低点，全周跌约9.2%，为八个月来最差一周。金价1月曾创每盎司5515美元的历史纪录，强美元和美联储再次加息的预期侵蚀了黄金需求。市场对金价进一步下跌的押注增加，强制平仓和看跌情绪加剧了抛售。",
+    impact:"利空黄金：美元走强叠加加息预期直接削弱黄金吸引力，叠加技术性抛售和看跌押注，COMEX黄金短期下行风险仍大；只有美元或加息预期明显降温，才能扭转这一利空。" },
+  { title:"IEA预计四季度原油过剩170万桶/日，OPEC+将于11月29日开会", cat:"OPEC", source:"energyreader.io", url:"https://energyreader.io/brief/19766", products:["oil"], imp:"重大",
+    summary:"IEA预计2026年四季度全球原油供应过剩170万桶/日，海湾地区停产规模缩小，市场对供应过剩的担忧升温。11月20日早盘WTI报82.73美元/桶，布伦特报92.18美元/桶，均远低于10月110美元上方的高点。OPEC+部长将于11月29日开会，确定2027年产量基准。",
+    impact:"利空美原油：IEA过剩预测直接打压油价预期，若OPEC+会议未能拿出有力减产或限产信号，WTI可能继续承压；反之，若会议意外收紧供应，则构成利多反转因素。" },
+  { title:"金价较年内高位跌约2000美元，现货一度跌至3514.72美元", cat:"美联储/美元", source:"global.hk01.com", url:"https://global.hk01.com/财经快讯/60413349/金价较年内高位已跌没2000美元-昔日热炒贵金属遭三重绞杀", products:["gold"], imp:"重大",
+    summary:"周五现货黄金跌破3600美元/盎司，日内最低触及3514.72美元，较年初历史高点已跌去约2000美元，创2025年9月以来最低。本周金价跌约8%，为近八个月最差一周，白银、铂金、钯金同步走弱。美元指数徘徊在103.9附近、逼近19个月高位，市场押注美联储12月加息25个基点的概率达96.8%。",
+    impact:"利空黄金：美元走强、加息预期升温和美债收益率上行同时压制无息资产黄金，叠加AI退潮引发的抛售情绪，金价短期仍承压；若12月加息落地且美元维持高位，COMEX黄金反弹空间有限。" },
+  { title:"金价较1月高点暴跌37%，金银市值蒸发约15万亿美元", cat:"美联储/美元", source:"ceoworld.biz", url:"https://ceoworld.biz/2026/11/22/gold-price-slump-wipes-an-estimated-15-trillion-from-gold-and-silver/", products:["gold"], imp:"重大",
+    summary:"截至11月16日当周，金价收于3544美元附近，较1月29日约5600美元的盘中高点下跌约37%，白银同期跌幅更大。报道称这轮暴跌已使金银市值蒸发约15万亿美元，持有者正面临12月美联储决议，缓冲空间所剩无几。",
+    impact:"利空美黄金。暴跌本身反映加息预期与强美元的持续压制，叠加紧急变现抛售，市场情绪极度脆弱，12月议息前波动可能进一步放大；若美联储立场不及预期鹰派，则存在超跌修复可能。" },
+  { title:"交易商开始把美国铜运往中国，近两年贸易流向逆转", cat:"铜库存", source:"wallstreetcn.com", url:"https://wallstreetcn.com/articles/3786455", products:["copper"], imp:"重大",
+    summary:"关税预期降温与中国极度紧缺正逆转持续近两年的铜流向，约六艘运铜船已从长滩和洛杉矶驶往中国，部分原定运往美国的铜也被改道，规模约数万吨。Marex数据显示目前约94%的LME与CME仓库铜库存位于美国，而两年前仅20%，美国铜库存总量估计约200万吨；伦铜已从上月底逾14670美元跌至不足12600美元。",
+    impact:"主要利空精铜：关税套利逻辑逆转后，美国巨额库存从被锁定的货源变成潜在供应，将压制COMEX升水和全球价格。中国现货极度紧缺会吸引货源并提供一定支撑，但难以完全抵消库存外流压力。" },
+  { title:"美国原油库存大增338万桶，油价三周连跌静待OPEC+会议", cat:"EIA库存", source:"www.tradingnews.com", url:"https://www.tradingnews.com/news/oil-forecast-wti-holsd-81-ud-and-brent-91-usd-into-3rd-weekly-loss", products:["oil"], imp:"重大",
+    summary:"1月WTI合约跌至81.65美元、布伦特报91.07美元，两者均迈向连续第三周下跌。美国原油库存增加338万桶至4.178亿桶，远超40万桶的预期增幅；OPEC+将于11月29日开会制定2027年配额，目前每日200万桶减产仍在执行。",
+    impact:"利空美原油：库存增幅远超预期显示美国供需偏松、需求或炼厂吸收不足。11月29日OPEC+会议是主要上行风险，若延长或扩大减产可部分对冲利空。" },
+  { title:"霍尔木兹油轮触雷、胡塞袭击利雅得，WTI仍被过剩预期压在83美元", cat:"地缘", source:"jafx.com", url:"https://jafx.com/market-pulse/usoil/", products:["oil"], imp:"重大",
+    summary:"WTI被压在82.50-83.00美元附近，供过于求预测和美国库存增加抵消地缘风险，鹰派美联储带来的强美元也构成逆风。消息称胡塞导弹击中利雅得并损坏沙特主权财富基金所在大楼，两艘油轮在霍尔木兹海峡触及水雷。",
+    impact:"对美原油多空交织、短期偏利多：霍尔木兹航运风险一旦实质中断供应将迅速推高油价，但过剩预期和库存增加限制涨幅。当前更可能放大波动而非单边上涨，需紧盯航运是否受阻。" },
+  { title:"现货黄金跌至2025年9月以来最低，加息押注推升美元收益率", cat:"美联储/美元", source:"www.wikifx.com", url:"https://www.wikifx.com/en/newinfo/202611218974355310.html", products:["gold"], imp:"重大",
+    summary:"据路透，现货黄金11月19日一度跌至3667.19美元/盎司，为2025年9月以来最低，美东时间14:05报3674.13美元、跌1.3%，前一日跌幅曾达3.2%。下跌主因是美联储加息押注升温，带动美元和美债收益率走高。",
+    impact:"利空黄金：美元坚挺和加息押注提高持有黄金的机会成本，COMEX黄金反弹乏力；若10月会议纪要偏鹰，将进一步利空金价，若偏鸽则可能带来短线反弹。" },
+  { title:"黄金单周暴跌8.9%逼近3500美元，美联储鹰派成头号推手", cat:"美联储/美元", source:"finance.ifeng.com", url:"https://finance.ifeng.com/c/8yFusSPPbxI", products:["gold"], imp:"重大",
+    summary:"过去一周国际金价接连失守3800、3700、3600美元关口，上周五美国黄金期货跌4%收于3539美元，现货黄金跌2.41%收于3538.11美元、盘中最低3502美元，单周跌8.9%，为3月20日当周以来最大跌幅，自1月5598美元高点累计回撤37%。报道称美国10月通胀高于预期后美联储官员密集释放鹰派信号，市场预期12月加息25基点概率超95%，美元指数逼近104、10年期美债收益率站稳5%上方。",
+    impact:"利空黄金：加息预期和实际利率上行抬高无息黄金的持有成本，资金转向美元美债。金价已进入超卖区可能出现技术反弹，但趋势在12月议息前仍偏空。" },
+  { title:"海湾供应恢复、OPEC 10月增产约200万桶/日", cat:"OPEC", source:"gazewire.com", url:"https://gazewire.com/energy-climate/oil-gas-petrochemicals/oil-forecasts-diverge-as-gulf-supply-returns", products:["oil"], imp:"重大",
+    summary:"EIA估计海湾地区被关停的原油产量10月降至250万桶/日，低于9月的480万桶/日和5月1090万桶/日的峰值，显示供应正在恢复。OPEC称联盟10月原油产量增加约200万桶/日，沙特和伊拉克领增，IEA 11月报告亦将四季度平衡大幅下修至过剩。",
+    impact:"利空美原油：实际供应回归叠加OPEC增产，与库存过剩预期形成共振，持续削弱地缘风险溢价。" },
+  { title:"铜价较纪录高点跌逾20%进入熊市，资金加速撤离", cat:"铜需求/资金", source:"www.geomechanics.io", url:"https://www.geomechanics.io/news/article/copper-bear-market-project-pipeline-and-cost-risk-takeaways-for-mine-planners", products:["copper"], imp:"重大",
+    summary:"COMEX 12月铜期货较9月9日6.8885美元/磅的纪录高点下跌20.2%，进入熊市，本周跌幅逾9%；LME三个月铜跌至12020美元/吨，较近期高点低18%。抛售主要由AI热潮押注平仓、美元走强和美国铜关税预期消退驱动，铜价已抹去2026年涨幅。",
+    impact:"利空精铜：资金集中撤离和美元走强放大跌幅，短期趋势偏空；美国关税溢价消退也削弱了COMEX铜此前的相对支撑。" },
+  { title:"IEA与EIA双双转向供应过剩预期，油价远低于10月高点", cat:"IEA/EIA供需", source:"finscans.com", url:"https://finscans.com/news/2026/11/21/oil-prices-face-surplus-forecasts-as-wti-and-brent-trade", products:["oil"], imp:"重大",
+    summary:"IEA 11月报告将2026年四季度供需平衡由预计短缺180万桶/日转为过剩170万桶/日，EIA则预计2027年上半年库存将大幅增加。WTI在82.73美元附近交易，远低于10月110美元上方水平，中东冲突风险仅提供有限底部支撑。",
+    impact:"利空美原油为主：过剩和累库预期压制油价中枢；但胡塞武装和霍尔木兹海峡的袭击风险仍可能带来阶段性反弹，整体偏空且波动较大。" },
+  { title:"美联储纪要强化12月加息预期，金铜同步跳水", cat:"美联储", source:"news.qq.com", url:"https://news.qq.com/rain/a/20261119A03PVC00", products:["gold","copper"], imp:"重大",
+    summary:"美联储最新会议纪要显示，绝大多数官员认为通胀前景存在上行风险，一些官员称12月加息超过25个基点或是合理的，几乎所有官员都认为采取进一步行动或是合适的。CME数据显示，12月加息25个基点的概率为92.7%、加息50个基点的概率为7.3%，消息后现货黄金大跌逾3%，LME铜下跌4.54%。",
     impact:"利空黄金和精铜：更快或更大幅度加息将推高美元、美债收益率和融资成本，同时压制风险偏好与工业需求预期。" },
-  { title:"金价单周暴跌 9.4%，跌至 14 个月低点", cat:"价格 / 技术面", source:"idnfinancials.com", url:"https://www.idnfinancials.com/news/72096/gold-plunges-9-4-in-a-week-to-a-14-month-low", products:["gold"], imp:"重大",
-    summary:"11 月 20 日现货黄金下跌 3% 至 3,514.08 美元/盎司，触及 14 个月低点，本周累计跌幅约 9.4%。",
-    impact:"利空黄金：加息预期推升美元和实际利率，提高持有无息黄金的机会成本。" },
-  { title:"美联储鹰派预期扰动，铜价继续弱势盘整", cat:"美联储 / 美元", source:"news.metal.com", url:"https://news.metal.com/newscontent/TO72FI3IYOT7ZBYVP2GPU7JVTGWOONP3EJLMM3Y-us-fed-hawkish-expectations-disrupt-copper-prices-continue-to-consolidate-on-a-subdued-note-smm-copper-morning-meeting-minutes", products:["copper"], imp:"重要",
-    summary:"美联储官员维持鹰派，铜价继续弱势盘整。LME 铜开盘 12,313.5 美元/吨，最高 12,347 美元，最低 12,088.5 美元，收于 12,162.5 美元/吨，下跌 2.33%；沪铜主力合约收于 92,420 元/吨，下跌 1.01%。",
-    impact:"利空精铜：美联储鹰派预期推高美元和利率，压制铜价，短期铜价以弱势盘整为主。" },
-  { title:"油价小幅走低，供应充足盖过中东紧张，市场计入美伊冲突溢价", cat:"OPEC / 供需 / 地缘", source:"theedgesingapore.com", url:"https://www.theedgesingapore.com/news/oil-gas/oil-edges-lower-ample-supply-outweighs-middle-east-tensions", products:["oil"], imp:"重要",
-    summary:"布伦特原油在 92 美元/桶附近交易，WTI 在 83 美元附近，供应充足盖过中东紧张。IEA 预计本季度过剩约 200 万桶/日。",
-    impact:"利空美原油为主、地缘因素提供支撑：过剩与库存增加预期压制油价，但 25–30 美元的地缘溢价意味着一旦美伊冲突升级，油价可能大幅反弹。" },
-  { title:"金价涨逾 2%，美元涨势暂歇、市场等待通胀数据", cat:"美联储 / 美元", source:"khaleejtimes.com", url:"https://www.khaleejtimes.com/business/gold-climbs-more-than-2-as-dollar-rally-pauses-on-inflation-watch", products:["gold"], imp:"重要",
-    summary:"金价周一上涨逾 2%，从一年多低点反弹，因美元涨势暂歇，市场等待通胀数据以判断美联储利率路径。现货黄金报 3,604.79 美元/盎司，日内上涨 2.1%。",
+  { title:"金价单周暴跌9.4%，跌至14个月低点", cat:"美联储/美元", source:"www.idnfinancials.com", url:"https://www.idnfinancials.com/news/72096/gold-plunges-9-4-in-a-week-to-a-14-month-low", products:["gold"], imp:"重大",
+    summary:"11月20日现货黄金下跌3%至3514.08美元/盎司，触及14个月低点，本周累计跌幅约9.4%。报道指出，美国利率进一步上升的预期以及AI相关科技股抛售共同打压了金价。",
+    impact:"利空黄金：加息预期推升美元和实际利率，提高持有无息黄金的机会成本，若鹰派定价延续，金价仍易继续承压。" },
+  { title:"铜价大跌后企稳于5.50美元上方：美国库存改道缓解中国供应紧张", cat:"铜库存/中国需求", source:"oil.fx678.com", url:"https://oil.fx678.com/news/202611231537172051", products:["copper"], imp:"重要",
+    summary:"铜期货周一企稳于每磅5.50美元上方，上周曾大幅下跌并跌至七个多月以来最低水平。投资者继续评估人工智能驱动的需求前景，上周AI相关投资普遍回撤，英伟达强劲业绩与Anthropic创纪录IPO均未能提振市场情绪。另一方面，交易员正准备将美国大量积累的铜库存改道运出，以帮助缓解中国日益收紧的供应状况，这与过去两年因预期特朗普政府可能加征关税而将铜运往美国的趋势形成重大转变。",
+    impact:"利多精铜：美国库存改道有助于缓解中国供应紧张并支撑铜价企稳；但AI需求前景仍存不确定性，若AI投资继续回撤，铜价的企稳基础可能被削弱。" },
+  { title:"铜价在大幅抛售后反弹：美国库存或转向中国", cat:"铜库存/中国需求", source:"kalkine.com", url:"https://kalkine.com/news/mining/copper-rebounds-after-a-sharp-sell-off-freeport-mcmoran-nysefcx-and-southern-copper-nysescco", products:["copper"], imp:"重要",
+    summary:"铜价周一11月23日上涨2.79%至每磅5.64美元，上周大幅下跌后铜期货重新站上每磅5.60美元。市场数据显示铜价上涨0.153美元，涨幅2.79%，至5.638美元，铜仍是全球人工智能基础设施的关键组成部分。交易员可能将美国库存中的铜转向中国，这有助于缓解中国供应紧张的局面。",
+    impact:"利多精铜：价格超跌反弹叠加美国库存转向中国、缓解中国供应紧张，短期支撑铜价；但反弹能否持续仍取决于AI需求预期与美联储鹰派立场，若宏观压力重现，铜价可能再度承压。" },
+  { title:"油市押注尚未到来的供应过剩", cat:"原油供需", source:"dailyfoxnews.com", url:"https://dailyfoxnews.com/news/4432/oil-markets-are-betting-on-a-surplus-that-hasn-t-arrived-yet", products:["oil"], imp:"重要",
+    summary:"布伦特原油周四上涨1.1%至每桶92.88美元，WTI原油上涨1.7%至84.69美元，布伦特仍远低于10月110美元以上的水平。国际能源署在11月石油市场报告中表示，随着海湾出口恢复快于全球需求，全球石油市场将在第四季度重回供应过剩。10月全球石油供应升至每日1.054亿桶，该机构目前预计供应将超过需求170万桶/日。",
+    impact:"利空美原油：IEA的过剩预期与供应快于需求的判断压制油价中长期走势；但报告也指出过剩尚未真正到来，若供应恢复不及预期或地缘扰动加剧，短期油价仍可能因供应紧张而反弹。" },
+  { title:"黄金展望：GDP与PCE通胀或决定下一步走势", cat:"美联储/通胀", source:"www.fxleaders.com", url:"https://www.fxleaders.com/news/2026/11/22/gold-price-forecast-gdp-and-pce-inflation-could-determine-next-move-for-xau-usd/", products:["gold"], imp:"重要",
+    summary:"黄金在跌破4000美元并跌破关键技术支撑后大幅下挫，美元走强与美联储长期维持限制性政策的预期推动金价向3500美元靠拢。本周美国GDP与PCE通胀数据的公布可能决定金价是企稳还是延续跌势。在数据公布前，市场仍在消化鹰派利率预期与美元强势带来的压力。",
+    impact:"利空美黄金、等待数据验证：强美元与限制性政策预期仍是主要压制，若GDP与PCE偏强将强化加息预期并利空金价；若数据偏弱，则可能利多金价并促成企稳反弹。" },
+  { title:"一周金市回顾：贵金属重创后等待核心数据指引", cat:"美联储/通胀", source:"m.sfccn.com", url:"https://m.sfccn.com/2026/11-23/4MMDE0MDZfMjMxNDE4Mg.html", products:["gold"], imp:"重要",
+    summary:"国际现货黄金上周最低下探3502.88美元/盎司，报收3534.64美元/盎司，当周大跌345.28美元或8.90%。上周美联储10月会议纪要释放鹰派信号，官员进一步加息的表态强化12月紧缩预期，美元走强与实际利率压制金价，股市下跌引发的流动性需求也加剧了卖盘。展望本周，感恩节假期使美国数据集中在周三公布，美联储褐皮书与威廉姆斯讲话将检验加息预期，10月核心PCE物价指数将检验通胀是否重新加速。",
+    impact:"短期利空美黄金，但存在利多修复可能：若10月核心PCE继续上行，加息预期升温、实际利率抬升将进一步打压金价；反之若读数低于预期，金价在超跌后存在修复空间，本周数据是关键分水岭。" },
+  { title:"黄金反弹逾2%：美元涨势暂歇，静候通胀数据", cat:"美联储/美元", source:"www.kitco.com", url:"https://www.kitco.com/news/off-the-wire/2026-11-23/gold-climbs-more-2-dollar-rally-pauses", products:["gold"], imp:"重要",
+    summary:"现货黄金周一反弹2.4%至每盎司3617.68美元，此前上周五曾触及2025年9月以来最低水平，上周累计下跌9%。反弹发生在美元涨势暂歇之际，投资者正等待即将公布的美国通胀数据，以寻找利率路径的进一步线索。上周金价承压主要源于鹰派利率预期以及AI相关股票抛售引发的投资者抛售。",
+    impact:"利多美黄金：美元走弱减轻金价压力，通胀数据公布前空头回补推动反弹；但方向仍取决于PCE等数据，若数据偏强、加息预期升温，金价可能再度承压。" },
+  { title:"铜价强劲反弹脱离熊市：英伟达黄仁勋复职点燃AI交易", cat:"铜需求", source:"www.mining.com", url:"https://www.mining.com/copper-price-roars-back-from-bear-market-as-nvidias-huang-u-turn-revives-ai-trade/", products:["copper"], imp:"重要",
+    summary:"铜价周一上演今年最大反弹之一，脱离上周五进入的熊市，此前纽约铜期货在英伟达消息公布前几分钟仍在下跌。英伟达董事会恢复黄仁勋首席执行官职务，引发资金重新涌入人工智能相关交易，而正是AI交易退潮拖累了铜价。不过市场机构Marex表示，底部是否已经确认仍有待观察。",
+    impact:"利多精铜：AI需求预期修复直接提振铜价，因铜广泛用于数据中心与电力网络；但反弹由消息驱动且底部未确认，若AI情绪再度转弱或宏观加息预期压制，铜价仍可能回落。" },
+  { title:"贝森特警告美联储勿过度紧缩，黄金结束五连跌", cat:"美联储/美元", source:"www.fxstreet.com", url:"https://www.fxstreet.com/analysis/gold-snaps-a-five-day-losing-streak-as-bessent-warns-the-fed-against-overtightening-202611231424", products:["gold"], imp:"重要",
+    summary:"黄金周一强劲反弹，站上3600美元，结束五连跌，此前一周大跌近9%，为近期最剧烈的单周跌幅。反弹发生在美国财长贝森特警告美联储可能过度紧缩之后，投资者开始重新评估美国进一步货币紧缩的前景。市场对激进加息的预期有所降温，这为超跌后的金价提供了喘息空间。",
+    impact:"利多美黄金：财长表态缓和了鹰派加息预期，美元与实际利率上行压力减轻，有利于金价修复；但该表态并非美联储正式转向，若后续官员仍坚持鹰派立场，反弹可能只是技术性修复。" },
+  { title:"美联储鹰派预期扰动，铜价继续弱势盘整", cat:"美联储/美元", source:"news.metal.com", url:"https://news.metal.com/newscontent/TO72FI3IYOT7ZBYVP2GPU7JVTGWOONP3EJLMM3Y-us-fed-hawkish-expectations-disrupt-copper-prices-continue-to-consolidate-on-a-subdued-note-smm-copper-morning-meeting-minutes", products:["copper"], imp:"重要",
+    summary:"美联储官员维持鹰派，铜价继续弱势盘整。LME铜开盘12313.5美元/吨，最高12347美元，最低12088.5美元，收于12162.5美元/吨，下跌2.33%；沪铜主力合约收于92420元/吨，下跌1.01%。",
+    impact:"利空精铜：美联储鹰派预期推高美元和利率，压制铜价，短期铜价以弱势盘整为主，等待宏观预期边际变化。" },
+  { title:"油价小幅走低，供应充足盖过中东紧张，市场计入美伊冲突溢价", cat:"供需/地缘", source:"www.theedgesingapore.com", url:"https://www.theedgesingapore.com/news/oil-gas/oil-edges-lower-ample-supply-outweighs-middle-east-tensions", products:["oil"], imp:"重要",
+    summary:"布伦特原油在92美元/桶附近交易，WTI在83美元附近，供应充足盖过中东紧张。IEA预计本季度过剩约200万桶/日，高盛也提示供应过剩；不过市场仍计入约25-30美元/桶的美伊冲突升级溢价，当前中东原油流动应会推动全球库存增加。",
+    impact:"利空美原油为主、地缘因素提供支撑：过剩与库存增加预期压制油价，但25-30美元的地缘溢价意味着一旦美伊冲突升级，油价可能大幅反弹，波动风险高。" },
+  { title:"金价涨逾2%，美元涨势暂歇、市场等待通胀数据", cat:"美联储/美元", source:"www.khaleejtimes.com", url:"https://www.khaleejtimes.com/business/gold-climbs-more-than-2-as-dollar-rally-pauses-on-inflation-watch", products:["gold"], imp:"重要",
+    summary:"金价周一上涨逾2%，从一年多低点反弹，因美元涨势暂歇，市场等待通胀数据以判断美联储利率路径。现货黄金报3604.79美元/盎司，日内上涨2.1%，上周在鹰派加息前景和AI相关抛售压力下大跌9%。",
     impact:"利多黄金：美元走弱缓解金价压力，超跌反弹动能较强；但能否持续取决于即将公布的通胀数据是否支持降温加息预期。" },
-  { title:"全球铜库存创历史新高，中国需求疲弱推动累库", cat:"铜矿 / 库存", source:"dataunu.com", url:"https://www.dataunu.com/insights/detail/why-are-copper-inventories-at-record-high-754461", products:["copper"], imp:"重要",
-    summary:"截至 2026 年 5 月 26 日，LME、COMEX 与上期所三大交易所铜库存合计达 1,276,355 吨，创该日期历史最高纪录，其中 COMEX 占比 45%。",
-    impact:"利空精铜：库存创纪录显示需求不足、供应相对过剩，削弱铜价支撑。" },
-  { title:"铜价一度跌破 12,000 美元，AI 与加息担忧盖过供应偏紧", cat:"价格 / 技术面", source:"brecorder.com", url:"https://www.brecorder.com/news/40450320", products:["copper"], imp:"重要",
-    summary:"铜价一度跌破 12,000 美元关口，为 3 月以来首次，随后在周一早盘回升。LME 三个月铜报 12,240.50 美元/吨，日内上涨 0.66%，盘中最低触及 11,948 美元。",
-    impact:"利空精铜：AI 担忧与加息预期共同压制风险偏好，盖过了供应偏紧的支撑。" },
-  { title:"WTI 跌破 83 美元，过剩预期压过中东紧张局势", cat:"OPEC / 供需", source:"fxstreet.com", url:"https://www.fxstreet.com/news/wti-slumps-below-8300-as-surplus-outlook-outweighs-middle-east-tensions-202611230244", products:["oil"], imp:"重要",
-    summary:"WTI 周一亚洲时段报约 82.80 美元/桶，跌破 83 美元。IEA 预计第四季度全球石油过剩约 200 万桶/日，主因中东出口恢复快于需求回暖。",
-    impact:"利空美原油：IEA 过剩预期明确，出口强劲强化供应充足的判断，盖过地缘溢价。" },
-  { title:"油价小幅走低，供应过剩预期与海湾袭击因素角力", cat:"OPEC / 供需 / 地缘", source:"wsj.com", url:"https://www.wsj.com/business/energy-oil/oil-prices-edge-lower-as-traders-weigh-supply-surplus-gulf-attacks-6861119f", products:["oil"], imp:"重要",
-    summary:"油价周一小幅走低，布伦特 1 月期货跌 0.5% 至 92.13 美元/桶，WTI 跌 0.5% 至 83.03 美元/桶。两大基准上周连续第三周下跌，布伦特跌约 3.4%、WTI 跌 5.2%。",
-    impact:"利空美原油：供应过剩预期仍是主导因素，压制油价；但中东地缘风险提供支撑，若航运或基础设施受扰升级，油价可能快速反弹。" },
-  { title:"贵金属上周重创后等待核心数据指引，本周聚焦核心 PCE", cat:"美联储 / 通胀数据", source:"163.com", url:"https://www.163.com/dy/article/LCDQ17S405568W0A.html", products:["gold"], imp:"重要",
-    summary:"国际现货黄金上周最低下探 3,502.88 美元/盎司，报收 3,534.64 美元/盎司，当周大跌 345.28 美元或 8.90%。上周美联储 10 月会议纪要释放鹰派信号，12 月加息预期升温。",
-    impact:"利空黄金为主：加息预期与强美元仍是主导逻辑，若核心 PCE 继续上行将进一步打压金价；若 PCE 低于预期，超跌后金价存在修复空间。" },
-  { title:"原油展望：OPEC+ 会议、供应过剩与霍尔木兹局势主导下周行情", cat:"OPEC / 供需 / 地缘", source:"timesofindia.indiatimes.com", url:"https://timesofindia.indiatimes.com/business/india-business/crude-oil-outlook-opec-meeting-supply-glut-concerns-to-drive-prices-next-week/articleshow/136081211.cms", products:["oil"], imp:"重要",
-    summary:"分析师预计下周原油期货将保持波动，投资者将关注 OPEC+ 会议和霍尔木兹海峡局势，以及全球供应过剩的担忧。",
-    impact:"利空与利多并存、短期偏利空美原油：若 EIA 和 API 库存继续增加且 OPEC+ 未收紧供应，WTI 承压；若霍尔木兹局势升级或 OPEC+ 释放减产信号，则油价可能利多反弹。" },
-  { title:"瑞银看多铜价反弹：供应短缺与实货收紧或推高 2027 年铜价", cat:"机构观点", source:"finwire.io", url:"http://finwire.io/news/stock-markets-news/should-you-buy-coppers-dip-heres-why-ubs-favors-long-position", products:["copper"], imp:"重要",
-    summary:"瑞银在 11 月 20 日的报告中维持看多观点，认为铜价近期抛售是买入机会，供应短缺和实货市场收紧可能推动 2027 年铜价走高。瑞银预计铜价 2027 年 3 月达 14,500 美元/吨，6 月、9 月和 12 月达 15,500 美元/吨。",
-    impact:"利多精铜：瑞银的供应短缺逻辑与实货收紧预期为铜价提供中长期支撑。" },
-  { title:"金价单日蒸发超 1 万亿美元，杠杆盘穿仓加剧暴跌", cat:"市场情绪 / 仓位", source:"163.com", url:"https://www.163.com/dy/article/LCC66JBN05198ETO.html", products:["gold"], imp:"重要",
-    summary:"截至本周五，国际金价已跌至 3,539 美元/盎司，一度险些跌破 3,500 美元，11 月 20 日当天黄金账面市值蒸发约 1.016 万亿美元。10 月非农新增 16.5 万人、CPI 环比上涨 0.4% 等数据堵死了宽松预期。",
-    impact:"利空黄金：通胀与就业数据强化加息预期后，杠杆资金被迫平仓形成连锁抛售，COMEX 黄金波动率显著放大。" },
-  { title:"纽约金价单周跌近 9%，COMEX 12 月金报 3,539 美元", cat:"价格 / 技术面", source:"mcnop.ebcgroups.com", url:"https://mcnop.ebcgroups.com/news/2136553.html", products:["gold"], imp:"重要",
-    summary:"新华财经纽约 11 月 20 日电，COMEX 交投最活跃的 2026 年 12 月黄金期价当日下跌 3.98%，报 3,539 美元/盎司，周跌 8.94%。",
-    impact:"利空黄金：美联储官员明确释放收紧信号，叠加美元指数维持在 103.8 附近、接近 2025 年 4 月以来高位，COMEX 黄金短期承压。" },
-  { title:"金价徘徊在一年多低位，现货报 3,856.52 美元", cat:"价格 / 技术面", source:"gfm.news", url:"https://gfm.news/en/news/gold-hovers-near-over-one-year-low-as-firm-dollar-fed-hike-bets-weigh-3bcp", products:["gold"], imp:"重要",
-    summary:"11 月 17 日金价企稳，但仍处于一年多来的最低水平附近，美元坚挺和美联储下月加息的押注持续施压。",
-    impact:"利空黄金：美元坚挺和加息押注提高持有黄金的机会成本，COMEX 黄金反弹乏力。" },
-  { title:"金价较纪录高点下跌 37%，最惨一周主因是利率重定价与强制抛售", cat:"价格 / 市场情绪", source:"marketunfiltered.beehiiv.com", url:"https://marketunfiltered.beehiiv.com/p/gold-is-down-37-from-its-record-the-worst-week-since-march-was-not-about-gold-at-all", products:["gold"], imp:"重要",
-    summary:"截至 11 月 21 日，金价约报 3,535 美元，较纪录高点下跌约 37%，单周下跌约 9%，为 3 月以来最惨一周。",
-    impact:"利空黄金：美元走强、加息押注提高持有黄金的机会成本，COMEX 黄金反弹乏力；若 10 月会议纪要偏鹰，将进一步利空金价。" },
-  { title:"美联储鹰派预期压制铜价，低库存推高现货升水至新高", cat:"美联储 / 库存", source:"news.metal.com", url:"https://news.metal.com/newscontent/OCS6AR3M67SVXDSWQKTOLONR7Z5D3JZBOME3GNA-us-fed-hawkish-expectations-pressure-copper-prices-low-inventory-pushes-spot-premiums-to-new-highs-smm-macro-weekly-review", products:["copper"], imp:"重要",
-    summary:"本周铜价持续承压，下半周跌幅明显扩大。截至 11 月 20 日上午 11 时，LME 铜报每吨 12,188 美元，低库存推动现货升水升至新高。",
-    impact:"利空精铜，但现货紧缺提供支撑：加息预期与强美元压制期货价格；低库存与高现货升水则表明实物市场偏紧，限制铜价深跌空间。" },
-  { title:"油价连续第三周下跌，中东紧张难敌供应增加", cat:"OPEC / 供需", source:"thenationalnews.com", url:"https://www.thenationalnews.com/business/energy/2026/11/20/oil-on-track-to-post-weekly-decline-despite-middle-east-tension/?title=Oil+prices+post+third+weekly+decline+amid+lingering+Middle+East+tension&mini=true&utm_source=linkedin&utm_medium=socialsharebtn", products:["oil"], imp:"重要",
-    summary:"油价周五转涨，布伦特涨 0.64% 收于 90.75 美元、WTI 涨 1.18% 收于 83.41 美元，但全周仍分别下跌 3.4% 和 5.8%，连续第三周下跌。",
-    impact:"利空美原油趋势未改：周线三连跌表明供应增加的影响大于中东风险溢价，周五反弹更像空头回补。" },
-  { title:"油价连续第三周下跌，WTI周跌5.8%", cat:"OPEC / 供需", source:"thenationalnews.com", url:"https://www.thenationalnews.com/business/energy/2026/11/20/oil-on-track-to-post-weekly-decline-despite-middle-east-tension/", products:["oil"], imp:"重要",
-    summary:"油价周五转涨，布伦特涨 0.64% 收于 90.75 美元、WTI 涨 1.18% 收于 83.41 美元，但全周仍分别下跌 3.4% 和 5.8%，连续第三周下跌。投资者持续在中东紧张风险与原油供应增加之间权衡，后者目前占上风。",
-    impact:"利空美原油趋势未改：周线三连跌表明供应增加的影响大于中东风险溢价，周五反弹更像空头回补。后续需OPEC+减产或实质供应中断才能扭转偏空格局。" },
-  { title:"中国铜冶炼开工率降至 75.15%，国内库存连创新低", cat:"中国需求 / 库存", source:"pc.yanbaoke.cn", url:"https://pc.yanbaoke.cn/info/9QkpvqUebe9UqeLBKx9Z8o", products:["copper"], imp:"重要",
-    summary:"冠通期货 11 月 20 日报告显示，国内铜冶炼厂开工率降至 75.15%，11 月预计产量 108.21 万吨、环比下降 0.42%。铜表观消费量环比上升 2.69%，但国内供应紧张、进口弥补后仍偏紧，国内铜库存连续降至新低。",
-    impact:"利多精铜基本面：冶炼减产与国内库存新低收紧中国现货供应，对铜价形成下方支撑。" },
-  { title:"铜价三周跌 14%，与中国库存耗竭形成背离", cat:"价格 / 中国需求", source:"finance.biggo.com", url:"https://finance.biggo.com/news/2538dbdb-fcfc-4ec7-bb25-63f41ea0e0b0", products:["copper"], imp:"重要",
-    summary:"国际铜价三周内跌逾 14%、跌破 13,000 美元/吨，此前由 AI 数据中心投资热潮推升至历史高点的涨势因美国政治与宏观逆风及投资仓位解除而急剧回吐。与此同时，全球最大铜消费国中国的库存已降至耗竭水平。",
+  { title:"全球铜库存创历史新高，中国需求疲弱推动累库", cat:"铜库存/中国需求", source:"www.dataunu.com", url:"https://www.dataunu.com/insights/detail/why-are-copper-inventories-at-record-high-754461", products:["copper"], imp:"重要",
+    summary:"截至2026年5月26日，LME、COMEX与上期所三大交易所铜库存合计达1276355吨，创该日期历史最高纪录，其中COMEX占比45%。尽管矿山供应受扰，全球铜库存仍创纪录高位，主因中国需求疲弱持续推动库存累积。",
+    impact:"利空精铜：库存创纪录显示需求不足、供应相对过剩，削弱铜价支撑；若中国需求不恢复，去库存压力将持续压制铜价。" },
+  { title:"铜价一度跌破12000美元，AI与加息担忧盖过供应偏紧", cat:"美联储/AI需求", source:"www.brecorder.com", url:"https://www.brecorder.com/news/40450320", products:["copper"], imp:"重要",
+    summary:"铜价一度跌破12000美元关口，为3月以来首次，随后在周一早盘回升。LME三个月铜报12240.50美元/吨，日内上涨0.66%，盘中最低触及11948美元；投资者对AI前景和美国进一步加息感到担忧，尽管现货供应仍偏紧。",
+    impact:"利空精铜：AI担忧与加息预期共同压制风险偏好，盖过了供应偏紧的支撑；若加息预期不降温，铜价反弹空间有限。" },
+  { title:"原油近月反弹、远月走弱，期限结构暗示长期看空", cat:"供需/地缘", source:"commodity-board.com", url:"https://commodity-board.com/crude-oil-futures-rally-at-the-front-price-curve-signals-long-term-bearishness", products:["oil"], imp:"重要",
+    summary:"原油近月合约反弹，1月WTI重回83美元/桶上方，但期限结构显示长期基本面走弱，市场正从战争驱动的紧张转向供应过剩叙事。分析涵盖WTI与布伦特供需前景、伊朗战争扰动及IEA与OPEC的观点。",
+    impact:"短期利多、长期利空美原油：近月反弹反映短期扰动与逢低买盘，但远月走弱和过剩叙事意味着中长期油价承压，短期多头需警惕反弹持续性不足。" },
+  { title:"WTI跌破83美元，过剩预期压过中东紧张局势", cat:"供需/地缘", source:"www.fxstreet.com", url:"https://www.fxstreet.com/news/wti-slumps-below-8300-as-surplus-outlook-outweighs-middle-east-tensions-202611230244", products:["oil"], imp:"重要",
+    summary:"WTI周一亚洲时段报约82.80美元/桶，跌破83美元，因市场权衡强劲原油出口与中东局势升级前景。IEA预计第四季度全球石油过剩约200万桶/日，主因中东出口恢复快于需求回暖。",
+    impact:"利空美原油：IEA过剩预期明确，出口强劲强化供应充足的判断，盖过地缘溢价；除非中东冲突实质冲击供应，否则油价偏弱。" },
+  { title:"油价小幅走低，供应过剩预期与海湾袭击因素角力", cat:"供需/地缘", source:"www.wsj.com", url:"https://www.wsj.com/business/energy-oil/oil-prices-edge-lower-as-traders-weigh-supply-surplus-gulf-attacks-6861119f", products:["oil"], imp:"重要",
+    summary:"油价周一小幅走低，布伦特1月期货跌0.5%至92.13美元/桶，WTI跌0.5%至83.03美元/桶。两大基准上周连续第三周下跌，布伦特跌约3.4%、WTI跌5.2%，市场在明年供应大幅过剩预期与中东航运袭击、地区石油基础设施受扰担忧之间权衡。",
+    impact:"利空美原油：供应过剩预期仍是主导因素，压制油价；但中东地缘风险提供支撑，若航运或基础设施受扰升级，油价可能利多反弹，短期多空拉锯。" },
+  { title:"贵金属上周重创后等待核心数据指引，本周聚焦核心PCE", cat:"美联储/通胀", source:"www.163.com", url:"https://www.163.com/dy/article/LCDQ17S405568W0A.html", products:["gold"], imp:"重要",
+    summary:"国际现货黄金上周最低下探3502.88美元/盎司，报收3534.64美元/盎司，当周大跌345.28美元或8.90%。上周美联储10月会议纪要释放鹰派信号，12月加息预期升温、美元走强及实际利率上升压制金价，股市下跌引发的流动性需求也加剧卖盘。展望本周，感恩节假期使美国数据集中前置，美联储褐皮书、威廉姆斯讲话及10月核心PCE将检验通胀与加息预期。",
+    impact:"利空黄金为主：加息预期与强美元仍是主导逻辑，若核心PCE继续上行将进一步打压金价；若PCE低于预期，超跌后金价存在修复空间，短期以数据前的谨慎偏空为主。" },
+  { title:"原油展望：OPEC+会议、供应过剩与霍尔木兹局势主导下周行情", cat:"OPEC", source:"timesofindia.indiatimes.com", url:"https://timesofindia.indiatimes.com/business/india-business/crude-oil-outlook-opec-meeting-supply-glut-concerns-to-drive-prices-next-week/articleshow/136081211.cms", products:["oil"], imp:"重要",
+    summary:"分析师预计下周原油期货将保持波动，投资者将关注OPEC+会议和霍尔木兹海峡局势，以及全球供应过剩的担忧。交易员还将跟踪美国石油学会每周库存数据、美国原油库存、库欣库存水平和EIA库存数据。供应过剩担忧与地缘风险交织，使油价方向尚不明朗。",
+    impact:"利空与利多并存、短期偏利空美原油：若EIA和API库存继续增加且OPEC+未收紧供应，WTI承压；若霍尔木兹局势升级或OPEC+释放减产信号，则油价可能利多反弹。" },
+  { title:"瑞银看多铜价反弹：供应短缺与实货收紧或推高2027年铜价", cat:"铜供应", source:"finwire.io", url:"https://finwire.io/news/stock-markets-news/should-you-buy-coppers-dip-heres-why-ubs-favors-long-position", products:["copper"], imp:"重要",
+    summary:"瑞银在11月20日的报告中维持看多观点，认为铜价近期抛售是买入机会，供应短缺和实货市场收紧可能推动2027年铜价走高。尽管市场担忧中国需求和AI投资，铜价11月20日仍报12251美元/吨。瑞银预计铜价2027年3月达14500美元/吨，6月、9月和12月达15500美元/吨。",
+    impact:"利多精铜：瑞银的供应短缺逻辑与实货收紧预期为铜价提供中长期支撑，若中国需求企稳或供应扰动出现，COMEX精铜有望从超卖中反弹；短期仍受美元和风险情绪压制，利多兑现需要时间。" },
+  { title:"金价单日蒸发超1万亿美元，杠杆盘穿仓加剧暴跌", cat:"美联储/通胀", source:"www.163.com", url:"https://www.163.com/dy/article/LCC66JBN05198ETO.html", products:["gold"], imp:"重要",
+    summary:"截至本周五，国际金价已跌至3539美元/盎司，一度险些跌破3500美元，11月20日当天黄金账面市值蒸发约1.016万亿美元。10月非农新增16.5万人、CPI环比上涨0.4%等数据堵死了宽松预期，金价11月10日至13日已从4139.84美元跌至3880.70美元。11月16日10年期美债收益率冲上5.12%、美元逼近19个月高位，贵金属在30分钟内合计蒸发近4000亿美元市值。",
+    impact:"利空黄金：通胀与就业数据强化加息预期后，杠杆资金被迫平仓形成连锁抛售，COMEX黄金波动率显著放大；短期需关注美元和美债收益率是否见顶，否则金价仍可能惯性下跌。" },
+  { title:"纽约金价单周跌近9%，COMEX 12月金报3539美元", cat:"美联储/美元", source:"mcnop.ebcgroups.com", url:"https://mcnop.ebcgroups.com/news/2136553.html", products:["gold"], imp:"重要",
+    summary:"新华财经纽约11月20日电，COMEX交投最活跃的2026年12月黄金期价当日下跌3.98%，报3539美元/盎司，周跌8.94%。美元走强、美联储进一步加息预期及金融市场普遍抛售，给贵金属带来巨大压力。美联储10月会议纪要偏鹰后，费城联储主席安娜·保尔森19日表示，为抑制通胀有必要进一步收紧货币政策。",
+    impact:"利空黄金：美联储官员明确释放收紧信号，叠加美元指数维持在103.8附近、接近2025年4月以来高位，COMEX黄金短期承压；若加息预期继续强化，金价仍可能惯性下跌。" },
+  { title:"金价徘徊在一年多低位，现货报3856.52美元", cat:"美联储/美元", source:"gfm.news", url:"https://gfm.news/en/news/gold-hovers-near-over-one-year-low-as-firm-dollar-fed-hike-bets-weigh-3bcp", products:["gold"], imp:"重要",
+    summary:"11月17日金价企稳，但仍处于一年多来的最低水平附近，美元坚挺和美联储下月加息的押注持续施压。现货黄金在格林尼治时间00:28报3856.52美元/盎司，周一曾触及2025年10月以来最低。投资者正等待美联储10月会议纪要，以寻找新的政策信号。",
+    impact:"利空黄金：美元坚挺和加息押注提高持有黄金的机会成本，COMEX黄金反弹乏力；若10月会议纪要偏鹰，将进一步利空金价，若偏鸽则可能带来短线反弹。" },
+  { title:"金价较纪录高点下跌37%，最惨一周主因是利率重定价与强制抛售", cat:"美联储/美元", source:"marketunfiltered.beehiiv.com", url:"https://marketunfiltered.beehiiv.com/p/gold-is-down-37-from-its-record-the-worst-week-since-march-was-not-about-gold-at-all", products:["gold"], imp:"重要",
+    summary:"截至11月21日，金价约报3535美元，较纪录高点下跌约37%，单周下跌约9%，为3月以来最惨一周。报道指出，本轮下跌并非黄金自身基本面恶化，而是利率重定价叠加强制抛售所致，金价下跌源于其计价锚——实际收益率与美元的变化。",
+    impact:"利空黄金，但需区分下跌性质。利率重定价与强制抛售放大了跌幅，短期情绪与流动性冲击是主因；若实际收益率与美元企稳，超跌后的黄金可能出现修复，单纯追空风险较高。" },
+  { title:"美联储鹰派预期压制铜价，低库存推高现货升水至新高", cat:"铜库存", source:"news.metal.com", url:"https://news.metal.com/newscontent/OCS6AR3M67SVXDSWQKTOLONR7Z5D3JZBOME3GNA-us-fed-hawkish-expectations-pressure-copper-prices-low-inventory-pushes-spot-premiums-to-new-highs-smm-macro-weekly-review", products:["copper"], imp:"重要",
+    summary:"本周铜价持续承压，下半周跌幅明显扩大，美国10月零售销售环比增速由0.8%放缓至0.2%，但消费放缓仍不足以扭转加息预期。截至11月20日上午11时，LME铜报每吨12188美元，低库存推动现货升水升至新高。",
+    impact:"对精铜短期利空、中期有支撑：基金抛售主导的下跌可能继续惯性下探，但库存未增、中国进口升水创纪录显示现货并不宽松。价格与现货背离扩大后，需防空头回补带来的急涨。" },
+  { title:"油价连续第三周下跌，WTI周跌5.8%", cat:"地缘/原油供需", source:"www.thenationalnews.com", url:"https://www.thenationalnews.com/business/energy/2026/11/20/oil-on-track-to-post-weekly-decline-despite-middle-east-tension/?title=Oil+prices+post+third+weekly+decline+amid+lingering+Middle+East+tension&mini=true&utm_source=linkedin&utm_medium=socialsharebtn", products:["oil"], imp:"重要",
+    summary:"油价周五转涨，布伦特涨0.64%收于90.75美元、WTI涨1.18%收于83.41美元，但全周仍分别下跌3.4%和5.8%，连续第三周下跌。投资者持续在中东紧张风险与原油供应增加之间权衡，后者目前占上风。",
+    impact:"利空美原油的周线趋势尚未扭转：单日反弹更像地缘支撑下的修复，若供应增加持续，WTI反弹高度将受限。" },
+  { title:"中国铜冶炼开工率降至75.15%，国内库存连创新低", cat:"中国需求", source:"pc.yanbaoke.cn", url:"https://pc.yanbaoke.cn/info/9QkpvqUebe9UqeLBKx9Z8o", products:["copper"], imp:"重要",
+    summary:"冠通期货11月20日报告显示，国内铜冶炼厂开工率降至75.15%，11月预计产量108.21万吨、环比下降0.42%。铜表观消费量环比上升2.69%，但国内供应紧张、进口弥补后仍偏紧，国内铜库存连续降至新低。",
+    impact:"利多精铜基本面：冶炼减产与国内库存新低收紧中国现货供应，对铜价形成下方支撑。但在美元走强和美联储鹰派预期主导时，基本面利多短期可能被宏观抛售掩盖。" },
+  { title:"铜价三周跌14%，与中国库存耗竭形成背离", cat:"中国需求/铜库存", source:"finance.biggo.com", url:"https://finance.biggo.com/news/2538dbdb-fcfc-4ec7-bb25-63f41ea0e0b0", products:["copper"], imp:"重要",
+    summary:"国际铜价三周内跌逾14%、跌破13000美元/吨，此前由AI数据中心投资热潮推升至历史高点的涨势因美国政治与宏观逆风及投资仓位解除而急剧回吐。与此同时，全球最大铜消费国中国的库存已降至耗竭水平，与价格大跌形成明显背离。",
     impact:"对精铜先利空后有支撑：宏观与仓位驱动的跌势短期占主导，趋势仍偏空；但最大消费国库存耗竭意味着一旦价格企稳，补库需求可能放大反弹。" },
-  { title:"瑞银：美国囤积全球 88% 可见铜库存，是铜价最大变量", cat:"机构观点 / 库存", source:"finance.sina.com.cn", url:"https://finance.sina.com.cn/stock/bxjj/2026-11-21/doc-iniznxpy6576867.shtml", products:["copper"], imp:"重要",
-    summary:"瑞银 11 月 20 日研究称美国可见铜库存约 97.5 万吨，其中 COMEX 73 万吨、LME 美国仓库 24.5 万吨，占全球可见库存 88%，而美国需求不足全球 10%；美国以外可见库存仅 13 万吨，中国低于 5 万吨，中国升水升至 425 美元/吨以上。",
-    impact:"对精铜短期利空、中期有支撑：基金抛售主导的下跌可能继续惯性下探，但库存未增、中国进口升水创纪录显示现货并不宽松。" },
-  { title:"基金抛售把铜价砸至七个月低点，中国进口升水却创纪录", cat:"仓位 / 库存", source:"cruxinvestor.com", url:"https://www.cruxinvestor.com/posts/fund-selling-drives-copper-to-seven-month-low-as-premiums-hit-records", products:["copper"], imp:"重要",
-    summary:"LME 三个月铜 11 月 18 日跌 5.5% 至 12,502.50 美元/吨，为 4 月 7 日以来最低、2025 年 4 月以来最大单日跌幅；11 月 13–19 日 LME 库存维持在约 32.75 万吨。",
-    impact:"对精铜短期利空、中期有支撑：基金抛售主导的下跌可能继续惯性下探，但库存未增、中国进口升水创纪录显示现货并不宽松。" },
-  { title:"下周核心 PCE 成关键：预计同比涨 3.2%，决定金属跌势去留", cat:"美联储 / 通胀数据", source:"moneycontrol.com", url:"https://www.moneycontrol.com/news/opinion/us-core-pce-fed-hike-debate-and-ai-sentiment-set-to-decide-whether-the-metals-rout-extends-14086340.html", products:["gold","copper"], imp:"重要",
-    summary:"下周美国因感恩节假期交易时间缩短，主要经济体闪值 PMI、美国核心 PCE 和三季度 GDP 二次估计是核心事件。市场预测核心 PCE 环比涨 0.3%、同比涨 3.2%。",
-    impact:"对美黄金、精铜偏空风险为主：核心 PCE 若高于 0.3% 环比将强化加息预期，利空无息黄金和对利率敏感的铜；若低于预期，则可能引发金属超卖反弹。" },
-  { title:"美国精炼铜关税预期减弱，铜价跌至七个月低点", cat:"关税 / 贸易", source:"worldculturefestival.vn", url:"https://worldculturefestival.vn/en/thi-truong-hang-hoa-gia-dong-giam-xuong-vung-thap-nhat-7-thang", products:["copper"], imp:"重要",
-    summary:"铜价跌至七个月低点，科技股抛售、美元走强以及市场对美国精炼铜进口关税的预期减弱共同施压。与此同时，中国铜交付市场正出现供应短缺。",
-    impact:"利空精铜尤其是 COMEX 铜：关税预期减弱会削弱美国市场此前的关税溢价和囤货动力。" },
-  { title:"美国铜关税预期减弱，铜价跌至七个月低点", cat:"关税 / 贸易", source:"copper.com.au", url:"https://copper.com.au/news/mining/copper-weekly-brief-19-november-2026/", products:["copper"], imp:"重要",
-    summary:"铜价连续五个交易日下跌并触及七个月低点，11 月 18 日出现八个月来最大单日跌幅，基金抛售是主要推手。尽管如此，中国仍在为实物铜支付创纪录升水，当日 LME 现货铜结算价为 12,750 美元/吨。",
+  { title:"瑞银：美国囤积全球88%可见铜库存，是铜价最大变量", cat:"铜库存", source:"finance.sina.com.cn", url:"https://finance.sina.com.cn/stock/bxjj/2026-11-21/doc-iniznxpy6576867.shtml", products:["copper"], imp:"重要",
+    summary:"瑞银11月20日研究称美国可见铜库存约97.5万吨，其中COMEX 73万吨、LME美国仓库24.5万吨，占全球可见库存88%，而美国需求不足全球10%；美国以外可见库存仅13万吨，中国低于5万吨，中国升水升至425美元/吨以上。长期看2027-2028年铜矿供应年增约1%、精炼需求增2.5%-3.0%，存在潜在缺口，但近期约15%回调主要由宏观因素驱动。",
+    impact:"对精铜短期利空、中期有支撑：基金抛售主导的下跌可能继续惯性下探，但库存未增、中国进口升水创纪录显示现货并不宽松。价格与现货背离扩大后，需防空头回补带来的急涨。" },
+  { title:"基金抛售把铜价砸至七个月低点，中国进口升水却创纪录", cat:"铜库存", source:"www.cruxinvestor.com", url:"https://www.cruxinvestor.com/posts/fund-selling-drives-copper-to-seven-month-low-as-premiums-hit-records", products:["copper"], imp:"重要",
+    summary:"LME三个月铜11月18日跌5.5%至12502.50美元/吨，为4月7日以来最低、2025年4月以来最大单日跌幅；11月13-19日LME库存维持在约32.75万吨，现货跌7.6%，显示下跌来自基金仓位而非库存增加。中国洋山进口升水11月19日升至纪录高位500美元/吨。",
+    impact:"对精铜短期利空、中期有支撑：基金抛售主导的下跌可能继续惯性下探，但库存未增、中国进口升水创纪录显示现货并不宽松。价格与现货背离扩大后，需防空头回补带来的急涨。" },
+  { title:"下周核心PCE成关键：预计同比涨3.2%，决定金属跌势去留", cat:"通胀/美联储", source:"www.moneycontrol.com", url:"https://www.moneycontrol.com/news/opinion/us-core-pce-fed-hike-debate-and-ai-sentiment-set-to-decide-whether-the-metals-rout-extends-14086340.html", products:["gold","copper","oil"], imp:"重要",
+    summary:"下周美国因感恩节假期交易时间缩短，主要经济体闪值PMI、美国核心PCE和三季度GDP二次估计是核心事件。市场预测核心PCE环比涨0.3%、同比涨3.2%，该数据将决定美联储加息辩论和金属跌势是否延续。",
+    impact:"对美黄金、精铜偏空风险为主：核心PCE若高于0.3%环比将强化加息预期，利空无息黄金和对利率敏感的铜；若低于预期，则可能引发金属超卖反弹。美原油亦会受美元和需求预期间接影响。" },
+  { title:"美国精炼铜关税预期减弱，铜价跌至七个月低点", cat:"美国铜关税", source:"worldculturefestival.vn", url:"https://worldculturefestival.vn/en/thi-truong-hang-hoa-gia-dong-giam-xuong-vung-thap-nhat-7-thang", products:["copper"], imp:"重要",
+    summary:"铜价跌至七个月低点，科技股抛售、美元走强以及市场对美国精炼铜进口关税的预期减弱共同施压，金融因素和需求前景是本轮压力的主因。与此同时，中国铜交付市场正出现供应短缺。",
+    impact:"利空精铜尤其是COMEX铜：关税预期减弱会削弱美国市场此前的关税溢价和囤货动力；中国交付市场短缺则对跌幅形成一定对冲。" },
+  { title:"美国铜关税预期减弱，铜价跌至七个月低点", cat:"中国需求", source:"copper.com.au", url:"https://copper.com.au/news/mining/copper-weekly-brief-19-november-2026/", products:["copper"], imp:"重要",
+    summary:"铜价连续五个交易日下跌并触及七个月低点，11月18日出现八个月来最大单日跌幅，基金抛售是主要推手。尽管如此，中国仍在为实物铜支付创纪录升水，当日LME现货铜结算价为12750美元/吨，显示金融抛售与中国实物紧张明显分化。",
     impact:"短期利空精铜，但跌幅可能受中国实物需求托底：创纪录升水说明实物买盘并未消失，若基金抛售放缓，升水可能限制铜价进一步下跌的空间。" },
-  { title:"铜价跌至六个月低点，中国需求疲软与美国原油累库施压", cat:"中国需求 / EIA 库存", source:"talkmarkets.com", url:"https://talkmarkets.com/article/the-commodities-feed-copper-hits-six-month-low-improving-supply-weighs-on-oil", products:["copper","oil"], imp:"重要",
-    summary:"11 月 18 日的分析称，铜价跌至六个月低点，强美元和中国需求疲软持续压制基本金属市场情绪。原油价格亦走低，供应恢复和美国原油库存上升的影响盖过了地缘紧张带来的支撑。",
-    impact:"利空精铜和美原油：中国需求担忧削弱铜的消费支撑，美国库存上升和供应恢复则压制 WTI。" },
-  { title:"ING：金属抛售跑在实物市场之前，实物供应仍偏紧", cat:"机构观点", source:"think.ing.com", url:"https://think.ing.com/downloads/pdf/article/metals-sell-off-runs-ahead-of-physical-markets", products:["gold","copper"], imp:"重要",
-    summary:"ING 指出，本周铜价下跌逾 8%、黄金下跌约 9%，强美元、更高的利率预期和风险偏好减弱主导了金属抛售。但实物市场仍保持偏紧，抛售速度更像是投资者仓位的快速重定价，而非实物基本面全面恶化。",
+  { title:"中国需求担忧削弱铜消费、美国库存上升压制WTI", cat:"中国需求", source:"talkmarkets.com", url:"https://talkmarkets.com/article/the-commodities-feed-copper-hits-six-month-low-improving-supply-weighs-on-oil", products:["copper","oil"], imp:"重要",
+    summary:"11月18日的分析称，铜价跌至六个月低点，强美元和中国需求疲软持续压制基本金属市场情绪。原油价格亦走低，供应恢复和美国原油库存上升的影响盖过了地缘紧张带来的支撑。",
+    impact:"利空精铜和美原油：中国需求担忧削弱铜的消费支撑，美国库存上升和供应恢复则压制WTI，两者共同反映宏观与需求端偏弱。" },
+  { title:"ING：金属抛售跑在实物市场之前，实物供应仍偏紧", cat:"美联储/美元", source:"think.ing.com", url:"https://think.ing.com/downloads/pdf/article/metals-sell-off-runs-ahead-of-physical-markets", products:["gold","copper"], imp:"重要",
+    summary:"ING指出，本周铜价下跌逾8%、黄金下跌约9%，强美元、更高的利率预期和风险偏好减弱主导了金属抛售。但实物市场仍保持偏紧，抛售速度更像是投资者仓位的快速重定价，而非实物基本面全面恶化。",
     impact:"对黄金和精铜短期利空、但中期存在分歧：金融抛售尚未被实物需求同步证实，若美元或利率预期缓和，铜等品种可能出现较快的空头回补式修复。" },
+  { title:"霍尔木兹油轮触雷、胡塞袭击利雅得，WTI仍被过剩预期压在83美元", cat:"地缘/原油供需", source:"www.thenationalnews.com", url:"https://www.thenationalnews.com/business/energy/2026/11/20/oil-on-track-to-post-weekly-decline-despite-middle-east-tension/", products:["oil"], imp:"重要",
+    summary:"油价周五转涨，布伦特涨0.64%收于90.75美元、WTI涨1.18%收于83.41美元，但全周仍分别下跌3.4%和5.8%，连续第三周下跌。投资者在中东紧张风险与原油供应增加之间权衡，本周供应因素明显占上风。",
+    impact:"利空美原油趋势未改：周线三连跌表明供应增加的影响大于中东风险溢价，周五反弹更像空头回补。后续需OPEC+减产或实质供应中断才能扭转偏空格局。" },
+  { title:"WTI看空分析：油价或从83美元跌向50美元？", cat:"原油供需", source:"www.tradingview.com", url:"https://www.tradingview.com/chart/CL1!/quNRnaoe-WTI-SHORT-FROM-83-TO-50-THE-OIL-SURPLUS-THE-MARKET-HAS-NOT/", products:["oil"], imp:"一般",
+    summary:"该分析以11月20日收盘的2027年1月期货每桶83.41美元为参考价，11月23日盘中最新观察价约为每桶82.17美元。分析认为全球原油市场正经历近年来最显著的供需逆转之一，原油产量恢复速度极快，全球消费正在收缩，库存开始重建。中国交通电气化也被视为压制长期原油需求的因素之一。",
+    impact:"利空美原油：供应恢复、需求收缩与库存重建构成的过剩逻辑若成立，将对油价形成中长期压制；但这属于个别机构的看空观点而非官方预测，若地缘扰动或OPEC减产干预，油价跌向50美元的路径可能被打断。" },
   { title:"有色金属多数收跌，中国铜现货成交与铜杆订单双降", cat:"中国需求", source:"goodsfu.10jqka.com.cn", url:"https://goodsfu.10jqka.com.cn/20261123/c682081328.shtml", products:["copper"], imp:"一般",
-    summary:"三大稳市场政策推出后，有色金属多数收跌，纽铜全周下跌近 10%。国内电解铜现货成交量环比下滑 7.07%，铜杆订单量环比降幅 7.31%，显示下游需求偏弱；中国 10 月废铜进口量同比上升 14.32%，Codelco 拟下调 2027 年中国铜溢价以提振销量。",
+    summary:"三大稳市场政策推出后，有色金属多数收跌，纽铜全周下跌近10%。国内电解铜现货成交量环比下滑7.07%，铜杆订单量环比降幅7.31%，显示下游需求偏弱；中国10月废铜进口量同比上升14.32%，Codelco拟下调2027年中国铜溢价以提振销量。",
     impact:"利空精铜：中国现货成交与铜杆订单双降印证需求疲弱，废铜进口增加与海外溢价下调进一步显示供应相对宽松，短期铜价承压。" },
-  { title:"原油近月反弹、远月走弱，期限结构暗示长期看空", cat:"价格 / 期限结构", source:"commodity-board.com", url:"https://commodity-board.com/crude-oil-futures-rally-at-the-front-price-curve-signals-long-term-bearishness", products:["oil"], imp:"一般",
-    summary:"原油近月合约反弹，1 月 WTI 重回 83 美元/桶上方，但期限结构显示长期基本面走弱，市场正从战争驱动的紧张转向供应过剩叙事。",
-    impact:"短期利多、长期利空美原油：近月反弹反映短期扰动与逢低买盘，但远月走弱和过剩叙事意味着中长期油价承压。" },
-  { title:"10 月非农远超预期，成为 12 月加息定价升温的背景", cat:"美联储 / 就业数据", source:"blog.risechain.com", url:"https://blog.risechain.com/hot-payrolls-put-a-december-fed-hike-in-play-going-into-cpi-week/", products:["gold","copper","oil"], imp:"一般",
-    summary:"此前公布的 10 月非农就业增加 16.5 万，远高于约 6.5 万的预期，失业率由 4.2% 降至 4.1%。强劲就业一度将美联储 12 月加息 25 个基点的概率推高至约 78%–80%。",
+  { title:"原油近月反弹、远月走弱，期限结构暗示长期看空", cat:"供需/地缘", source:"commodity-board.com", url:"https://commodity-board.com/crude-oil-futures-rally-at-the-front-price-curve-signals-long-term-bearishness", products:["oil"], imp:"一般",
+    summary:"原油近月合约反弹，1月WTI重回83美元/桶上方，但期限结构显示长期基本面走弱，市场正从战争驱动的紧张转向供应过剩叙事。分析涵盖WTI与布伦特供需前景、伊朗战争扰动及IEA与OPEC的观点。",
+    impact:"短期利多、长期利空美原油：近月反弹反映短期扰动与逢低买盘，但远月走弱和过剩叙事意味着中长期油价承压，短期多头需警惕反弹持续性不足。" },
+  { title:"10月非农远超预期，成为12月加息定价升温的背景", cat:"美联储/美元", source:"blog.risechain.com", url:"https://blog.risechain.com/hot-payrolls-put-a-december-fed-hike-in-play-going-into-cpi-week/", products:["gold","copper","oil"], imp:"一般",
+    summary:"此前公布的10月非农就业增加16.5万，远高于约6.5万的预期，失业率由4.2%降至4.1%。强劲就业一度将美联储12月加息25个基点的概率推高至约78%-80%，成为本轮美元走强和加息定价升温的重要背景。",
     impact:"利空黄金和精铜、并间接利空原油：就业强劲降低美联储转向宽松的必要性并推高利率预期；但美国需求仍有韧性，对铜、油消费的实际拖累仍需结合后续通胀数据判断。" }
 ];
 var curFilter = "all";
