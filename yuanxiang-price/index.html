@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元象设计 · 独立站价目表</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f1ea; color: #3d3830; padding: 20px 14px 48px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { text-align: center; padding: 22px 0 8px; }
+  header h1 { font-size: 26px; letter-spacing: 2px; color: #4a5d54; }
+  header p { margin-top: 8px; font-size: 14px; color: #8a8272; }
+  .banner { display: none; margin: 16px 0 4px; background: #b06a5b; color: #fff; border-radius: 12px; padding: 14px 18px; text-align: center; }
+  .banner .big { font-size: 20px; font-weight: 700; }
+  .banner .sub { font-size: 13px; margin-top: 4px; opacity: .92; }
+  .banner .cd { font-size: 15px; font-weight: 700; margin-top: 6px; }
+  h2.cat { margin: 26px 0 12px; font-size: 18px; color: #4a5d54; border-left: 5px solid #a8b8a0; padding-left: 10px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .card { background: #fffdf9; border: 1px solid #e3ddd0; border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px rgba(90,80,60,.06); }
+  .card h3 { font-size: 17px; color: #3d3830; }
+  .price { margin: 10px 0 4px; }
+  .price .now { font-size: 26px; font-weight: 800; color: #b06a5b; }
+  .price .old { font-size: 15px; color: #a49a86; text-decoration: line-through; margin-left: 8px; }
+  .price .usd { display: block; font-size: 13px; color: #8a8272; margin-top: 2px; }
+  .price .note { font-size: 13px; color: #8a8272; }
+  .rows { margin-top: 10px; font-size: 13.5px; line-height: 1.75; color: #5c5546; }
+  .rows b { color: #4a5d54; }
+  .rows .inc { white-space: pre-wrap; }
+  section.pay { margin-top: 34px; background: #fffdf9; border: 1px solid #e3ddd0; border-radius: 14px; padding: 20px; }
+  section.pay h2 { font-size: 18px; color: #4a5d54; margin-bottom: 10px; }
+  section.pay p, section.pay li { font-size: 14px; line-height: 1.8; color: #5c5546; }
+  section.pay ul { padding-left: 20px; }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: #a49a86; }
+  .err { text-align: center; color: #b06a5b; padding: 30px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🐘 元象设计 · 独立站价目表</h1>
+    <p>价格透明，明码标价 · 下单前先聊需求，能做再付款</p>
+  </header>
+  <div class="banner" id="banner">
+    <div class="big" id="bannerTitle"></div>
+    <div class="sub" id="bannerSub"></div>
+    <div class="cd" id="bannerCd"></div>
+  </div>
+  <main id="main"><p class="err" id="loading">正在加载价目表…</p></main>
+
+  <section class="pay">
+    <h2>付款方式说明</h2>
+    <ul>
+      <li><b>闲鱼担保交易</b>：最推荐，新客户放心，平台担保。</li>
+      <li><b>微信收款商业版扫码</b>：老客户常用，官方费率约 0.6%，聊好价格后扫码付款。</li>
+      <li><b>PayPal（海外客户）</b>：以美元报价，国际手续费约 4.4% + $0.30，由买家承担。</li>
+      <li><b>第三方代收平台</b>：无执照又想要在线付款链接时可用，手续费约 5%，由买家承担。</li>
+    </ul>
+    <p style="margin-top:8px">所有价格均为建站服务费；域名、服务器、付费数据源等第三方费用由买家自付，表中已逐项注明。</p>
+  </section>
+  <footer>元象设计 · 中山市元象文艺创作工作室</footer>
+</div>
+<script>
+var API = 'https://yuanxiang-shop-api.325268538.workers.dev';
+var settings = {};
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+function money(v) { return (Math.round(v * 100) / 100).toString().replace(/\.0+$/, '').replace(/(\.\d)0$/, '$1'); }
+function render(items) {
+  var disc = settings.discount_enabled === '1';
+  var rate = parseFloat(settings.discount_rate || '10');
+  if (disc && rate > 0 && rate < 10) {
+    var b = document.getElementById('banner');
+    b.style.display = 'block';
+    document.getElementById('bannerTitle').textContent = '🎉 ' + (settings.discount_label || '限时优惠') + ' · 全场 ' + rate + ' 折';
+    var dl = settings.discount_deadline || '';
+    document.getElementById('bannerSub').textContent = dl ? ('活动截止：' + dl) : '活动进行中，先到先得';
+    if (dl) {
+      var end = new Date(dl.replace(/-/g, '/') + ' 23:59:59').getTime();
+      var tick = function () {
+        var left = end - Date.now();
+        var el = document.getElementById('bannerCd');
+        if (left <= 0) { el.textContent = '活动已结束'; return; }
+        var d = Math.floor(left / 86400000), h = Math.floor(left % 86400000 / 3600000), m = Math.floor(left % 3600000 / 60000), s = Math.floor(left % 60000 / 1000);
+        el.textContent = '距截止还有 ' + d + ' 天 ' + h + ' 小时 ' + m + ' 分 ' + s + ' 秒';
+        setTimeout(tick, 1000);
+      };
+      tick();
+    }
+  }
+  var groups = {}, order = [];
+  items.forEach(function (it) {
+    if (!groups[it.category]) { groups[it.category] = []; order.push(it.category); }
+    groups[it.category].push(it);
+  });
+  var html = '';
+  order.forEach(function (cat) {
+    html += '<h2 class="cat">' + esc(cat) + '</h2><div class="grid">';
+    groups[cat].forEach(function (it) {
+      var priceHtml;
+      if (+it.price_cny > 0) {
+        if (disc && rate > 0 && rate < 10) {
+          var now = +it.price_cny * rate / 10;
+          priceHtml = '<span class="now">¥' + money(now) + esc(it.price_note || '') + '</span><span class="old">¥' + money(it.price_cny) + '</span>';
+        } else {
+          priceHtml = '<span class="now">¥' + money(it.price_cny) + esc(it.price_note || '') + '</span>';
+        }
+        if (+it.price_usd > 0) {
+          var usdNow = disc && rate > 0 && rate < 10 ? ' ≈ $' + money(+it.price_usd * rate / 10) + ' 起' : ' ≈ $' + money(it.price_usd);
+          priceHtml += '<span class="usd">' + usdNow + '</span>';
+        }
+      } else {
+        priceHtml = '<span class="now">' + esc(it.price_note || '议价') + '</span>';
+      }
+      html += '<div class="card"><h3>' + esc(it.name) + '</h3><div class="price">' + priceHtml + '</div><div class="rows">'
+        + (it.includes ? '<div><b>包含：</b><span class="inc">' + esc(it.includes) + '</span></div>' : '')
+        + (it.delivery ? '<div><b>交付：</b>' + esc(it.delivery) + '</div>' : '')
+        + (it.revisions ? '<div><b>修改：</b>' + esc(it.revisions) + '</div>' : '')
+        + (it.support ? '<div><b>答疑/维护：</b>' + esc(it.support) + '</div>' : '')
+        + (it.customer_costs ? '<div><b>自付成本：</b>' + esc(it.customer_costs) + '</div>' : '')
+        + '</div></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('main').innerHTML = html || '<p class="err">暂无项目</p>';
+}
+fetch(API + '/prices').then(function (r) { return r.json(); }).then(function (d) {
+  if (!d.ok) throw new Error(d.error || 'load failed');
+  settings = d.settings || {};
+  render(d.items || []);
+}).catch(function (e) {
+  document.getElementById('main').innerHTML = '<p class="err">价目表加载失败，请稍后刷新重试</p>';
+});
+</script>
+</body>
+</html>

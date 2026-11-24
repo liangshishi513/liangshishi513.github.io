@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>价目表内部版 · 元象设计</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f1ea; color: #3d3830; padding: 20px 14px 60px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; color: #4a5d54; text-align: center; margin: 10px 0 4px; }
+  .sub { text-align: center; font-size: 13px; color: #8a8272; margin-bottom: 18px; }
+  .box { background: #fffdf9; border: 1px solid #e3ddd0; border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+  .box h2 { font-size: 16px; color: #4a5d54; margin-bottom: 12px; }
+  label { display: block; font-size: 13px; color: #5c5546; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; padding: 9px 10px; border: 1px solid #d8d0bf; border-radius: 8px; font-size: 14px; background: #fff; font-family: inherit; }
+  textarea { min-height: 54px; resize: vertical; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  button { background: #4a5d54; color: #fff; border: 0; border-radius: 9px; padding: 10px 18px; font-size: 14px; cursor: pointer; margin-top: 12px; }
+  button.ghost { background: #e9e2d2; color: #4a4438; }
+  button.danger { background: #b06a5b; }
+  button.sm { padding: 6px 12px; font-size: 13px; margin-top: 0; }
+  .item { border: 1px solid #e3ddd0; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: #fff; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .item .t { font-size: 15px; font-weight: 600; }
+  .item .m { font-size: 12.5px; color: #8a8272; margin-top: 2px; }
+  .item .ops { white-space: nowrap; }
+  .hiddenTag { color: #b06a5b; font-weight: 700; }
+  .tip { font-size: 12.5px; color: #8a8272; margin-top: 8px; line-height: 1.6; }
+  .internal { background: #fdf6ec; border: 1px dashed #d8b988; border-radius: 8px; padding: 4px 10px 10px; margin-top: 6px; }
+  .internal label { color: #8a6d3b; }
+  #loginBox { max-width: 380px; margin: 60px auto; }
+  .chk { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; }
+  .chk input { width: auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🐘 价目表 · 内部版</h1>
+  <p class="sub">在这里改价格、内容、打折 — 保存后顾客看到的价目表会同步更新<br>「接单底线 / 加钱项」只有这里能看到，顾客版不会显示</p>
+
+  <div class="box" id="loginBox">
+    <h2>管理员登录</h2>
+    <label>管理员密码（就是小店后台那个 ADMIN_PW）</label>
+    <input type="password" id="pw" placeholder="输入密码">
+    <button id="loginBtn" style="width:100%">登录</button>
+    <p class="tip" id="loginMsg"></p>
+  </div>
+
+  <div id="panel" style="display:none">
+    <div class="box">
+      <h2>🎉 打折活动设置</h2>
+      <div class="chk"><input type="checkbox" id="dEnabled"><span>开启打折（顾客版会显示折扣横幅，价格自动按折扣计算）</span></div>
+      <div class="row3">
+        <div><label>活动名称</label><input id="dLabel" placeholder="如：开业优惠"></div>
+        <div><label>打几折（如 8.5）</label><input id="dRate" type="number" step="0.1" min="0.1" max="9.9" placeholder="8.5"></div>
+        <div><label>截止日期</label><input id="dDeadline" type="date"></div>
+      </div>
+      <button id="saveSettings">保存活动设置</button>
+      <span class="tip" id="setMsg"></span>
+    </div>
+
+    <div class="box">
+      <h2 id="formTitle">➕ 添加价目项目</h2>
+      <div class="row2">
+        <div><label>分类</label><input id="fCategory" list="catList" placeholder="如：免费版 · 静态展示（免费托管）"><datalist id="catList"></datalist></div>
+        <div><label>套餐名称</label><input id="fName" placeholder="如：标准版（主推）"></div>
+      </div>
+      <div class="row3">
+        <div><label>价格（元）</label><input id="fCny" type="number" step="0.1" placeholder="199"></div>
+        <div><label>美元价（$）</label><input id="fUsd" type="number" step="0.1" placeholder="29"></div>
+        <div><label>价格后缀（如 起 / /月 / 另议）</label><input id="fNote" placeholder="起"></div>
+      </div>
+      <label>包含内容（详细写，顾客主要看这个）</label>
+      <textarea id="fIncludes"></textarea>
+      <div class="row3">
+        <div><label>交付时间</label><input id="fDelivery" placeholder="3天"></div>
+        <div><label>修改次数</label><input id="fRevisions" placeholder="含3次修改"></div>
+        <div><label>答疑 / 维护</label><input id="fSupport" placeholder="包1个月答疑"></div>
+      </div>
+      <label>客户自付成本（写清，显得透明）</label>
+      <textarea id="fCosts"></textarea>
+      <div class="internal">
+        <label>🔒 接单底线（内部看，顾客看不到）</label>
+        <textarea id="fBottom"></textarea>
+        <label>🔒 加钱项（内部看，顾客看不到）</label>
+        <textarea id="fExtra"></textarea>
+      </div>
+      <div class="row2">
+        <div><label>排序（数字小在前）</label><input id="fSort" type="number" placeholder="0"></div>
+        <div class="chk"><input type="checkbox" id="fVisible" checked><span>在顾客版显示</span></div>
+      </div>
+      <button id="saveItem">保存项目</button>
+      <button class="ghost" id="cancelEdit" style="display:none">取消编辑</button>
+      <span class="tip" id="itemMsg"></span>
+    </div>
+
+    <div class="box">
+      <h2>📋 全部价目项目</h2>
+      <div id="list"></div>
+    </div>
+  </div>
+</div>
+<script>
+var API = 'https://yuanxiang-shop-api.325268538.workers.dev';
+var token = sessionStorage.getItem('yxprice_token') || '';
+var editingId = null;
+var items = [];
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+function headers() { return { 'Content-Type': 'application/json', 'X-Token': token }; }
+function money(v) { return (Math.round(v * 100) / 100).toString().replace(/\.0+$/, '').replace(/(\.\d)0$/, '$1'); }
+
+$('loginBtn').onclick = function () {
+  fetch(API + '/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: $('pw').value }) })
+    .then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok) { $('loginMsg').textContent = '密码不对，再试一次'; return; }
+      token = d.token; sessionStorage.setItem('yxprice_token', token);
+      showPanel();
+    }).catch(function () { $('loginMsg').textContent = '网络出错，稍后再试'; });
+};
+function showPanel() {
+  $('loginBox').style.display = 'none';
+  $('panel').style.display = 'block';
+  loadAll();
+}
+function loadAll() {
+  fetch(API + '/admin/prices', { headers: headers() }).then(function (r) { return r.json(); }).then(function (d) {
+    if (!d.ok) { sessionStorage.removeItem('yxprice_token'); location.reload(); return; }
+    items = d.items || [];
+    var s = d.settings || {};
+    $('dEnabled').checked = s.discount_enabled === '1';
+    $('dLabel').value = s.discount_label || '';
+    $('dRate').value = s.discount_rate || '';
+    $('dDeadline').value = s.discount_deadline || '';
+    var cats = {};
+    items.forEach(function (it) { cats[it.category] = 1; });
+    $('catList').innerHTML = Object.keys(cats).map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
+    renderList();
+  });
+}
+function renderList() {
+  $('list').innerHTML = items.map(function (it) {
+    return '<div class="item"><div><div class="t">' + esc(it.name) + (it.visible ? '' : ' <span class="hiddenTag">（已隐藏）</span>') + '</div>'
+      + '<div class="m">' + esc(it.category) + ' · ¥' + money(it.price_cny) + esc(it.price_note || '') + (it.price_usd ? ' / $' + money(it.price_usd) : '') + '</div></div>'
+      + '<div class="ops"><button class="sm ghost" onclick="editItem(' + it.id + ')">编辑</button> '
+      + '<button class="sm danger" onclick="delItem(' + it.id + ')">删</button></div></div>';
+  }).join('') || '<p class="tip">还没有项目，先在上面添加。</p>';
+}
+window.editItem = function (id) {
+  var it = items.filter(function (x) { return x.id === id; })[0];
+  if (!it) return;
+  editingId = id;
+  $('formTitle').textContent = '✏️ 编辑：' + it.name;
+  $('fCategory').value = it.category || ''; $('fName').value = it.name || '';
+  $('fCny').value = it.price_cny; $('fUsd').value = it.price_usd; $('fNote').value = it.price_note || '';
+  $('fIncludes').value = it.includes || ''; $('fDelivery').value = it.delivery || '';
+  $('fRevisions').value = it.revisions || ''; $('fSupport').value = it.support || '';
+  $('fCosts').value = it.customer_costs || ''; $('fBottom').value = it.bottom_line || '';
+  $('fExtra').value = it.extra_fees || ''; $('fSort').value = it.sort || 0;
+  $('fVisible').checked = !!it.visible;
+  $('cancelEdit').style.display = 'inline-block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+window.delItem = function (id) {
+  if (!confirm('确定删除这个项目？顾客版会同步去掉。')) return;
+  fetch(API + '/prices/' + id, { method: 'DELETE', headers: headers() }).then(function () { loadAll(); });
+};
+$('cancelEdit').onclick = function () { resetForm(); };
+function resetForm() {
+  editingId = null;
+  $('formTitle').textContent = '➕ 添加价目项目';
+  ['fCategory','fName','fCny','fUsd','fNote','fIncludes','fDelivery','fRevisions','fSupport','fCosts','fBottom','fExtra','fSort'].forEach(function (id) { $(id).value = ''; });
+  $('fVisible').checked = true;
+  $('cancelEdit').style.display = 'none';
+}
+$('saveItem').onclick = function () {
+  var body = {
+    category: $('fCategory').value.trim(), name: $('fName').value.trim(),
+    price_cny: parseFloat($('fCny').value) || 0, price_usd: parseFloat($('fUsd').value) || 0,
+    price_note: $('fNote').value.trim(), includes: $('fIncludes').value,
+    delivery: $('fDelivery').value.trim(), revisions: $('fRevisions').value.trim(),
+    support: $('fSupport').value.trim(), customer_costs: $('fCosts').value,
+    bottom_line: $('fBottom').value, extra_fees: $('fExtra').value,
+    sort: parseInt($('fSort').value) || 0, visible: $('fVisible').checked ? 1 : 0
+  };
+  if (!body.name) { $('itemMsg').textContent = '先填套餐名称'; return; }
+  var url = editingId ? API + '/prices/' + editingId : API + '/prices';
+  fetch(url, { method: editingId ? 'PUT' : 'POST', headers: headers(), body: JSON.stringify(body) })
+    .then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok) { $('itemMsg').textContent = '保存失败：' + (d.error || ''); return; }
+      $('itemMsg').textContent = '已保存，顾客版已同步 ✅';
+      resetForm(); loadAll();
+    });
+};
+$('saveSettings').onclick = function () {
+  var body = {
+    discount_enabled: $('dEnabled').checked ? '1' : '0',
+    discount_label: $('dLabel').value.trim() || '限时优惠',
+    discount_rate: $('dRate').value.trim() || '10',
+    discount_deadline: $('dDeadline').value || ''
+  };
+  fetch(API + '/settings', { method: 'PUT', headers: headers(), body: JSON.stringify(body) })
+    .then(function (r) { return r.json(); }).then(function (d) {
+      $('setMsg').textContent = d.ok ? '活动设置已保存，顾客版已同步 ✅' : '保存失败：' + (d.error || '');
+    });
+};
+if (token) showPanel();
+</script>
+</body>
+</html>
