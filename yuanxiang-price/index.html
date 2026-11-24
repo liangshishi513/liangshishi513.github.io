@@ -31,6 +31,9 @@
   section.pay h2 { font-size: 18px; color: #4a5d54; margin-bottom: 10px; }
   section.pay p, section.pay li { font-size: 14px; line-height: 1.8; color: #5c5546; }
   section.pay ul { padding-left: 20px; }
+  .topnav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0 2px; }
+  .topnav a { background: #fffdf9; border: 1px solid #d8d0bf; color: #4a5d54; padding: 9px 18px; border-radius: 999px; font-size: 14.5px; text-decoration: none; box-shadow: 0 1px 4px rgba(90,80,60,.08); }
+  .topnav a.cur { background: #4a5d54; color: #fff; border-color: #4a5d54; }
   footer { text-align: center; margin-top: 26px; font-size: 13px; color: #a49a86; }
   .err { text-align: center; color: #b06a5b; padding: 30px 0; }
 </style>
@@ -41,6 +44,11 @@
     <h1>🐘 元象设计 · 独立站价目表</h1>
     <p>价格透明，明码标价 · 下单前先聊需求，能做再付款</p>
   </header>
+  <nav class="topnav">
+    <a href="https://liangshishi513.github.io/yuanxiang/">🏠 元象小店 · 看全部项目</a>
+    <a href="https://liangshishi513.github.io/templates/">🎨 独立站样板间 · 挑样式</a>
+    <a class="cur" href="https://liangshishi513.github.io/yuanxiang-price/">💰 价目表（本页）</a>
+  </nav>
   <div class="banner" id="banner">
     <div class="big" id="bannerTitle"></div>
     <div class="sub" id="bannerSub"></div>
